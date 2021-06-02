@@ -1,11 +1,16 @@
 #include "training.h"
-
+#include <iomanip>
 Training::Training(unsigned int i, std::string s, std::string d1, std::string d2, std::string d3, std::string d4)
     : id(i), date(s), info(d1,d2,d3,d4){}
 
 void Training::print() const
 {
-    std::cout<<"(TRAINING id:"<<id<<", DATE:"<<date<<", DATA: pullup:"<<info.pullup<<", pushup:"<<info.pushup<<", squat:"<<info.squat<<", jumprope:"<<info.jumprope<<")"<<std::endl;
+     std::cout << "|"<< std::left << std::setw(3) << std::setfill(' ') <<id << "|";
+    std::cout << std::left << std::setw(11) << std::setfill(' ') << date<< "|";
+    std::cout << std::left << std::setw(19) << std::setfill(' ') << info.pullup<< "|";
+    std::cout << std::left << std::setw(19) << std::setfill(' ') << info.pushup<< "|";
+    std::cout << std::left << std::setw(19) << std::setfill(' ') << info.squat<< "|";
+    std::cout << std::left << std::setw(5) << std::setfill(' ') << info.jumprope<<"\n";
 }
 
 unsigned int Training::getID() const

@@ -4,6 +4,8 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonParseError>
+#include <iomanip>
+
 
 void Model::push_end(Training * t)
 {
@@ -144,5 +146,12 @@ void Model::add(std::string date, std::string pullup, std::string pushup, std::s
 
 void Model::print_all() const
 {
+    std::cout<<"Print all TRAININGS:\n";
+    std::cout << std::left << std::setw(4) << std::setfill(' ') << "|Id";
+    std::cout << std::left << std::setw(12) << std::setfill(' ') << "|Date";
+    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pullup";
+    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pushup";
+    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Squat";
+    std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Jump Rope\n";
     for(unsigned int i=0; i<list.size(); i++)  list[i]->print();
 }
