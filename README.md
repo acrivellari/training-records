@@ -1,4 +1,17 @@
 # training-records
 
+
+
+Desktop app
+
+c++ e qt
+
+---------
+Camps to add:
+* weight
+* kcal
+* false grip
+* rto
 ------
-json: 4h
+C++ : 5h
+
