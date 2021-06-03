@@ -1,4 +1,5 @@
 # training-records
+
 Desktop app
 
 c++ e qt
@@ -11,3 +12,4 @@ Camps to add:
 * rto
 ------
 C++ : 5h
+
