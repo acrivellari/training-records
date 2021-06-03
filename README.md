@@ -1,15 +1,24 @@
 # training-records
 
-Desktop app
+object->array per year->object per training->object per data info
 
-c++ e qt
+{
+  [
+    {
+      "id": 1,
+      "date": "2021-04-03",
+      "data": {
+      }
+    },
+    {
+    }
+  ],
+  [
+  ]
+}
 
----------
-Camps to add:
-* weight
-* kcal
-* false grip
-* rto
-------
-C++ : 5h
+
+--------------
+
+json : 5h
 
