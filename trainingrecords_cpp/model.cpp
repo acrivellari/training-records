@@ -96,7 +96,10 @@ void Model::load(std::string path) try
                 if(training_object_data.value("jumprope").isString())  jumprope=training_object_data.value("jumprope").toString().toStdString();
                 else    jumprope="";
             }
-            push_end(new Training(id,date,pullup,pushup,squat,jumprope));
+            std::map<std::string,std::string> data_info;
+            Training* tmp= new Training(id,date);
+            tmp->addTraining("pullup",pullup);tmp->addTraining("pushup",pushup);tmp->addTraining("squat",squat);tmp->addTraining("jumprope",jumprope);
+            push_end(tmp);
         }
     }
 }catch(_exception){
@@ -135,10 +138,8 @@ void Model::save(std::string path) const
 }
 
 
-void Model::add(std::string date, std::string pullup, std::string pushup, std::string squat, std::string jumprope){
-    push_end(new Training(getHighestID()+1,date,pullup,pushup,squat,jumprope));
-    std::string year;
-    year.append(1,date[0]);year.append(1,date[1]);year.append(1,date[2]);year.append(1,date[3]);
+void Model::add(std::string date, std::map<std::string,std::string> info){
+    push_end(new Training(getHighestID()+1,date,info));
 }
 
 
@@ -149,9 +150,11 @@ void Model::print_all() const
     std::cout<<"Print all TRAININGS:\n";
     std::cout << std::left << std::setw(4) << std::setfill(' ') << "|Id";
     std::cout << std::left << std::setw(12) << std::setfill(' ') << "|Date";
+    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Jump Rope";
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pullup";
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pushup";
-    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Squat";
-    std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Jump Rope\n";
+    std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Squat\n";
     for(unsigned int i=0; i<list.size(); i++)  list[i]->print();
 }
+
+

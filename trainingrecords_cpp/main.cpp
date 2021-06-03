@@ -7,7 +7,6 @@ int main()
     Model m;
     m.load("../training-records-2021.json");
     m.print_all();
-    m.add("2010-12-12","","50","10","");
-    m.save("../prova.json");
+
     return 0;
 }

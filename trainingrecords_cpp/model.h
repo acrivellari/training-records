@@ -19,10 +19,11 @@ public:
     //filters
     void save(std::string) const;
     void load(std::string);
-    void add(std::string, std::string, std::string, std::string, std::string);
+    void add(std::string, std::map<std::string,std::string>);
 
     //void print_selected() const;
     void print_all() const;
+
 
 
 };
