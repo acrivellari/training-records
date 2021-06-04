@@ -12,5 +12,5 @@ object->array per year->object per training->object per data info
 
 --------------
 
-json : 5h
+json : 7h
 
