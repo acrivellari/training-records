@@ -62,7 +62,7 @@ void Model::load(std::string path) try
         QJsonObject training_object_data;
         if(cit->isArray())   year_array=cit->toArray();
         else    throw new _exception;
-        for(QJsonArray::const_iterator cit=year_array.cbegin(); cit!=year_array.cend(); cit++){
+        for(QJsonArray::const_iterator cit=year_array.begin(); cit!=year_array.end(); cit++){
 
             unsigned int id;std::string date;std::string pullup;std::string pushup;std::string squat;std::string jumprope;
 
@@ -80,25 +80,14 @@ void Model::load(std::string path) try
                 if(training_object.value("data").isObject())    training_object_data=training_object.value("data").toObject();
                 else    throw new _exception;
             }
-            if(training_object_data.contains("pullup")){
-                if(training_object_data.value("pullup").isString())  pullup=training_object_data.value("pullup").toString().toStdString();
-                else    pullup="";
+            QStringList keys=training_object_data.keys();
+            Training* tmp = new Training(id,date);
+            for(QStringList::iterator it=keys.begin();it!=keys.end();it++){
+                if(training_object_data.contains(*it)){
+                    if(training_object_data.value(*it).isString())
+                        tmp->addTraining((*it).toStdString(),training_object_data.value(*it).toString().toStdString());
+                }
             }
-            if(training_object_data.contains("pushup")){
-                if(training_object_data.value("pushup").isString())  pushup=training_object_data.value("pushup").toString().toStdString();
-                else    pushup="";
-            }
-            if(training_object_data.contains("squat")){
-                if(training_object_data.value("squat").isString())  squat=training_object_data.value("squat").toString().toStdString();
-                else    squat="";
-            }
-            if(training_object_data.contains("jumprope")){
-                if(training_object_data.value("jumprope").isString())  jumprope=training_object_data.value("jumprope").toString().toStdString();
-                else    jumprope="";
-            }
-            std::map<std::string,std::string> data_info;
-            Training* tmp= new Training(id,date);
-            tmp->addTraining("pullup",pullup);tmp->addTraining("pushup",pushup);tmp->addTraining("squat",squat);tmp->addTraining("jumprope",jumprope);
             push_end(tmp);
         }
     }
@@ -156,5 +145,4 @@ void Model::print_all() const
     std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Squat\n";
     for(unsigned int i=0; i<list.size(); i++)  list[i]->print();
 }
-
 
