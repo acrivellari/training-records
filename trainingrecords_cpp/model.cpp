@@ -62,31 +62,27 @@ void Model::load(std::string path) try
         QJsonObject training_object_data;
         if(cit->isArray())   year_array=cit->toArray();
         else    throw new _exception;
-        for(QJsonArray::const_iterator cit=year_array.begin(); cit!=year_array.end(); cit++){
+        for(QJsonArray::const_iterator cit=year_array.constBegin(); cit!=year_array.constEnd(); cit++){
 
             unsigned int id;std::string date;std::string pullup;std::string pushup;std::string squat;std::string jumprope;
 
             if(cit->isObject())     training_object=cit->toObject();
             else    throw new _exception;
-            if(training_object.contains("id")){
-                if(training_object.value("id").isDouble())  id=(unsigned int)training_object.value("id").toInt();
-                else    throw new _exception;
-            }
-            if(training_object.contains("date")){
-                if(training_object.value("date").isString())  date=training_object.value("date").toString().toStdString();
-                else    throw new _exception;
-            }
-            if(training_object.contains("data")){
-                if(training_object.value("data").isObject())    training_object_data=training_object.value("data").toObject();
-                else    throw new _exception;
-            }
+
+            if(training_object.contains("id") && training_object.value("id").isDouble())  id=(unsigned int)training_object.value("id").toInt();
+            else    throw new _exception;
+
+            if(training_object.contains("date") && training_object.value("date").isString())  date=training_object.value("date").toString().toStdString();
+            else    throw new _exception;
+
+            if(training_object.contains("data") && training_object.value("data").isObject())    training_object_data=training_object.value("data").toObject();
+            else    throw new _exception;
+
             QStringList keys=training_object_data.keys();
             Training* tmp = new Training(id,date);
             for(QStringList::iterator it=keys.begin();it!=keys.end();it++){
-                if(training_object_data.contains(*it)){
-                    if(training_object_data.value(*it).isString())
-                        tmp->addTraining((*it).toStdString(),training_object_data.value(*it).toString().toStdString());
-                }
+                if(training_object_data.contains(*it) && training_object_data.value(*it).isString())
+                    tmp->addTraining((*it).toStdString(),training_object_data.value(*it).toString().toStdString());
             }
             push_end(tmp);
         }
@@ -131,8 +127,30 @@ void Model::add(std::string date, std::map<std::string,std::string> info){
     push_end(new Training(getHighestID()+1,date,info));
 }
 
+bool Model::remove(unsigned int toRemove){
+    for(std::vector<Training*>::iterator it = list.begin(); it!=list.end(); it++){
+        if((*it)->getID()==toRemove){
+            list.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
 
+bool Model::modify(unsigned int toModify, std::string category, std::string value){
+    for(std::vector<Training*>::iterator it = list.begin(); it != list.end(); it++)
+        if((*it)->getID()==toModify)
+            return ((*it)->modify(category, value));
+    return false;
+}
 
+std::map<std::string, std::string> Model::printTraining(unsigned int i) const{
+    std::map<std::string, std::string> result;
+    for(std::vector<Training*>::const_iterator cit = list.begin(); cit != list.end(); cit++)
+        if((*cit)->getID()==i)
+            return (*cit)->printTraining();
+    return result;
+}
 
 void Model::print_all() const
 {
@@ -144,5 +162,11 @@ void Model::print_all() const
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pushup";
     std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Squat\n";
     for(unsigned int i=0; i<list.size(); i++)  list[i]->print();
+}
+
+void Model::print(unsigned int toPrint){
+    for(std::vector<Training*>::iterator it = list.begin(); it != list.end(); it++)
+        if((*it)->getID()==toPrint)
+            (*it)->print();
 }
 
