@@ -46,7 +46,6 @@ std::vector<std::string> Model::getYears() const
 
 void Model::load(std::string path) try
 {
-    //da completare
     QFile loadFile(QString::fromStdString(path));
     if(!loadFile.open(QIODevice::ReadOnly)){
         throw new _exception;
