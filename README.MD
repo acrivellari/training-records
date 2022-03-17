@@ -1,5 +1,5 @@
 # Training Records Project
 
-Project in javascript
+Documentation
 
 ....still to start
