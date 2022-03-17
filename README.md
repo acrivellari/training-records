@@ -1,8 +1,6 @@
 # training-records
 
-Desktop app
+Project on C++
 
-c++ e qt
-
-
-
++ Model MVC
++ Remodel Training class
