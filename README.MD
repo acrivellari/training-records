@@ -6,7 +6,7 @@
 + [Java](../../tree/java)
 + [Javascript](../../tree/js)
 + [C#](../../tree/c#)
-+ Rust(../../tree/rust)
++ [Rust](../../tree/rust)
 
 ## Here we have all the trainings in JSON file
 
