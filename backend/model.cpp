@@ -169,3 +169,17 @@ void Model::print(unsigned int toPrint){
             (*it)->print();
 }
 
+void Model::serialize(Training* t, QJsonObject & obj){
+    obj["id"]=static_cast<int>(t->id);
+    obj["date"]=QString::fromStdString(t.addZeroDate(t->getYear())+"-"+t->addZeroDate(t->getMonth())+"-"+t->addZeroDate(t->getDay()));
+    QJsonObject data;
+    for(auto cit=t->tData.cbegin(); cit!=t->tData.cend();cit++){
+        std::string valueExercise = "";
+        for(auto cit1=(*cit)->tSets.cbegin(); cit1!=(*cit)->tSets.cend(); cit1++){
+            valueExercise=valueExercise+std::to_string(*cit1);
+        }
+        data[QString::fromStdString((*cit)->tName)]=QString::fromStdString(valueExercise);
+    }
+    obj["data"]=data;
+
+}

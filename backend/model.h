@@ -20,6 +20,7 @@ public:
 
     void save(std::string) const;
     void load(std::string);
+    static void serialize(Training*, QJsonObject&);
 
     void add(std::string, std::map<std::string,std::string>);
     bool modify(unsigned int, std::string, std::string);
@@ -30,5 +31,6 @@ public:
     void print(unsigned int);
 
 };
+
 
 #endif // MODEL_H
