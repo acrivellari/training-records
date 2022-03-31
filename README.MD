@@ -1,5 +1,5 @@
 # Training Records Project
 
-Documentation
+Documentation:
 
 ....still to start
