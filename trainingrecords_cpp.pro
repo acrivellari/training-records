@@ -6,8 +6,10 @@ CONFIG += qt
 SOURCES += \
         main.cpp \
         backend/model.cpp \
-        backend/training.cpp
+        backend/training.cpp \
+        backend/controller.cpp
 
 HEADERS += \
     backend/model.h \
-    backend/training.h
+    backend/training.h \
+    backend/controller.h
