@@ -1,171 +1,89 @@
 #include "model.h"
-#include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonParseError>
-#include <iomanip>
+#include <iomanip> //setw and .. in printall
 
-
-void Model::push_end(Training * t)
-{
-    list.push_back(t);
+void Model::push_end(Training* t) {
+    array.push_back(t);
 }
 
-bool Model::isEmpty() const
-{
-    if(list.size())    return true;
-    else    return false;
+bool Model::isEmpty() const {
+    return array.size();
 }
 
-unsigned int Model::getHighestID() const
-{
-    unsigned int result=0;
-    for(unsigned int i=0; i<list.size(); i++)  if(list[i]->getID()>result)   result=list[i]->getID();
+unsigned int Model::getHighestID() const {
+    unsigned int result{0};
+    for(Training* t : array)  if(t -> getID() > result)   result = t -> getID();
     return result;
 }
 
-std::vector<std::string> Model::getYears() const
-{
-    std::vector<std::string> years;
-    for(unsigned int i=0; i<list.size(); i++){
-        if(years.size()==0) years.push_back(list[i]->getYear());
+std::vector<std::string> Model::getYears() const {
+    std::vector<std::string> years{};
+    for(Training* t : array){
+        if(years.size() == 0)   years.push_back(t -> stringDate(t -> getYear()));
         else{
-            bool counter=true;
-            for(unsigned int j=0; j<years.size(); j++){
-                if(years[j]==list[i]->getYear())    counter=false;
+            bool counter{true};
+            for(std::string& eachYear : years){
+                if(eachYear == t -> stringDate(t -> getYear())){
+                    counter = false;
+                }
             }
-            if(counter) years.push_back(list[i]->getYear());
+            if (counter == true)    years.push_back(t -> stringDate(t -> getYear()));
         }
-
     }
     return years;
 }
 
-
-
-void Model::load(std::string path) try
-{
-    QFile loadFile(QString::fromStdString(path));
-    if(!loadFile.open(QIODevice::ReadOnly)){
-        throw new _exception;
+void Model::add(std::string date, std::vector<std::tuple<std::string, std::string, bool>> tEx) {
+    Training* t = new Training(getHighestID()+1, date);
+    for(std::tuple<std::string, std::string, bool> singleExercise : tEx){
+        t -> addTrainingExercise(std::get<0>(singleExercise), std::get<1>(singleExercise), std::get<2>(singleExercise));
     }
-    QByteArray savedata=loadFile.readAll();
-    loadFile.close();
-    QJsonDocument doc(QJsonDocument::fromJson(savedata));
-    if(!doc.isObject())  throw new _exception;
-    QJsonObject object(doc.object());
-    for(QJsonObject::const_iterator cit=object.begin(); cit!=object.end(); cit++){
-        QJsonArray year_array;
-        QJsonObject training_object;
-        QJsonObject training_object_data;
-        if(cit->isArray())   year_array=cit->toArray();
-        else    throw new _exception;
-        for(QJsonArray::const_iterator cit=year_array.constBegin(); cit!=year_array.constEnd(); cit++){
+    array.push_back(t);
 
-            unsigned int id;std::string date;std::string pullup;std::string pushup;std::string squat;std::string jumprope;
-
-            if(cit->isObject())     training_object=cit->toObject();
-            else    throw new _exception;
-
-            if(training_object.contains("id") && training_object.value("id").isDouble())  id=(unsigned int)training_object.value("id").toInt();
-            else    throw new _exception;
-
-            if(training_object.contains("date") && training_object.value("date").isString())  date=training_object.value("date").toString().toStdString();
-            else    throw new _exception;
-
-            if(training_object.contains("data") && training_object.value("data").isObject())    training_object_data=training_object.value("data").toObject();
-            else    throw new _exception;
-
-            QStringList keys=training_object_data.keys();
-            Training* tmp = new Training(id,date);
-            for(QStringList::iterator it=keys.begin();it!=keys.end();it++){
-                if(training_object_data.contains(*it) && training_object_data.value(*it).isString())
-                    tmp->addTraining((*it).toStdString(),training_object_data.value(*it).toString().toStdString());
-            }
-            push_end(tmp);
-        }
-    }
-}catch(_exception){
-    std::cout<<"Json not well formed"<<std::endl;
-}
-
-void Model::save(std::string path) const
-{
-    QFile saveFile(QString::fromStdString(path));
-    if(!saveFile.open(QIODevice::WriteOnly)){
-        throw new _exception;
-    }
-    QJsonObject object_root;
-
-    std::vector<std::string> years = getYears();
-
-    for(unsigned int i=0; i<years.size(); i++){
-        QJsonArray array;
-        for(unsigned j=0; j<list.size(); j++){
-
-            if(list[j]->getYear()==years[i]){
-
-                QJsonObject training_obj;
-                list[j]->serialize(training_obj);
-                array.push_back(training_obj);
-
-
-            }
-        }
-        object_root.insert(QString::fromStdString(years[i]),array);
-    }
-
-    QJsonDocument doc(object_root);
-    saveFile.write(doc.toJson());
-    saveFile.close();
-}
-
-
-void Model::add(std::string date, std::map<std::string,std::string> info){
-    push_end(new Training(getHighestID()+1,date,info));
 }
 
 bool Model::remove(unsigned int toRemove){
-    for(std::vector<Training*>::iterator it = list.begin(); it!=list.end(); it++){
-        if((*it)->getID()==toRemove){
-            list.erase(it);
+    for(std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
+        if((*it) -> getID() == toRemove){
+            array.erase(it);
             return true;
         }
     }
     return false;
 }
 
-bool Model::modify(unsigned int toModify, std::string category, std::string value){
-    for(std::vector<Training*>::iterator it = list.begin(); it != list.end(); it++)
-        if((*it)->getID()==toModify)
-            return ((*it)->modify(category, value));
+bool Model::modify(unsigned int toModify, std::string category, std::string value) {
+    for(Training* t : array) {
+        if(t -> getID() == toModify) {
+            return t -> modify(category, value);
+        }
+    }
     return false;
 }
 
-std::map<std::string, std::string> Model::printTraining(unsigned int i) const{
-    std::map<std::string, std::string> result;
-    for(std::vector<Training*>::const_iterator cit = list.begin(); cit != list.end(); cit++)
-        if((*cit)->getID()==i)
-            return (*cit)->printTraining();
-    return result;
+std::vector<std::vector<std::string>> Model::printTraining(unsigned int i) const {
+    for(const Training* t : array){
+        if (t -> getID() == i)    return t -> printTraining();
+    }
+    return std::vector<std::vector<std::string>>{};
 }
 
-void Model::print_all() const
-{
-    std::cout<<"Print all TRAININGS:\n";
+void Model::print_all() const {
+    std::cout << "Print all TRAININGS:\n";
     std::cout << std::left << std::setw(4) << std::setfill(' ') << "|Id";
     std::cout << std::left << std::setw(12) << std::setfill(' ') << "|Date";
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Jump Rope";
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pullup";
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pushup";
     std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Squat\n";
-    for(unsigned int i=0; i<list.size(); i++)  list[i]->print();
+    for(const Training* t : array)  t -> print();
 }
 
-void Model::print(unsigned int toPrint){
-    for(std::vector<Training*>::iterator it = list.begin(); it != list.end(); it++)
-        if((*it)->getID()==toPrint)
-            (*it)->print();
+void Model::print(unsigned int toPrint) {
+    for(Training* t : array) {
+        if(t -> getID() == toPrint) {
+            t -> print();
+        }
+    }
 }
+
 
