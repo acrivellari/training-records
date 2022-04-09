@@ -1,12 +1,12 @@
 #ifndef MODEL_H
 #define MODEL_H
+
 #include <vector>
-#include <map>
 #include "training.h"
 
 class Model {
 private:
-    std::vector<Training*> list;
+    std::vector<Training*> array;
 
 public:
     //input output funct

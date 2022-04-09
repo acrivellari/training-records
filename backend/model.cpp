@@ -1,31 +1,26 @@
 #include "model.h"
-#include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonParseError>
-#include <iomanip>
+#include <iomanip> //setw and .. in printall
 
 void Model::push_end(Training* t) {
-    list.push_back(t);
+    array.push_back(t);
 }
 
 bool Model::isEmpty() const {
-    return list.size();
+    return array.size();
 }
 
 unsigned int Model::getHighestID() const {
-    unsigned int result = 0;
-    for(Training* t : list)  if(t -> getID() > result)   result = t -> getID();
+    unsigned int result{0};
+    for(Training* t : array)  if(t -> getID() > result)   result = t -> getID();
     return result;
 }
 
 std::vector<std::string> Model::getYears() const {
-    std::vector<std::string> years;
-    for(Training* t : list){
+    std::vector<std::string> years{};
+    for(Training* t : array){
         if(years.size() == 0)   years.push_back(t -> stringDate(t -> getYear()));
         else{
-            bool counter = true;
+            bool counter{true};
             for(std::string& eachYear : years){
                 if(eachYear == t -> stringDate(t -> getYear())){
                     counter = false;
@@ -42,14 +37,14 @@ void Model::add(std::string date, std::vector<std::tuple<std::string, std::strin
     for(std::tuple<std::string, std::string, bool> singleExercise : tEx){
         t -> addTrainingExercise(std::get<0>(singleExercise), std::get<1>(singleExercise), std::get<2>(singleExercise));
     }
-    list.push_back(t);
+    array.push_back(t);
 
 }
 
 bool Model::remove(unsigned int toRemove){
-    for(std::vector<Training*>::iterator it = list.begin(); it != list.end(); it++) {
+    for(std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
         if((*it) -> getID() == toRemove){
-            list.erase(it);
+            array.erase(it);
             return true;
         }
     }
@@ -57,7 +52,7 @@ bool Model::remove(unsigned int toRemove){
 }
 
 bool Model::modify(unsigned int toModify, std::string category, std::string value) {
-    for(Training* t : list) {
+    for(Training* t : array) {
         if(t -> getID() == toModify) {
             return t -> modify(category, value);
         }
@@ -66,10 +61,10 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
 }
 
 std::vector<std::vector<std::string>> Model::printTraining(unsigned int i) const {
-    for(const Training* t : list){
+    for(const Training* t : array){
         if (t -> getID() == i)    return t -> printTraining();
     }
-    return std::vector<std::vector<std::string>>();
+    return std::vector<std::vector<std::string>>{};
 }
 
 void Model::print_all() const {
@@ -80,11 +75,11 @@ void Model::print_all() const {
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pullup";
     std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pushup";
     std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Squat\n";
-    for(const Training* t : list)  t -> print();
+    for(const Training* t : array)  t -> print();
 }
 
 void Model::print(unsigned int toPrint) {
-    for(Training* t : list) {
+    for(Training* t : array) {
         if(t -> getID() == toPrint) {
             t -> print();
         }

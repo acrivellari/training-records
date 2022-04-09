@@ -1,5 +1,6 @@
 #include "training.h"
 #include <iomanip>
+#include "backendException.cpp"
 
 Training::TrainingDate::TrainingDate(int y, int m, int d) : year(y), month(m), day(d) {}
 
@@ -12,7 +13,7 @@ Training::TrainingDate::TrainingDate(std::string date) {
 
 Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, bool type): tName(name), tType(type), tSets(sets) {}
 
-Training::Training(unsigned int i, std::string d): id(i), tDate(TrainingDate(d)), tData(std::vector<TrainingExercise*>()) {}
+Training::Training(unsigned int i, std::string d): id{i}, tDate{TrainingDate(d)}, tData{std::vector<TrainingExercise*>()} {}
 
 Training::~Training() {
     for (TrainingExercise* tEx : tData)   delete tEx;
@@ -31,13 +32,60 @@ void Training::removeExercise(std::string name) {
 bool Training::modify(std::string category, std::string value) {
     if (category == "date") {
         return modifyTrainingDate(value);
-    } else if (category.find("exercise:")) {
+    } else if (category.find("exercise:") != std::string::npos) {
         return modifyTrainingExercise(category, value);
     } else  return false;
 }
 
-bool Training::modifyTrainingExercise(std::string category, std::string value) {
-    return true;
+bool Training::modifyTrainingExercise(std::string category, std::string value) try {
+
+    if(category.find("exercise:name:") != std::string::npos) {
+        //name
+        std::string nameToModify{};
+        unsigned int count{0};
+        for (char c : category) {
+            if (count == 2) nameToModify.push_back(c);
+            if (c == ':')   count++;
+        }
+        for (TrainingExercise* tEx : tData) {
+            if (tEx -> tName == nameToModify){
+                tEx -> tName = value;
+                return true;
+            }
+        }
+    } else if(category.find("exercise:data:") != std::string::npos) {
+        //data
+        std::string dataToModify{};
+        unsigned int count{0};
+        for (char c : category) {
+            if (count == 2) dataToModify.push_back(c);
+            if (c == ':')   count++;
+        }
+        for (TrainingExercise* tEx : tData) {
+            if (tEx -> tName == dataToModify){
+                std::vector<unsigned int> newSets{};
+                std::string tmp{};
+                for (char repS : value) {
+                    if (isdigit(repS))  tmp += repS;
+                    else{
+                        if (repS == '\"' && tEx -> tType == false)    throw new BackendException("Input data, bad created.\nThere can't be \" in non-sec sets");
+                        if (repS == '-') {
+                            newSets.push_back(std::stoul(tmp));
+                            tmp = "";
+                        }
+                    }
+                }
+                if(tmp != "") newSets.push_back(std::stoul(tmp));
+                tEx -> tSets = newSets;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+catch(BackendException* e) {
+    std::cout<<e->what();
+    return false;
 }
 
 bool Training::modifyTrainingDate(std::string date) {
@@ -61,20 +109,20 @@ void Training::print() const {
 }
 
 std::vector<std::vector<std::string>>  Training::printTraining() const {
-    std::vector<std::vector<std::string>> print;
+    std::vector<std::vector<std::string>> print{};
 
-    std::vector<std::string> printId;
+    std::vector<std::string> printId{};
     printId.push_back("ID: ");
     printId.push_back(std::to_string(id));
     print.push_back(printId);
 
-    std::vector<std::string> date;
+    std::vector<std::string> date{};
     date.push_back("Date: ");
     date.push_back(stringDate(getDay()) + "/" + stringDate(getMonth()) + "/" + stringDate(getYear()));
     print.push_back(date);
 
     for (const TrainingExercise* tEx : tData) {
-        std::vector<std::string> actualExercise;
+        std::vector<std::string> actualExercise{};
         actualExercise.push_back(tEx -> tName);
         actualExercise.push_back(type2string(tEx -> tType));
         for (const unsigned int repS : tEx -> tSets) {
@@ -85,13 +133,13 @@ std::vector<std::vector<std::string>>  Training::printTraining() const {
     return print;
 }
 
-std::vector<unsigned int> Training::string2sets(std::string value, bool type) {
-    std::vector<unsigned int> sets;
-    std::string tmp = "";
+std::vector<unsigned int> Training::string2sets(std::string value, bool type) try {
+    std::vector<unsigned int> sets{};
+    std::string tmp{};
     for (char repS : value) {
         if (isdigit(repS))  tmp += repS;
         else{
-            if (repS == '\"' && type == false)    throw _exception();
+            if (repS == '\"' && type == false)    throw new BackendException("Input data, bad created.\nThere can't be \" in non-sec sets");
             if (repS == '-') {
                 sets.push_back(std::stoul(tmp));
                 tmp = "";
@@ -101,10 +149,14 @@ std::vector<unsigned int> Training::string2sets(std::string value, bool type) {
     if(tmp != "") sets.push_back(std::stoul(tmp));
     return sets;
 }
+catch(BackendException* e){
+    std::cout<<e->what();
+    return std::vector<unsigned int>();
+}
 
 std::vector<int> Training::string2dateInt(std::string date) {
-    std::vector<int> vecDate;
-    std::string tmp = "";
+    std::vector<int> vecDate{};
+    std::string tmp{};
     for (char cDate : date) {
         if (isdigit(cDate)) {
             tmp = tmp + cDate;
