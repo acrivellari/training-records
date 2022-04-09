@@ -11,6 +11,6 @@ public :
 
 BackendException::BackendException(const char* message) : msg(message) {}
 
-const char* BackendException::what() const noexcept{
+const char* BackendException::what() const noexcept { 
     return msg;
 }

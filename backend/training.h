@@ -6,13 +6,12 @@
 #include <vector>
 
 class Training {
-    friend class Model;
 private:
 
     class TrainingDate {
     public:
         unsigned int year, month, day;
-        TrainingDate(int, int, int);
+        TrainingDate(int =0, int =0, int =0);
         TrainingDate(std::string);
     };
 
@@ -33,7 +32,6 @@ private:
 public:
     Training(unsigned int, std::string);
     ~Training();
-
     //add, modify and remove training or training data              // we give for assumed that sets are well written in form: number["]-number["]-number.... etc with " optional
     void addTrainingExercise(std::string, std::string, bool = false);   // training sets separated by: -
     bool modify(std::string, std::string);

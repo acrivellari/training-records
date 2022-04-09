@@ -38,7 +38,6 @@ void Model::add(std::string date, std::vector<std::tuple<std::string, std::strin
         t -> addTrainingExercise(std::get<0>(singleExercise), std::get<1>(singleExercise), std::get<2>(singleExercise));
     }
     array.push_back(t);
-
 }
 
 bool Model::remove(unsigned int toRemove){
