@@ -5,12 +5,12 @@ private:
 
 public :
     BackendException(const char*);
-    const char* what() const;
+    const char* what() const noexcept;
 
 };
 
 BackendException::BackendException(const char* message) : msg(message) {}
 
-const char* BackendException::what() const{
+const char* BackendException::what() const noexcept { 
     return msg;
 }
