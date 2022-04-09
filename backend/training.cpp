@@ -8,16 +8,18 @@ Training::TrainingDate::TrainingDate(std::string date) {
     std::vector<int> vecDate = string2dateInt(date);
     year = vecDate[0];
     month = vecDate[1];
-    day = vecDate[3];
+    day = vecDate[2];
 }
 
 Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, bool type): tName(name), tType(type), tSets(sets) {}
 
-Training::Training(unsigned int i, std::string d): id{i}, tDate{TrainingDate(d)}, tData{std::vector<TrainingExercise*>()} {}
+Training::Training(unsigned int i, std::string d): id{i}, tDate{TrainingDate(d)} {}
 
 Training::~Training() {
     for (TrainingExercise* tEx : tData)   delete tEx;
 }
+
+
 
 void Training::addTrainingExercise(std::string name, std::string value, bool type) {
     tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
