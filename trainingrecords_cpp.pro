@@ -7,7 +7,8 @@ SOURCES += \
         main.cpp \
         backend/model.cpp \
         backend/training.cpp \
-        backend/controller.cpp
+        backend/controller.cpp \
+        backend/backendException.cpp
 
 HEADERS += \
     backend/model.h \
