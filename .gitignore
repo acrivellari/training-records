@@ -1,2 +1,6 @@
 .vscode/
 *.pro.user
+.q*
+debug/
+release/
+Make*

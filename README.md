@@ -18,3 +18,19 @@ Project on C++
 - qt >= 5.9
 
 
+## Directory
+- backend/
+    - resources/   
+        - files *.json  
+    - src/  
+        - files *.cpp  
+    - files *.h  
+- frontend/  
+    - src/  
+        - files *.cpp  
+    - files *.h  
+- main.cpp  
+- training-records.pro  
+- files *.bat
+- readme.md
+- .gitignore

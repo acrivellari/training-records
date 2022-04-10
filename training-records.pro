@@ -5,12 +5,12 @@ CONFIG += qt
 
 SOURCES += \
         main.cpp \
-        backend/model.cpp \
-        backend/training.cpp \
-        backend/backendException.cpp \
-            backend/controller.cpp \
-            backend/io.cpp \
-                frontend/view.cpp
+        backend/src/model.cpp \
+        backend/src/training.cpp \
+        backend/src/backendException.cpp \
+            backend/src/controller.cpp \
+            backend/src/io.cpp \
+                frontend/src/view.cpp
 
 HEADERS += \
     backend/model.h \

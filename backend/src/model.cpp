@@ -1,4 +1,4 @@
-#include "model.h"
+#include "../model.h"
 #include <iomanip> //setw and .. in printall
 
 void Model::push_end(Training* t) {
