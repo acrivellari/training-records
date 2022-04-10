@@ -7,6 +7,7 @@
 
 class Training {
 private:
+    Training(unsigned int, std::string);
 
     class TrainingDate {
     public:
@@ -30,10 +31,11 @@ private:
     //tDate contains the date of the training while tData the exercises and their reps and set of the training
 
 public:
-    Training(unsigned int, std::string);
     ~Training();
+
     //add, modify and remove training or training data              // we give for assumed that sets are well written in form: number["]-number["]-number.... etc with " optional
     void addTrainingExercise(std::string, std::string, bool = false);   // training sets separated by: -
+    static Training* addEmptyTraining(unsigned int, std::string);
     bool modify(std::string, std::string);
     bool modifyTrainingDate(std::string);
     bool modifyTrainingExercise(std::string, std::string);
@@ -41,6 +43,8 @@ public:
 
     void print() const;
     std::vector<std::vector<std::string>> printTraining() const;
+
+    void getTraining(unsigned int&, std::string&, std::vector<std::tuple<std::string, std::string, bool>>& trainingRecord);
 
     //support functs
     std::vector<unsigned int> string2sets(std::string, bool);

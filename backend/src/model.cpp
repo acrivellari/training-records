@@ -33,7 +33,7 @@ std::vector<std::string> Model::getYears() const {
 }
 
 void Model::add(std::string date, std::vector<std::tuple<std::string, std::string, bool>> tEx) {
-    Training* t = new Training(getHighestID()+1, date);
+    Training* t = Training::addEmptyTraining(getHighestID()+1, date);
     for(std::tuple<std::string, std::string, bool> singleExercise : tEx){
         t -> addTrainingExercise(std::get<0>(singleExercise), std::get<1>(singleExercise), std::get<2>(singleExercise));
     }
@@ -58,6 +58,20 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
     }
     return false;
 }
+
+void Model::getAllTrainings(std::vector<std::tuple<unsigned int, std::string, std::vector<std::tuple<std::string, std::string, bool>>>>& allTrainings) const {
+    for (Training* t : array) {
+        unsigned int actualTId{0};
+        std::string actualTDate{};
+        std::vector<std::tuple<std::string, std::string, bool>> actualTData{};
+        t->getTraining(actualTId, actualTDate, actualTData);
+        allTrainings.push_back(std::make_tuple(actualTId, actualTDate, actualTData));
+    }
+    std::sort(allTrainings.begin(), allTrainings.end());
+}
+
+
+
 
 std::vector<std::vector<std::string>> Model::printTraining(unsigned int i) const {
     for(const Training* t : array){

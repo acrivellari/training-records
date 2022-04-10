@@ -25,6 +25,10 @@ void Training::addTrainingExercise(std::string name, std::string value, bool typ
     tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
 }
 
+Training* Training::addEmptyTraining(unsigned int i, std::string d) {
+    return new Training(i,d);
+}
+
 void Training::removeExercise(std::string name) {
     for (TrainingExercise* tEx : tData){
         if (tEx -> tName == name) delete tEx;
@@ -135,6 +139,23 @@ std::vector<std::vector<std::string>>  Training::printTraining() const {
     return print;
 }
 
+void Training::getTraining(unsigned int& id, std::string& date, std::vector<std::tuple<std::string, std::string, bool>>& trainingData) {
+    id = getID();
+    date = stringDate(getYear()) + "-" + stringDate(getMonth()) + "-" + stringDate(getDay());
+    //"yyyy-mm-dd"
+
+    for (TrainingExercise* tEx : tData) {
+        std::string setsActualEx{};
+        for (unsigned int repS : tEx->tSets) {
+            setsActualEx += std::to_string(repS);
+            if (tEx->tType == true) setsActualEx += '"';
+            setsActualEx += '-';
+        }
+        std::tuple<std::string, std::string, bool> actualEx = std::make_tuple(tEx->tName,setsActualEx, tEx->tType);
+        trainingData.push_back(actualEx);
+    }
+}
+
 std::vector<unsigned int> Training::string2sets(std::string value, bool type) try {
     std::vector<unsigned int> sets{};
     std::string tmp{};
@@ -153,7 +174,8 @@ std::vector<unsigned int> Training::string2sets(std::string value, bool type) tr
 }
 catch(BackendException* e){
     std::cout<<e->what();
-    return std::vector<unsigned int>();
+    std::vector<unsigned int> tmp{};
+    return tmp;
 }
 
 std::vector<int> Training::string2dateInt(std::string date) {

@@ -1,7 +1,8 @@
-
 #include "../controller.h"
 
-Controller::Controller(Model* m) : model{m} {}
+Controller::Controller(Model* m) : model{m}, inputOutput(new AwsIO()) {}
+
+Controller::Controller(std::string filepath, Model* m) : model{m}, inputOutput{new JsonIO{filepath}} {}
 
 void Controller::addTraining(std::string date, std::vector<std::tuple<std::string, std::string, bool>> trainingData) const {
     model->add(date,trainingData);
@@ -26,4 +27,12 @@ std::vector<std::vector<std::string> > Controller::get2dvectorStrings(unsigned i
 
 std::vector<std::string> Controller::getYears() const {
     return model->getYears();
+}
+
+
+
+
+bool Controller::save(std::vector<std::tuple<unsigned int, std::string, std::vector<std::tuple<std::string, std::string, bool>>>>& trainingRecords) const {
+    std::vector<std::string> years = getYears();
+    return inputOutput->save(trainingRecords, years);
 }

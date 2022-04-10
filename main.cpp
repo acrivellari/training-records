@@ -22,7 +22,7 @@ int main()
     c.modifyTraining(1, "exercise:name:ciao", "ciaoo");
     c.modifyTraining(1, "exercise:data:ciaoo", "2-2");
     std::vector<std::vector<std::string>> s = c.get2dvectorStrings(1);
-    for(std::vector<std::string> a : s){
+    for(std::vector<std::string>& a : s){
         for(std::string b : a)  std::cout<<b<<" ";
     }
     return 0;
