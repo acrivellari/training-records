@@ -23,7 +23,7 @@ public:
     bool isEmpty() const;
     unsigned int getHighestID() const;
     std::vector<std::string> getYears() const;
-    void getAllTrainings(std::vector<std::tuple<unsigned int, std::string, std::vector<std::tuple<std::string, std::string, bool>>>>&) const;
+    void getAllTrainings(std::vector<Training*>&) const;
 
     // print functions
     std::vector<std::vector<std::string>> printTraining(unsigned int i) const;
