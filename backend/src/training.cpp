@@ -84,8 +84,27 @@ unsigned int Training::getDay() const {
     return tDate.day;
 }
 
-std::string Training::getDate() const {
-    return stringDate(getYear()) + "-" + stringDate(getMonth()) + "-" + stringDate(getDay());
+std::string Training::getDate(std::string how) const {
+    if (how == "year") {
+        return stringDate(getDay());
+    } else if (how == "month") {
+        return stringDate(getMonth());
+    } else if (how == "day") {
+        return stringDate(getYear());
+    } else if (how == "all") {
+        return stringDate(getYear()) + "-" + stringDate(getMonth()) + "-" + stringDate(getDay());
+    } else  throw new BackendException("Type of date requested is wrong.");
+
+}
+
+unsigned int Training::getNExercises() const {
+    unsigned int result{0};
+    for (const TrainingExercise* _ : tData) result++;
+    return result;
+}
+
+std::vector<std::string>& Training::getExercise(unsigned int idEx) {
+    tData[idEx]
 }
 
 void Training::setYear(int i) {
@@ -114,12 +133,22 @@ Training::TrainingDate::TrainingDate(std::string date) {
 
 Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, bool type): tName(name), tType(type), tSets(sets) {}
 
+Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, std::string type): tName(name), tType(false), tSets(sets) {
+    if (type == "reps") tType = false;
+    else if (type == "seconds") tType = true;
+    else    throw new BackendException("The type of the training exercise isn't valid.");
+}
+
 Training::Training(unsigned int i, std::string d): id{i}, tDate{TrainingDate(d)} {}
 
 Training::~Training() {
     for (TrainingExercise* tEx : tData)   delete tEx;
 }
 
+std::string Training::TrainingExercise::getType() const {
+    if (tType)  return "seconds";
+    else    return "reps";
+}
 
 bool Training::modifyTrainingExercise(std::string category, std::string value) try {
 

@@ -17,10 +17,16 @@ private:
 
     class TrainingExercise {
     public:
+        unsigned int idExercise;
         std::string tName;
         bool tType; //0 is reps, 1 is seconds
         std::vector<unsigned int> tSets;
+
         TrainingExercise(std::string, std::vector<unsigned int>, bool = false);
+        TrainingExercise(std::string, std::vector<unsigned int>, std::string = "reps");
+
+        std::string getType() const;
+        std::vector<std::string> getExercise() const;
     };
 
     unsigned int id;
@@ -40,6 +46,7 @@ private:
     static std::vector<int> string2dateInt(std::string);
     static std::string type2string(bool);
     static std::string stringDate(int);//transform month day or year into string format, in case adding some 0 to pad (ex day 1->day 01)
+    unsigned int getHighestIdExercise() const;
 
 public:
 
@@ -57,8 +64,10 @@ public:
     unsigned int getYear() const;
     unsigned int getMonth() const;
     unsigned int getDay() const;
-    std::string getDate() const;
+    std::string getDate(std::string) const;
     unsigned int getID() const;
+    unsigned int getNExercises() const;
+    std::vector<std::string>& getExercise(unsigned int);
     void setYear(int);
     void setMonth(int);
     void setDay(int);
