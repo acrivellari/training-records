@@ -26,6 +26,7 @@ private:
         TrainingExercise(std::string, std::vector<unsigned int>, std::string = "reps");
 
         std::string getType() const;
+        std::string getSets() const;
         std::vector<std::string> getExercise() const;
     };
 
@@ -67,7 +68,7 @@ public:
     std::string getDate(std::string) const;
     unsigned int getID() const;
     unsigned int getNExercises() const;
-    std::vector<std::string>& getExercise(unsigned int);
+    std::vector<std::string> getExercise(unsigned int) const;
     void setYear(int);
     void setMonth(int);
     void setDay(int);

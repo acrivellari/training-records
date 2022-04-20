@@ -101,12 +101,11 @@ unsigned int Model::getNumberExercises(unsigned int idTr) {
     throw new BackendException("This id does not exist.");
 }
 
-std::string Model::getExercise(unsigned int idTr, unsigned int idEx) {
+std::vector<std::string> Model::getExercise(unsigned int idTr, unsigned int idEx) {
     for (const Training* t : array) {
-        if (t -> getID() == idTr) {
-            for (const auto tEx : t)
-        }
+        if (t -> getID() == idTr)   return t -> getExercise(idEx);
     }
+    throw new BackendException("This id does not exist.");
 }
 
 

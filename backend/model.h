@@ -28,7 +28,7 @@ public:
     //getters of a training, given a id of a training
     std::string getDateTraining(unsigned int);
     unsigned int getNumberExercises(unsigned int);
-    std::string getExercise(unsigned int, unsigned int);
+    std::vector<std::string> getExercise(unsigned int, unsigned int);
 
     // print functions
     std::vector<std::vector<std::string>> printTraining(unsigned int i) const;

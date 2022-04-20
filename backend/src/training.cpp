@@ -103,8 +103,9 @@ unsigned int Training::getNExercises() const {
     return result;
 }
 
-std::vector<std::string>& Training::getExercise(unsigned int idEx) {
-    tData[idEx]
+std::vector<std::string> Training::getExercise(unsigned int idEx) const {
+    TrainingExercise* tmp = tData[idEx];
+    return tmp->getExercise();
 }
 
 void Training::setYear(int i) {
@@ -150,6 +151,26 @@ std::string Training::TrainingExercise::getType() const {
     else    return "reps";
 }
 
+std::string Training::TrainingExercise::getSets() const {
+    std::string result{};
+    for (const unsigned int repS : tSets) {
+        result += std::to_string(repS);
+        if (tType)  result.push_back('"');
+        result.push_back('-');
+    }
+    if (tType)  result.pop_back();
+    result.pop_back();
+    return result;
+}
+
+std::vector<std::string> Training::TrainingExercise::getExercise() const {
+    std::vector<std::string> result{0};
+    result.push_back(tName);
+    result.push_back(getSets());
+    result.push_back(getType());
+    return result;
+}
+
 bool Training::modifyTrainingExercise(std::string category, std::string value) try {
 
     if(category.find("exercise:name:") != std::string::npos) {
@@ -181,7 +202,7 @@ bool Training::modifyTrainingExercise(std::string category, std::string value) t
                 for (char repS : value) {
                     if (isdigit(repS))  tmp += repS;
                     else{
-                        if (repS == '\"' && tEx -> tType == false)    throw new BackendException("Input data, bad created.\nThere can't be \" in non-sec sets");
+                        if (repS == '"' && tEx -> tType == false)    throw new BackendException("Input data, bad created.\nThere can't be \" in non-sec sets");
                         if (repS == '-') {
                             newSets.push_back(std::stoul(tmp));
                             tmp = "";
