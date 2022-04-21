@@ -8,8 +8,6 @@ private:
 
 public :
     BackendException(const char*);
-    //const char* what() const noexcept;
-
 };
 
 #endif

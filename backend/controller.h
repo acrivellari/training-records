@@ -15,7 +15,8 @@ public:
     Controller(Model* = new Model());
     Controller(std::string, Model* = new Model());
 
-    void addTraining(std::string date, std::vector<std::tuple<std::string, std::string, bool>> trainingData) const;
+    void addEmptyTraining(std::string date) const;
+    void addExerciseTraining(unsigned int, std::vector<std::string>) const;
     bool removeTraining(unsigned int) const;
     bool modifyTraining(unsigned int index, std::string category, std::string value) const;
 

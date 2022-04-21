@@ -14,15 +14,15 @@ public:
     //static void serialize(Training*, QJsonObject&);
 
     //basic functions for model, higher-level of list manag
-    void add(std::string, std::vector<std::tuple<std::string, std::string, bool>>); //give training as vector of string (name exercise) and pair of reps and type
+    unsigned int addEmptyTraining(std::string);
+    bool addExerciseTraining(unsigned int, std::vector<std::string>); //add to the training @par int the exercise @par std::vector<std::string>
     bool remove(unsigned int);
-    // @param
     bool modify(unsigned int, std::string, std::string); // int index, string category, string value    ->  category either "date", "exercise:name:[name_exercise]", "exercise:data:[name_exercise]"
 
     //basic functions for list manag
     void push_end(Training*);
     bool isEmpty() const;
-    unsigned int getHighestID() const;
+    int getHighestID() const;
     std::vector<std::string> getYears() const;
 
     //getters of a training, given a id of a training

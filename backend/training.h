@@ -25,7 +25,8 @@ private:
         TrainingExercise(std::string, std::vector<unsigned int>, bool = false);
         TrainingExercise(std::string, std::vector<unsigned int>, std::string = "reps");
 
-        std::string getType() const;
+        static bool getType(std::string);
+        static std::string getType(bool);
         std::string getSets() const;
         std::vector<std::string> getExercise() const;
     };
@@ -53,6 +54,7 @@ public:
 
     //add, modify and remove training or training data              // we give for assumed that sets are well written in form: number["]-number["]-number.... etc with " optional
     void addTrainingExercise(std::string, std::string, bool = false);   // training sets separated by: -
+    void addTrainingExercise(std::string, std::string, std::string = "reps");
     static Training* addEmptyTraining(unsigned int, std::string);
 
     bool modify(std::string, std::string);

@@ -10,8 +10,9 @@ bool Model::isEmpty() const {
     return array.size();
 }
 
-unsigned int Model::getHighestID() const {
+int Model::getHighestID() const {
     unsigned int result{0};
+    if (array.empty())  return -1;
     for(Training* t : array)  if(t -> getID() > result)   result = t -> getID();
     return result;
 }
@@ -33,12 +34,21 @@ std::vector<std::string> Model::getYears() const {
     return years;
 }
 
-void Model::add(std::string date, std::vector<std::tuple<std::string, std::string, bool>> tEx) {
-    Training* t = Training::addEmptyTraining(getHighestID()+1, date);
-    for(std::tuple<std::string, std::string, bool> singleExercise : tEx){
-        t -> addTrainingExercise(std::get<0>(singleExercise), std::get<1>(singleExercise), std::get<2>(singleExercise));
+unsigned int Model::addEmptyTraining(std::string date) {
+    int result{getHighestID() + 1};
+    array.push_back(Training::addEmptyTraining(result, date));
+    return result;
+}
+
+bool Model::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) {
+    if (dataEx.size() != 3) throw new BackendException("This exercise is not well formed.");
+    for (Training* t : array) {
+        if (t -> getID() == id) {
+            t -> addTrainingExercise(dataEx.at(0), dataEx.at(1), dataEx.at(2));
+            return true;
+        }
     }
-    array.push_back(t);
+    return false;
 }
 
 bool Model::remove(unsigned int toRemove){

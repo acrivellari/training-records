@@ -9,6 +9,10 @@ void Training::addTrainingExercise(std::string name, std::string value, bool typ
     tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
 }
 
+void Training::addTrainingExercise(std::string name, std::string value, std::string type) {
+    tData.push_back(new TrainingExercise(name, string2sets(value, TrainingExercise::getType(type)), type));
+}
+
 Training* Training::addEmptyTraining(unsigned int i, std::string d) {
     return new Training(i,d);
 }
@@ -127,9 +131,9 @@ Training::TrainingDate::TrainingDate(int y, int m, int d) : year(y), month(m), d
 
 Training::TrainingDate::TrainingDate(std::string date) {
     std::vector<int> vecDate = string2dateInt(date);
-    year = vecDate[0];
-    month = vecDate[1];
-    day = vecDate[2];
+    year = vecDate.at(0);
+    month = vecDate.at(1);
+    day = vecDate.at(2);
 }
 
 Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, bool type): tName(name), tType(type), tSets(sets) {}
@@ -146,8 +150,14 @@ Training::~Training() {
     for (TrainingExercise* tEx : tData)   delete tEx;
 }
 
-std::string Training::TrainingExercise::getType() const {
-    if (tType)  return "seconds";
+bool Training::TrainingExercise::getType(std::string type) {
+    if (type == "seconds")  return true;
+    else if (type == "reps")    return false;
+    else    throw new BackendException("This type does not exist.");
+}
+
+std::string Training::TrainingExercise::getType(bool type) {
+    if (type)   return "seconds";
     else    return "reps";
 }
 
@@ -164,10 +174,10 @@ std::string Training::TrainingExercise::getSets() const {
 }
 
 std::vector<std::string> Training::TrainingExercise::getExercise() const {
-    std::vector<std::string> result{0};
+    std::vector<std::string> result{};
     result.push_back(tName);
     result.push_back(getSets());
-    result.push_back(getType());
+    result.push_back(getType(tType));
     return result;
 }
 
@@ -224,9 +234,9 @@ catch(BackendException* e) {
 
 bool Training::modifyTrainingDate(std::string date) {
     std::vector<int> vecDate = string2dateInt(date);
-    setYear(vecDate[0]);
-    setMonth(vecDate[1]);
-    setDay(vecDate[2]);
+    setYear(vecDate.at(0));
+    setMonth(vecDate.at(1));
+    setDay(vecDate.at(2));
     return true;
 }
 
