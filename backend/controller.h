@@ -2,7 +2,6 @@
 #define CONTROLLER_H
 
 #include "model.h"
-#include "../frontend/view.h"
 #include "jsonio.h"
 #include "awsio.h"
 #include "usersauth.h"
