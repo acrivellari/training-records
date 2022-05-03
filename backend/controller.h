@@ -30,6 +30,8 @@ public:
 
     //user
     void giveCredentials(std::string, std::string);
+    void addCredentials(std::string, std::string);
+    void logOut();
 
 
 };

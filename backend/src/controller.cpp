@@ -1,7 +1,7 @@
 #include "../controller.h"
 
 
-Controller::Controller(std::string p, Model* m) : path{p}, model{m}, userAuthentication(new UsersAuth(path+"users.json")) {}
+Controller::Controller(std::string p, Model* m) : path{p}, model{m}, inputOutput{nullptr}, userAuthentication(new UsersAuth(path+"users.json")) {}
 
 void Controller::addEmptyTraining(std::string date) const {
     model -> addEmptyTraining(date);
@@ -33,7 +33,17 @@ void Controller::load(std::string path) const try {
 //user auth
 
 void Controller::giveCredentials(std::string user, std::string pw) {
-    if (userAuthentication -> giveCredentials(user, pw)) {
+    if (inputOutput == nullptr && userAuthentication -> giveCredentials(user, pw)) {
         inputOutput = new JsonIO(path+user+".json");
     }
+}
+
+void Controller::addCredentials(std::string user, std::string pw) {
+    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw)) {
+        inputOutput = new JsonIO(path+user+".json");
+    }
+}
+
+void Controller::logOut() {
+    inputOutput = nullptr;
 }
