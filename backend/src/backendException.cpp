@@ -1,16 +1,7 @@
-#include <exception>
-class BackendException : public std::exception {
-private:
-    const char* msg;
+#include "../backendException.h"
 
-public :
-    BackendException(const char*);
-    const char* what() const noexcept;
+BackendException::BackendException(std::string message) : msg(message) {}
 
-};
-
-BackendException::BackendException(const char* message) : msg(message) {}
-
-const char* BackendException::what() const noexcept { 
+std::string BackendException::getMessage() const {
     return msg;
 }

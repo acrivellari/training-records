@@ -1,5 +1,6 @@
 #include "../model.h"
 #include <iomanip> //setw and .. in printall
+#include <backend/backendException.h>
 
 void Model::push_end(Training* t) {
     array.push_back(t);
@@ -9,35 +10,50 @@ bool Model::isEmpty() const {
     return array.size();
 }
 
-unsigned int Model::getHighestID() const {
+int Model::getHighestID() const {
     unsigned int result{0};
+    if (array.empty())  return 0;
     for(Training* t : array)  if(t -> getID() > result)   result = t -> getID();
     return result;
+}
+
+void Model::clear() {
+    array.clear();
 }
 
 std::vector<std::string> Model::getYears() const {
     std::vector<std::string> years{};
     for(Training* t : array){
-        if(years.size() == 0)   years.push_back(t -> stringDate(t -> getYear()));
+        if(years.size() == 0)   years.push_back(t -> getDate("year"));
         else{
             bool counter{true};
             for(std::string& eachYear : years){
-                if(eachYear == t -> stringDate(t -> getYear())){
+                if(eachYear == t -> getDate("year")){
                     counter = false;
                 }
             }
-            if (counter == true)    years.push_back(t -> stringDate(t -> getYear()));
+            if (counter == true)    years.push_back(t -> getDate("year"));
         }
     }
     return years;
 }
 
-void Model::add(std::string date, std::vector<std::tuple<std::string, std::string, bool>> tEx) {
-    Training* t = new Training(getHighestID()+1, date);
-    for(std::tuple<std::string, std::string, bool> singleExercise : tEx){
-        t -> addTrainingExercise(std::get<0>(singleExercise), std::get<1>(singleExercise), std::get<2>(singleExercise));
+unsigned int Model::addEmptyTraining(std::string date) {
+    int result{getHighestID() + 1};
+    array.push_back(Training::addEmptyTraining(result, date));
+    return result;
+}
+
+bool Model::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) {
+    if (dataEx.size() < 2) throw new BackendException("This exercise is not well formed.");
+    for (Training* t : array) {
+        if (t -> getID() == id) {
+            if (dataEx.size() == 2) t -> addTrainingExercise(dataEx.at(0), dataEx.at(1));
+            else    t -> addTrainingExercise(dataEx.at(0), dataEx.at(1), dataEx.at(2));
+            return true;
+        }
     }
-    array.push_back(t);
+    return false;
 }
 
 bool Model::remove(unsigned int toRemove){
@@ -59,30 +75,16 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
     return false;
 }
 
-std::vector<std::vector<std::string>> Model::printTraining(unsigned int i) const {
-    for(const Training* t : array){
-        if (t -> getID() == i)    return t -> printTraining();
-    }
-    return std::vector<std::vector<std::string>>{};
+
+//getters of a training
+Training* Model::at(unsigned int index) const {
+    if (index < array.size())   return array[index];
+    else    return nullptr;
 }
 
-void Model::print_all() const {
-    std::cout << "Print all TRAININGS:\n";
-    std::cout << std::left << std::setw(4) << std::setfill(' ') << "|Id";
-    std::cout << std::left << std::setw(12) << std::setfill(' ') << "|Date";
-    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Jump Rope";
-    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pullup";
-    std::cout << std::left << std::setw(20) << std::setfill(' ') << "|Pushup";
-    std::cout << std::left << std::setw(5) << std::setfill(' ') << "|Squat\n";
-    for(const Training* t : array)  t -> print();
+unsigned int Model::getSize() const {
+    return array.size();
 }
 
-void Model::print(unsigned int toPrint) {
-    for(Training* t : array) {
-        if(t -> getID() == toPrint) {
-            t -> print();
-        }
-    }
-}
 
 

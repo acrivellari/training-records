@@ -1,29 +1,32 @@
-
 #include "../controller.h"
 
-Controller::Controller(Model* m) : model{m} {}
+Controller::Controller(Model* m) : model{m}, inputOutput(new AwsIO()) {}
 
-void Controller::addTraining(std::string date, std::vector<std::tuple<std::string, std::string, bool>> trainingData) const {
-    model->add(date,trainingData);
+Controller::Controller(std::string filepath, Model* m) : model{m}, inputOutput{new JsonIO{filepath}} {}
+
+void Controller::addEmptyTraining(std::string date) const {
+    model -> addEmptyTraining(date);
 }
 
-bool  Controller::removeTraining(unsigned int index) const {
-    return model->remove(index);
+void Controller::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) const {
+    model -> addExerciseTraining(id, dataEx);
+}
+
+bool Controller::removeTraining(unsigned int index) const {
+    return model -> remove(index);
 }
 
 bool Controller::modifyTraining(unsigned int index, std::string category, std::string value) const {
-    return model->modify(index, category, value);
+    return model -> modify(index, category, value);
 }
 
-void Controller::print(int index) const {
-    if (index == -1)    model->print_all();
-    else    model->print(index);
+
+bool Controller::save(std::string path) const {
+    return inputOutput -> save(model, path);
 }
 
-std::vector<std::vector<std::string> > Controller::get2dvectorStrings(unsigned int index) const {
-    return model->printTraining(index);
-}
-
-std::vector<std::string> Controller::getYears() const {
-    return model->getYears();
+void Controller::load(std::string path) const try {
+    inputOutput -> load(model, path);
+}catch(BackendException* e){
+    std::cout<<e->getMessage();
 }

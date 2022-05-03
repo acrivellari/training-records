@@ -1,7 +1,6 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += qt console
 CONFIG -= app_bundle
-CONFIG += qt
 
 SOURCES += \
         main.cpp \
@@ -9,13 +8,17 @@ SOURCES += \
         backend/src/training.cpp \
         backend/src/backendException.cpp \
             backend/src/controller.cpp \
-            backend/src/io.cpp \
+            backend/src/awsio.cpp \
+            backend/src/jsonio.cpp \
                 frontend/src/view.cpp
 
 HEADERS += \
     backend/model.h \
     backend/training.h \
+    backend/backendException.h \
         backend/controller.h \
         backend/io.h \
+        backend/awsio.h \
+        backend/jsonio.h \
             frontend/view.h
 

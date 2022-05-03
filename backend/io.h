@@ -1,7 +1,16 @@
 #ifndef IO_H
 #define IO_H
 
+#include <iostream>
+#include <vector>
+#include "model.h"
+#include "backendException.h"
+
 class IO {
+public:
+    virtual void load(Model*, std::string ="") const =0;
+    virtual bool save(Model*, std::string ="") const =0;
+    virtual ~IO(){};
 
 };
 
