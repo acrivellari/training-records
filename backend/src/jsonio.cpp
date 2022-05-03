@@ -6,7 +6,7 @@
 
 JsonIO::JsonIO(std::string filePath) : path{filePath} {}
 
-void JsonIO::load(Model* m, std::string p) const {
+void JsonIO::load(Model* m, std::string p) const try {
     m -> clear();
     QFile loadFile;
     if (p.empty()){
@@ -78,9 +78,9 @@ void JsonIO::load(Model* m, std::string p) const {
             }
         }
     }
-} /*catch (BackendException* e) {
+} catch (BackendException* e) {
     throw e;
-}*/
+}
 
 bool JsonIO::save(Model* m, std::string p) const {
 
@@ -105,13 +105,10 @@ bool JsonIO::save(Model* m, std::string p) const {
                 trainingObject["id"] = (int) t -> getID();
                 trainingObject["date"] = QString::fromStdString(t -> getDate("all"));
                 QJsonObject trainingData;
-                trainingObject["data"] = trainingData;
                 for (unsigned int j = 0; j < t -> getNExercises(); j++) {
                     trainingData[QString::fromStdString(t -> getExercise(j)[0])] = QString::fromStdString(t -> getExercise(j)[1]);
-                    std::cout<<(t -> getExercise(j)[1]);
                 }
-
-
+                trainingObject["data"] = trainingData;
                 arrayJ.push_back(trainingObject);
             }
 

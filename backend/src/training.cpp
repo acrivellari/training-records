@@ -265,14 +265,10 @@ catch(BackendException* e){
 }
 
 bool Training::getType(std::string sets) {
-    bool reps{false};
     bool sec{false};
     for (char repS : sets) {
         if (repS == '\"')   sec = true;
-        if (repS == '-')    reps = true;
     }
-    if (sec && reps)    throw new BackendException("Input data bad created. \nA exercise can't have both reps and seconds sets");
-    if (!(sec && reps)) throw new BackendException("Input data, bad created. \nA exercise must have - or \" to separate sets");
     return sec;
 }
 
