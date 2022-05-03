@@ -5,14 +5,16 @@
 #include "../frontend/view.h"
 #include "jsonio.h"
 #include "awsio.h"
+#include "usersauth.h"
 
 class Controller {
 public:
+    std::string path;
     Model* model;
     //View* view;
     IO* inputOutput;
+    UsersAuth* userAuthentication;
 
-    Controller(Model* = new Model());
     Controller(std::string, Model* = new Model());
 
     void addEmptyTraining(std::string date) const;
@@ -25,6 +27,9 @@ public:
     //input output
     bool save(std::string ="") const;
     void load(std::string ="") const;
+
+    //user
+    void giveCredentials(std::string, std::string);
 
 
 };

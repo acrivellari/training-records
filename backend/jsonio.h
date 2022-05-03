@@ -5,6 +5,7 @@
 
 
 class JsonIO : public IO {
+private :
     std::string path;
 public:
     JsonIO(std::string);

@@ -3,6 +3,7 @@ CONFIG += qt console
 CONFIG -= app_bundle
 
 SOURCES += \
+    backend/usersauth.cpp \
         main.cpp \
         backend/src/model.cpp \
         backend/src/training.cpp \
@@ -20,5 +21,6 @@ HEADERS += \
         backend/io.h \
         backend/awsio.h \
         backend/jsonio.h \
+    backend/usersauth.h \
             frontend/view.h
 
