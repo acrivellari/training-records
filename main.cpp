@@ -21,5 +21,6 @@ int main()
     c.modifyTraining(1, "exercise:name:ciao", "ciaoo");
     c.modifyTraining(1, "exercise:data:ciaoo", "2-2");
     c.load();
+    c.save("ciao");
     return 0;
 }

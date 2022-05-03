@@ -7,11 +7,9 @@
 #include "backendException.h"
 
 class IO {
-protected:
-    Model* m;
 public:
-    virtual void load() const =0;
-    virtual bool save() const =0;
+    virtual void load(Model*, std::string ="") const =0;
+    virtual bool save(Model*, std::string ="") const =0;
     virtual ~IO(){};
 
 };

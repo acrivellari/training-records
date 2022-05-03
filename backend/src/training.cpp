@@ -93,11 +93,11 @@ unsigned int Training::getDay() const {
 }
 
 std::string Training::getDate(std::string how) const {
-    if (how == "year") {
+    if (how == "day") {
         return stringDate(getDay());
     } else if (how == "month") {
         return stringDate(getMonth());
-    } else if (how == "day") {
+    } else if (how == "year") {
         return stringDate(getYear());
     } else if (how == "all") {
         return stringDate(getYear()) + "-" + stringDate(getMonth()) + "-" + stringDate(getDay());

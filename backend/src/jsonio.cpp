@@ -6,9 +6,14 @@
 
 JsonIO::JsonIO(std::string filePath) : path{filePath} {}
 
-void JsonIO::load() const {
+void JsonIO::load(Model* m, std::string p) const {
     m -> clear();
-    QFile loadFile(QString::fromStdString(path));
+    QFile loadFile;
+    if (p.empty()){
+        loadFile.setFileName(QString::fromStdString(path));
+    }else {
+        loadFile.setFileName(QString::fromStdString(p));
+    }
     if (!loadFile.open(QIODevice::ReadOnly)) {
         throw new BackendException("Cannot open file");
     }
@@ -77,9 +82,14 @@ void JsonIO::load() const {
     throw e;
 }*/
 
-bool JsonIO::save() const {
+bool JsonIO::save(Model* m, std::string p) const {
 
-    QFile saveFile(QString::fromStdString(path));
+    QFile saveFile;
+    if (p.empty()){
+        saveFile.setFileName(QString::fromStdString(path));
+    }else {
+        saveFile.setFileName(QString::fromStdString(p));
+    }
     if(!saveFile.open(QIODevice::WriteOnly)){
         return false;
     }
@@ -95,12 +105,13 @@ bool JsonIO::save() const {
                 trainingObject["id"] = (int) t -> getID();
                 trainingObject["date"] = QString::fromStdString(t -> getDate("all"));
                 QJsonObject trainingData;
-
+                trainingObject["data"] = trainingData;
                 for (unsigned int j = 0; j < t -> getNExercises(); j++) {
                     trainingData[QString::fromStdString(t -> getExercise(j)[0])] = QString::fromStdString(t -> getExercise(j)[1]);
+                    std::cout<<(t -> getExercise(j)[1]);
                 }
 
-                trainingObject["date"] = trainingData;
+
                 arrayJ.push_back(trainingObject);
             }
 

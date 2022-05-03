@@ -12,7 +12,7 @@ bool Model::isEmpty() const {
 
 int Model::getHighestID() const {
     unsigned int result{0};
-    if (array.empty())  return -1;
+    if (array.empty())  return 0;
     for(Training* t : array)  if(t -> getID() > result)   result = t -> getID();
     return result;
 }

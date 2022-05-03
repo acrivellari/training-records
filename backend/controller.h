@@ -23,8 +23,8 @@ public:
     //commands from view
 
     //input output
-    bool save() const;
-    void load() const;
+    bool save(std::string ="") const;
+    void load(std::string ="") const;
 
 
 };

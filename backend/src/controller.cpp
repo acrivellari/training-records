@@ -21,12 +21,12 @@ bool Controller::modifyTraining(unsigned int index, std::string category, std::s
 }
 
 
-bool Controller::save() const {
-    return inputOutput -> save();
+bool Controller::save(std::string path) const {
+    return inputOutput -> save(model, path);
 }
 
-void Controller::load() const try {
-    inputOutput -> load();
+void Controller::load(std::string path) const try {
+    inputOutput -> load(model, path);
 }catch(BackendException* e){
     std::cout<<e->getMessage();
 }
