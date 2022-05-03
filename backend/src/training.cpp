@@ -4,6 +4,10 @@
 
 
 //public methods
+void Training::addTrainingExercise(std::string name, std::string value) {
+    bool type = getType(value);
+    tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
+}
 
 void Training::addTrainingExercise(std::string name, std::string value, bool type) {
     tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
@@ -102,9 +106,7 @@ std::string Training::getDate(std::string how) const {
 }
 
 unsigned int Training::getNExercises() const {
-    unsigned int result{0};
-    for (const TrainingExercise* _ : tData) result++;
-    return result;
+    return tData.size();
 }
 
 std::vector<std::string> Training::getExercise(unsigned int idEx) const {
@@ -260,6 +262,18 @@ catch(BackendException* e){
     std::cout<<e->what();
     std::vector<unsigned int> tmp{};
     return tmp;
+}
+
+bool Training::getType(std::string sets) {
+    bool reps{false};
+    bool sec{false};
+    for (char repS : sets) {
+        if (repS == '\"')   sec = true;
+        if (repS == '-')    reps = true;
+    }
+    if (sec && reps)    throw new BackendException("Input data bad created. \nA exercise can't have both reps and seconds sets");
+    if (!(sec && reps)) throw new BackendException("Input data, bad created. \nA exercise must have - or \" to separate sets");
+    return sec;
 }
 
 std::vector<int> Training::string2dateInt(std::string date) {

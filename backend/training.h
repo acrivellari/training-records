@@ -45,6 +45,7 @@ private:
 
     //support functs
     std::vector<unsigned int> string2sets(std::string, bool);
+    static bool getType(std::string);
     static std::vector<int> string2dateInt(std::string);
     static std::string type2string(bool);
     static std::string stringDate(int);//transform month day or year into string format, in case adding some 0 to pad (ex day 1->day 01)
@@ -53,8 +54,9 @@ private:
 public:
 
     //add, modify and remove training or training data              // we give for assumed that sets are well written in form: number["]-number["]-number.... etc with " optional
-    void addTrainingExercise(std::string, std::string, bool = false);   // training sets separated by: -
-    void addTrainingExercise(std::string, std::string, std::string = "reps");
+    void addTrainingExercise(std::string, std::string, bool);   // training sets separated by: -
+    void addTrainingExercise(std::string, std::string, std::string);
+    void addTrainingExercise(std::string, std::string);
     static Training* addEmptyTraining(unsigned int, std::string);
 
     bool modify(std::string, std::string);
@@ -67,7 +69,7 @@ public:
     unsigned int getYear() const;
     unsigned int getMonth() const;
     unsigned int getDay() const;
-    std::string getDate(std::string) const;
+    std::string getDate(std::string) const; //year month day all
     unsigned int getID() const;
     unsigned int getNExercises() const;
     std::vector<std::string> getExercise(unsigned int) const;

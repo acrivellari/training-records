@@ -1,3 +1,7 @@
 #include "../backendException.h"
 
-BackendException::BackendException(const char* message) : msg(message) {}
+BackendException::BackendException(std::string message) : msg(message) {}
+
+std::string BackendException::getMessage() const {
+    return msg;
+}

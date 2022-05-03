@@ -2,12 +2,14 @@
 #define BEXCEPTION_H
 
 #include <exception>
+#include <string>
 class BackendException : public std::exception {
 private:
-    const char* msg;
+    std::string msg;
 
 public :
-    BackendException(const char*);
+    BackendException(std::string);
+    std::string getMessage() const;
 };
 
 #endif
