@@ -3,11 +3,15 @@
 
 #include <iostream>
 #include <vector>
+#include "model.h"
+#include "backendException.h"
 
 class IO {
+protected:
+    Model* m;
 public:
-    virtual bool load() const =0;
-    virtual bool save(std::vector<std::tuple<unsigned int, std::string, std::vector<std::tuple<std::string, std::string, bool>>>>&, std::vector<std::string>&) =0;
+    virtual void load() const =0;
+    virtual bool save() const =0;
     virtual ~IO(){};
 
 };
