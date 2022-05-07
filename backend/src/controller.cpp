@@ -1,7 +1,7 @@
 #include "../controller.h"
 
 
-Controller::Controller(std::string p, Model* m) : path{p}, model{m}, inputOutput{nullptr}, userAuthentication(new UsersAuth(path+"users.json")) {}
+Controller::Controller(Model* m) : model{m} {}
 
 void Controller::addEmptyTraining(std::string date) const {
     model -> addEmptyTraining(date);
@@ -21,29 +21,25 @@ bool Controller::modifyTraining(unsigned int index, std::string category, std::s
 
 
 bool Controller::save(std::string path) const {
-    return inputOutput -> save(model, path);
+    return model -> save(path);
 }
 
 void Controller::load(std::string path) const try {
-    inputOutput -> load(model, path);
+    model -> load(path);
 }catch(BackendException* e){
     std::cout<<e->getMessage();
 }
 
 //user auth
 
-void Controller::giveCredentials(std::string user, std::string pw) {
-    if (inputOutput == nullptr && userAuthentication -> giveCredentials(user, pw)) {
-        inputOutput = new JsonIO(path+user+".json");
-    }
+bool Controller::giveCredentials(std::string user, std::string pw) {
+    return model -> giveCredentials(user, pw);
 }
 
-void Controller::addCredentials(std::string user, std::string pw) {
-    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw)) {
-        inputOutput = new JsonIO(path+user+".json");
-    }
+bool Controller::addCredentials(std::string user, std::string pw) {
+    return model -> addCredentials(user, pw);
 }
 
-void Controller::logOut() {
-    inputOutput = nullptr;
+bool Controller::logOut() {
+    return model -> logOut();
 }

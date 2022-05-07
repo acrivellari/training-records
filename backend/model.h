@@ -3,12 +3,20 @@
 
 #include <vector>
 #include "training.h"
+#include "jsonio.h"
+#include "trainingLogic.h"
+#include "usersauth.h"
 
 class Model {
 private:
     std::vector<Training*> array;
+    std::string path;
+    IO* inputOutput;
+    UsersAuth* userAuthentication;
 
 public:
+    Model(std::string = "");
+    ~Model() = default;
     //basic functions for model, higher-level of list manag
     unsigned int addEmptyTraining(std::string);
     bool addExerciseTraining(unsigned int, std::vector<std::string>); //add to the training @par int the exercise @par std::vector<std::string>
@@ -18,12 +26,21 @@ public:
     //basic functions for list manag
     void push_end(Training*);
     bool isEmpty() const;
-    int getHighestID() const;
+    unsigned int getHighestID() const;
     void clear();
 
-    Training* at (unsigned int) const;
-    unsigned int getSize() const;
-    std::vector<std::string> getYears() const;
+    //Training* at (unsigned int) const;
+    //unsigned int getSize() const;                   //?
+    //std::vector<std::string> getYears() const;      //?
+
+    //input output
+    bool save(std::string ="");
+    void load(std::string ="");
+
+    //user
+    bool giveCredentials(std::string, std::string);
+    bool addCredentials(std::string, std::string);
+    bool logOut();
 
 };
 

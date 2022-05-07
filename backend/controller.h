@@ -2,19 +2,13 @@
 #define CONTROLLER_H
 
 #include "model.h"
-#include "jsonio.h"
-#include "awsio.h"
-#include "usersauth.h"
 
 class Controller {
 public:
-    std::string path;
     Model* model;
     //View* view;
-    IO* inputOutput;
-    UsersAuth* userAuthentication;
 
-    Controller(std::string, Model* = new Model());
+    Controller(Model* = new Model());
 
     void addEmptyTraining(std::string date) const;
     void addExerciseTraining(unsigned int, std::vector<std::string>) const;
@@ -28,9 +22,9 @@ public:
     void load(std::string ="") const;
 
     //user
-    void giveCredentials(std::string, std::string);
-    void addCredentials(std::string, std::string);
-    void logOut();
+    bool giveCredentials(std::string, std::string);
+    bool addCredentials(std::string, std::string);
+    bool logOut();
 
 
 };

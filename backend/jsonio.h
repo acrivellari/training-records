@@ -9,8 +9,8 @@ private :
     std::string path;
 public:
     JsonIO(std::string);
-    void load(Model*, std::string ="") const override;
-    bool save(Model*, std::string ="") const override;
+    void load(std::vector<Training*>&, std::string ="") const override;
+    bool save(std::vector<Training*>&, std::string ="") const override;
     virtual ~JsonIO(){};
 };
 

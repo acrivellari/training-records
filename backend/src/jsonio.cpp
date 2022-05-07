@@ -3,11 +3,12 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include "../model.h"
 
 JsonIO::JsonIO(std::string filePath) : path{filePath} {}
 
-void JsonIO::load(Model* m, std::string p) const try {
-    m -> clear();
+void JsonIO::load(std::vector<Training*>& array, std::string p) const try {
+    array.clear();
     QFile loadFile;
     if (p.empty()){
         loadFile.setFileName(QString::fromStdString(path));
@@ -39,9 +40,14 @@ void JsonIO::load(Model* m, std::string p) const try {
             }else {
                 throw new BackendException("JSON bad formed: in the third level there must be jsonObjects (array of them)");
             }
-
+            unsigned int id;
             if (trainingObject.contains("id")) {
-                if (!(trainingObject.value("id").isDouble())) {
+                if ((trainingObject.value("id").isDouble())) {
+                    int tmp_id = trainingObject.value("id").toDouble();
+                    if (tmp_id < 0) {
+                        throw new BackendException("JSON bad formed: the id should not be negative");
+                    } else  id = static_cast<unsigned int>(tmp_id);
+                }else {
                     throw new BackendException("JSON bad formed: the id should be in number format");
                 }
             }else {
@@ -71,18 +77,19 @@ void JsonIO::load(Model* m, std::string p) const try {
             }
 
             //Load all exercises of this training
-            unsigned int index = m ->addEmptyTraining(date.QString::toStdString());
+            Training* toAdd = Training::addEmptyTraining(id, date.QString::toStdString());
             for(QString key : trainingData.keys()) {
                 std::vector<std::string> exerciseV{key.QString::toStdString(), trainingData.value(key).toString().QString::toStdString()};
-                m -> addExerciseTraining(index, exerciseV);
+                toAdd -> addTrainingExercise(exerciseV[0], exerciseV[1]);
             }
+            array.push_back(toAdd);
         }
     }
 } catch (BackendException* e) {
     throw e;
 }
 
-bool JsonIO::save(Model* m, std::string p) const {
+bool JsonIO::save(std::vector<Training*>& array, std::string p) const {
 
     QFile saveFile;
     if (p.empty()){
@@ -96,22 +103,36 @@ bool JsonIO::save(Model* m, std::string p) const {
 
     QJsonObject object_root;
 
-    for (std::string& actualYear : m -> getYears()){
-        QJsonArray arrayJ;
-        for (unsigned int i = 0; i < m->getSize(); i++) {
-            Training* t = m -> at (i);
+    std::vector<std::string> years{};
+    for(Training* t : array){
+        if(years.size() == 0)   years.push_back(t -> getDate("year"));
+        else{
+            bool counter{true};
+            for(std::string& eachYear : years){
+                if(eachYear == t -> getDate("year")){
+                    counter = false;
+                }
+            }
+            if (counter == true)    years.push_back(t -> getDate("year"));
+        }
+    }
+
+    for (std::string& actualYear : years){
+        QJsonArray arrayJ;        
+        for (Training* t : array) {
             if (t -> getDate("year") == actualYear) {
                 QJsonObject trainingObject;
-                trainingObject["id"] = (int) t -> getID();
+                trainingObject["id"] = static_cast<int>(t -> getID());
                 trainingObject["date"] = QString::fromStdString(t -> getDate("all"));
+
                 QJsonObject trainingData;
-                for (unsigned int j = 0; j < t -> getNExercises(); j++) {
-                    trainingData[QString::fromStdString(t -> getExercise(j)[0])] = QString::fromStdString(t -> getExercise(j)[1]);
+                for (unsigned int i = 0; i < t -> getNExercises(); i++) {
+                    trainingData[QString::fromStdString(t -> getExercise(i)[0])] = QString::fromStdString(t -> getExercise(i)[1]);
                 }
                 trainingObject["data"] = trainingData;
+
                 arrayJ.push_back(trainingObject);
             }
-
         }
         object_root.insert(QString::fromStdString(actualYear), arrayJ);
     }
