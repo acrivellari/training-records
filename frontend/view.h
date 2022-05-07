@@ -1,8 +1,30 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-class View {
+#include "../backend/controller.h"
 
+class View {
+private :
+    Controller* controller;
+public :
+    View(Controller*);
+
+    //dummy view to make it work::::::
+    void addEmptyTraining(std::string date) const;
+    void addExerciseTraining(unsigned int, std::vector<std::string>) const;
+    bool removeTraining(unsigned int) const;
+    bool modifyTraining(unsigned int index, std::string category, std::string value) const;
+
+    //commands from view
+
+    //input output
+    bool save(std::string ="") const;
+    void load(std::string ="") const;
+
+    //user
+    void giveCredentials(std::string, std::string);
+    void addCredentials(std::string, std::string);
+    void logOut();
 };
 
 #endif

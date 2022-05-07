@@ -1,5 +1,5 @@
 #include <iostream>
-#include "backend/controller.h"
+#include "frontend/view.h"
 void functions() {
     /*
         Model m;
@@ -27,6 +27,7 @@ void functions() {
 }
 
 int main() {
-    Controller c{"../github_training-records/backend/resources/", new Model()};
+    View v {new Controller{"../github_training-records/backend/resources/", new Model()}};
+   // v.load();
     return 0;
 }
