@@ -3,24 +3,26 @@ CONFIG += qt console
 CONFIG -= app_bundle
 
 SOURCES += \
-    backend/usersauth.cpp \
-        main.cpp \
-        backend/src/model.cpp \
+    main.cpp \
+    backend/src/backendException.cpp \
+    backend/src/model.cpp \
         backend/src/training.cpp \
-        backend/src/backendException.cpp \
-            backend/src/controller.cpp \
+        backend/src/usersauth.cpp \
+        backend/src/trainingLogic.cpp \
             backend/src/awsio.cpp \
             backend/src/jsonio.cpp \
-                frontend/src/view.cpp
+    backend/src/controller.cpp \
+    frontend/src/view.cpp
 
 HEADERS += \
-    backend/model.h \
-    backend/training.h \
     backend/backendException.h \
-        backend/controller.h \
-        backend/io.h \
-        backend/awsio.h \
-        backend/jsonio.h \
-    backend/usersauth.h \
-            frontend/view.h
+    backend/model.h \
+        backend/training.h \
+            backend/trainingLogic.h \
+            backend/usersauth.h \
+            backend/io.h \
+                backend/awsio.h \
+                backend/jsonio.h \
+    backend/controller.h \
+    frontend/view.h
 

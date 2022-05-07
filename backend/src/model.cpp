@@ -2,89 +2,73 @@
 #include <iomanip> //setw and .. in printall
 #include <backend/backendException.h>
 
+// constructor
+Model::Model(std::string filePath) : array{std::vector<Training*>{}}, path{filePath}, inputOutput{nullptr}, userAuthentication(new UsersAuth(path+"users.json")) {}
+
+// basic functs
 void Model::push_end(Training* t) {
-    array.push_back(t);
+    trainingLogic::push_end(array, t);
 }
 
 bool Model::isEmpty() const {
-    return array.size();
+    return trainingLogic::isEmpty(array);
 }
 
-int Model::getHighestID() const {
-    unsigned int result{0};
-    if (array.empty())  return 0;
-    for(Training* t : array)  if(t -> getID() > result)   result = t -> getID();
-    return result;
+unsigned int Model::getHighestID() const {
+    return trainingLogic::getHighestID(array);
 }
 
 void Model::clear() {
-    array.clear();
+    trainingLogic::clear(array);
 }
 
-std::vector<std::string> Model::getYears() const {
-    std::vector<std::string> years{};
-    for(Training* t : array){
-        if(years.size() == 0)   years.push_back(t -> getDate("year"));
-        else{
-            bool counter{true};
-            for(std::string& eachYear : years){
-                if(eachYear == t -> getDate("year")){
-                    counter = false;
-                }
-            }
-            if (counter == true)    years.push_back(t -> getDate("year"));
-        }
-    }
-    return years;
-}
 
 unsigned int Model::addEmptyTraining(std::string date) {
-    int result{getHighestID() + 1};
-    array.push_back(Training::addEmptyTraining(result, date));
-    return result;
+    return trainingLogic::addEmptyTraining(array, date);
 }
 
 bool Model::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) {
-    if (dataEx.size() < 2) throw new BackendException("This exercise is not well formed.");
-    for (Training* t : array) {
-        if (t -> getID() == id) {
-            if (dataEx.size() == 2) t -> addTrainingExercise(dataEx.at(0), dataEx.at(1));
-            else    t -> addTrainingExercise(dataEx.at(0), dataEx.at(1), dataEx.at(2));
-            return true;
-        }
-    }
-    return false;
+    return trainingLogic::addExerciseTraining(array, id, dataEx);
 }
 
 bool Model::remove(unsigned int toRemove){
-    for(std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
-        if((*it) -> getID() == toRemove){
-            array.erase(it);
-            return true;
-        }
-    }
-    return false;
+    return trainingLogic::remove(array, toRemove);
 }
 
 bool Model::modify(unsigned int toModify, std::string category, std::string value) {
-    for(Training* t : array) {
-        if(t -> getID() == toModify) {
-            return t -> modify(category, value);
-        }
+    return trainingLogic::modify(array, toModify, category, value);
+}
+
+
+//input output
+bool Model::save(std::string path) {
+    return inputOutput -> save(array, path);
+};
+
+void Model::load(std::string path) {
+    inputOutput -> load(array, path);
+};
+
+//user
+bool Model::giveCredentials(std::string user, std::string pw) {
+    if (inputOutput == nullptr && userAuthentication -> giveCredentials(user, pw)) {
+        inputOutput = new JsonIO(path+user+".json");
+        return true;
     }
     return false;
 }
 
-
-//getters of a training
-Training* Model::at(unsigned int index) const {
-    if (index < array.size())   return array[index];
-    else    return nullptr;
+bool Model::addCredentials(std::string user, std::string pw) {
+    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw)) {
+        inputOutput = new JsonIO(path+user+".json");
+        return true;
+    }
+    return false;
 }
 
-unsigned int Model::getSize() const {
-    return array.size();
+bool Model::logOut() {
+    inputOutput = nullptr;
+
+    if (!inputOutput)   return true;
+    else    return false;
 }
-
-
-
