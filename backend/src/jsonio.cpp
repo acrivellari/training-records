@@ -3,7 +3,6 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include "../model.h"
 
 JsonIO::JsonIO(std::string filePath) : path{filePath} {}
 
@@ -89,7 +88,7 @@ void JsonIO::load(std::vector<Training*>& array, std::string p) const try {
     throw e;
 }
 
-bool JsonIO::save(std::vector<Training*>& array, std::string p) const {
+bool JsonIO::save(const std::vector<Training*>& array, std::string p) const {
 
     QFile saveFile;
     if (p.empty()){
@@ -103,20 +102,7 @@ bool JsonIO::save(std::vector<Training*>& array, std::string p) const {
 
     QJsonObject object_root;
 
-    std::vector<std::string> years{};
-    for(Training* t : array){
-        if(years.size() == 0)   years.push_back(t -> getDate("year"));
-        else{
-            bool counter{true};
-            for(std::string& eachYear : years){
-                if(eachYear == t -> getDate("year")){
-                    counter = false;
-                }
-            }
-            if (counter == true)    years.push_back(t -> getDate("year"));
-        }
-    }
-
+    std::vector<std::string> years {getYears(array)};
     for (std::string& actualYear : years){
         QJsonArray arrayJ;        
         for (Training* t : array) {
@@ -140,4 +126,21 @@ bool JsonIO::save(std::vector<Training*>& array, std::string p) const {
     saveFile.write(doc.toJson());
     saveFile.close();
     return true;
+}
+
+static std::vector<std::string> getYears(const std::vector<std::string>& array) const {
+    std::vector<std::string> years{};
+    for(Training* t : array){
+        if(years.size() == 0)   years.push_back(t -> getDate("year"));
+        else{
+            bool counter{true};
+            for(std::string& eachYear : years){
+                if(eachYear == t -> getDate("year")){
+                    counter = false;
+                }
+            }
+            if (counter == true)    years.push_back(t -> getDate("year"));
+        }
+    }
+    return years;
 }

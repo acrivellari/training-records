@@ -8,7 +8,7 @@ class AwsIO : public IO {
 public:
     AwsIO();
     void load(std::vector<Training*>&, std::string ="") const override;
-    bool save(std::vector<Training*>&, std::string ="") const override;
+    bool save(const std::vector<Training*>&, std::string ="") const override;
     virtual ~AwsIO(){};
 };
 

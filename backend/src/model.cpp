@@ -112,7 +112,7 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
 
 
 //input output
-bool Model::save(std::string path) {
+bool Model::save(std::string path) const {
     return inputOutput -> save(array, path);
 };
 

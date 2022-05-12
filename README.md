@@ -40,5 +40,3 @@ json object -> array per year -> object per training -> object per data info
 - .gitignore
 
 ## TO DO
-+ remove link from IO to model 
-    + use const&
