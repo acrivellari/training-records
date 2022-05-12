@@ -10,7 +10,7 @@ private :
 public:
     JsonIO(std::string);
     void load(std::vector<Training*>&, std::string ="") const override;
-    bool save(std::vector<Training*>&, std::string ="") const override;
+    bool save(const std::vector<Training*>&, std::string ="") const override;
     virtual ~JsonIO(){};
 };
 

@@ -7,46 +7,120 @@ Model::Model(std::string filePath) : array{std::vector<Training*>{}}, path{fileP
 
 // basic functs
 void Model::push_end(Training* t) {
-    trainingLogic::push_end(array, t);
+    array.push_back(t);
 }
 
 bool Model::isEmpty() const {
-    return trainingLogic::isEmpty(array);
+    return array.empty();
 }
 
 unsigned int Model::getHighestID() const {
-    return trainingLogic::getHighestID(array);
+    unsigned int result {0};
+    if (array.size() > 0) {
+        for (Training* t : array) {
+            if (t -> getID() > result) {
+                result = t -> getID();
+            }
+        }
+    }
+    return result;
 }
 
 void Model::clear() {
-    trainingLogic::clear(array);
+    array.clear();
 }
 
+Training* Model::at(unsigned int index) const {
+    Training* result = nullptr;
+    if (index < array.size()){
+        result = array[index];
+    }
+    return result;
+}
+
+unsigned int Model::getSize() const {
+    return array.size();
+}
+
+std::vector<std::string> Model::getYears() const {
+    std::vector<std::string> years {};
+    for (Training* t : array) {
+        if (years.empty()) {
+            years.push_back(t -> getDate("year"));
+        }else {
+            bool absent{true}
+            for(std::string& storedYear : years) {
+                if (storedYear == t -> getDate("year")) {
+                    absent = false;
+                }
+            }
+            if (absent == true) {
+                years.push_back(t -> getDate("years"));
+            }
+        }
+    }
+    return years;
+}
 
 unsigned int Model::addEmptyTraining(std::string date) {
-    return trainingLogic::addEmptyTraining(array, date);
+    unsigned int result{0};
+    if (!isEmpty()) {
+        result = getHighestID(array) + 1;
+    }
+    array.push_back(addEmptyTraining(result, date));
+    return result;
 }
 
 bool Model::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) {
-    return trainingLogic::addExerciseTraining(array, id, dataEx);
-}
+    bool returnValue = false;
+    if (dataEx.size() < 2 || dataEx.size() > 4) {
+        throw new BackendException("This exercise is not well formed.");
+    }
+    for (Training* t : array) {
+        if (t -> getID() == id) {
+            if (dataEx.size() == 2) {
+                t -> addTrainingExercise(dataEx.at(0), dataEx.at(1));
+            }else {
+                t -> addTrainingExercise(dataEx.at(0), dataEx.at(1), dataEx.at(2));
+            }
+            returnValue = true;
+        }
+    }
+    return returnValue;
+}    
 
 bool Model::remove(unsigned int toRemove){
-    return trainingLogic::remove(array, toRemove);
+    bool returnValue = false;
+    for (std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
+        if ((*it) -> getID() == toRemove) {
+            array.erase(it);
+            returnValue = true;
+        }
+    }
+    return returnValue;
 }
 
 bool Model::modify(unsigned int toModify, std::string category, std::string value) {
-    return trainingLogic::modify(array, toModify, category, value);
+    bool returnValue = false;
+    for (Training* t : array) {
+        if (t -> getID() == toModify) {
+            returnValue = t -> modify(category, value);
+        }
+    }
+    return returnValue;    
 }
 
 
 //input output
-bool Model::save(std::string path) {
+bool Model::save(std::string path) const {
     return inputOutput -> save(array, path);
 };
 
 void Model::load(std::string path) {
-    inputOutput -> load(array, path);
+    array.clear();
+    std::vector<Training*> loaded{};
+    inputOutput -> load(loaded, path);
+    array = loaded;
 };
 
 //user

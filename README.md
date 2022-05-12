@@ -1,13 +1,5 @@
 # training-records
 
-Project on C++
-+ [x] Updating training class
-+ Model MVC
-    + to do controller
-    + to do I/O class
-    + to do view
-+ [x] Remodel Training class
-
 ## To build:
 - qmake
 - make
@@ -17,7 +9,8 @@ Project on C++
 - c++17 (new mingw)
 - qt >= 5.9
 
-object->array per year->object per training->object per data info
+## JSON structure
+json object -> array per year -> object per training -> object per data info
 
        {
           "id": 1,
@@ -28,8 +21,6 @@ object->array per year->object per training->object per data info
 
 
 --------------
-
-json : 7h
 
 ## Directory
 - backend/
@@ -47,3 +38,5 @@ json : 7h
 - files *.bat
 - readme.md
 - .gitignore
+
+## TO DO

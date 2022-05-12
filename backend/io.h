@@ -9,7 +9,7 @@
 class IO {
 public:
     virtual void load(std::vector<Training*>&, std::string ="") const =0;
-    virtual bool save(std::vector<Training*>&, std::string ="") const =0;
+    virtual bool save(const std::vector<Training*>&, std::string ="") const =0;
     virtual ~IO(){};
 
 };
