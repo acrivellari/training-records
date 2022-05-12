@@ -29,9 +29,9 @@ public:
     unsigned int getHighestID() const;
     void clear();
 
-    //Training* at (unsigned int) const;
-    //unsigned int getSize() const;                   //?
-    //std::vector<std::string> getYears() const;      //?
+    Training* at (unsigned int) const;
+    unsigned int getSize() const;                   //?
+    std::vector<std::string> getYears() const;      //?
 
     //input output
     bool save(std::string ="");
