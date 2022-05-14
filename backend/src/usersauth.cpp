@@ -1,5 +1,5 @@
-#include "usersauth.h"
-#include "backendException.h"
+#include "../usersauth.h"
+#include "../backendException.h"
 
 #include <QFile>
 #include <QJsonDocument>
