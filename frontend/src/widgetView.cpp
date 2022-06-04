@@ -3,7 +3,7 @@
 #include <QPushButton>
 
 WidgetView::WidgetView(Controller * c, QWidget * p)
-    : QWidget(p), controller{c}, mainLayout{new WV_MainLayout{this}}, loginWindow(new WV_Login{this}) {
+    : QWidget(p), controller{c}, mainLayout{new WV_MainLayout{this}}, loginWindow(new WV_Login{false, this}) {
 
     setWindowTitle("Training Records");
     setWindowIcon(QIcon("../github_training-records/backend/resources/icon.png"));
@@ -15,4 +15,14 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     show();
 
     loginWindow -> show();
+    QObject::connect(loginWindow, &WV_Login::sendLogin, this, &WidgetView::sendLogin);
+}
+
+void WidgetView::sendLogin() {
+    QStringList credentials = loginWindow->getCredentials();
+    std::string username = credentials.at(0).toStdString();
+    std::string password = credentials.at(1).toStdString();
+    if (controller -> giveCredentials(username, password)) {
+        loginWindow -> hide();
+    }
 }

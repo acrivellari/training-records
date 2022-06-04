@@ -1,4 +1,6 @@
 QT += widgets
+CONFIG += app
+TEMPLATE = app
 
 SOURCES += \
     main.cpp \

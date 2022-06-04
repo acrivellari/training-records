@@ -13,7 +13,9 @@ private :
     WV_Login* loginWindow;
 public :
     WidgetView(Controller*, QWidget* = nullptr);
-
+    Q_SLOT void sendLogin();
+    Q_SLOT void login2Signup();
+    Q_SLOT void signup2Login();
 
 };
 
