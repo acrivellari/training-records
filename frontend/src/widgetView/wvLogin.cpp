@@ -4,9 +4,8 @@
 #include <QPushButton>
 
 
-WV_Login::WV_Login(bool signup, QWidget * p) : QWidget(p) {
+WV_Login::WV_Login(QWidget * p) : QWidget{p} {
     QVBoxLayout* layout;
-
     QPushButton* sendButton;
     QLabel* labelOther;
 
@@ -18,25 +17,9 @@ WV_Login::WV_Login(bool signup, QWidget * p) : QWidget(p) {
 
     username -> setPlaceholderText("Insert username");
     password -> setPlaceholderText("Insert password");
-
-    if (signup) {
-        sendButton -> setText("SIGNUP");
-        labelOther -> setText("<a style= text-decoration:none; href=\"http://example.com/\">Login to your account</a>");
-
-        QLineEdit* name;
-        QLineEdit* surname;
-        name = new QLineEdit{this};
-        surname = new QLineEdit{this};
-
-        name -> setPlaceholderText("Insert name");
-        surname -> setPlaceholderText("Insert surname");
-        layout -> addWidget(name);
-        layout -> addWidget(surname);
-    }else {
-        sendButton -> setText("LOGIN");
-        labelOther -> setText("<a style= text-decoration:none; href=\"http://example.com/\">Create an account</a>");
-    }
-
+    sendButton -> setText("LOGIN");
+    labelOther -> setText("<a style= text-decoration:none; href=\"http://example.com/\">Create an account</a>");
+    
     layout -> addWidget(username);
     layout -> addWidget(password);
     layout -> addWidget(sendButton);

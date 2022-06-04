@@ -10,7 +10,7 @@ private :
     QLineEdit* username;
     QLineEdit* password;
 public :
-    WV_Login(bool, QWidget* = nullptr);
+    WV_Login(QWidget* = nullptr);
     QStringList getCredentials() const;
     Q_SIGNAL void sendLogin();
 };
