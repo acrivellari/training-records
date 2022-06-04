@@ -32,20 +32,28 @@ WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_
     QObject::connect(login, &QPushButton::clicked, this, &WV_Auth::showLogin);
     QObject::connect(signup, &QPushButton::clicked, this, &WV_Auth::showSignup);
 }
+
 void WV_Auth::closeEvent(QCloseEvent*) {
     emit closeWindow();
 }
-void WV_Auth::getCredentials(std::string& user, std::string& pass, bool form) const {
-    QStringList credentials;
-    if (form)   credentials = signupWindow -> getCredentials();
-    else        credentials = loginWindow -> getCredentials();
-    
+
+void WV_Auth::getCredentialsLogin(std::string& user, std::string& pass) const {
+    QStringList credentials = loginWindow -> getCredentials();
     if (credentials.empty() == false){
         user = credentials.at(0).toStdString();
         pass = credentials.at(1).toStdString();
     }
 }
 
+void WV_Auth::getCredentialsSignup(std::string& user, std::string& pass, std::string& name, std::string& surname) const {
+    QStringList credentials = signupWindow -> getCredentials();
+    if (credentials.empty() == false) {
+        user = credentials.at(0).toStdString();
+        pass = credentials.at(1).toStdString();
+        name = credentials.at(2).toStdString();
+        surname = credentials.at(3).toStdString();
+    }
+}
 void WV_Auth::hideLogin() {
     loginWindow -> hide();
 }

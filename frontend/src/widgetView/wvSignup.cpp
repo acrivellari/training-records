@@ -7,8 +7,7 @@
 WV_Signup::WV_Signup(QWidget* p) : QWidget{p}{
     QVBoxLayout* layout;
     QPushButton* sendButton;
-    QLineEdit* name;
-    QLineEdit* surname;
+    QLabel* emptySpacing;
 
     layout = new QVBoxLayout{this};
     username = new QLineEdit{this};
@@ -16,15 +15,18 @@ WV_Signup::WV_Signup(QWidget* p) : QWidget{p}{
     sendButton = new QPushButton{this};
     name = new QLineEdit{this};
     surname = new QLineEdit{this};
+    emptySpacing = new QLabel{this};
 
-    username -> setPlaceholderText("Insert username");
-    password -> setPlaceholderText("Insert password");
     sendButton -> setText("SIGNUP");
     name -> setPlaceholderText("Insert name");
     surname -> setPlaceholderText("Insert surname");
+    username -> setPlaceholderText("Insert username");
+    password -> setPlaceholderText("Insert password");
+    password -> setEchoMode(QLineEdit::Password);
 
     layout -> addWidget(name);
     layout -> addWidget(surname);
+    layout -> addWidget(emptySpacing);
     layout -> addWidget(username);
     layout -> addWidget(password);
     layout -> addWidget(sendButton);
@@ -43,5 +45,7 @@ QStringList WV_Signup::getCredentials() const {
     QStringList result{};
     result.push_back(username -> text());
     result.push_back(password -> text());
+    result.push_back(name -> text());
+    result.push_back(surname -> text());
     return result;
 }

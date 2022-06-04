@@ -20,7 +20,7 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
 
 void WidgetView::sendLogin() {
     std::string username, password;
-    authentication -> getCredentials(username, password, false);
+    authentication -> getCredentialsLogin(username, password);
     if (controller -> giveCredentials(username, password)) {
         authentication -> hideLogin();
         authentication -> hideSignup();
@@ -32,8 +32,8 @@ void WidgetView::sendLogin() {
 }
 
 void WidgetView::sendRegister() {
-    std::string username, password;
-    authentication -> getCredentials(username, password, true);
+    std::string username, password, name, surname;
+    authentication -> getCredentialsSignup(username, password, name, surname);
     if (username.size() >= 6 && password.size() >= 6 && controller -> addCredentials(username, password)) {
         if (controller -> giveCredentials(username, password)){
             authentication -> hideLogin();

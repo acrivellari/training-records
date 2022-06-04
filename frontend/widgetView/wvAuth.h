@@ -15,7 +15,8 @@ public :
     /**
      * @param bool false if login, true if registration
      */
-    void getCredentials(std::string&, std::string&, bool) const;
+    void getCredentialsLogin(std::string&, std::string&) const;
+    void getCredentialsSignup(std::string&, std::string&, std::string&, std::string&) const;
     void closeEvent(QCloseEvent*) override;
 
     Q_SLOT void hideLogin();

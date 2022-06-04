@@ -9,6 +9,8 @@ class WV_Signup : public QWidget {
 private :
     QLineEdit* username;
     QLineEdit* password;
+    QLineEdit* name;
+    QLineEdit* surname;
 public :
     WV_Signup(QWidget* = nullptr);
     QStringList getCredentials() const;

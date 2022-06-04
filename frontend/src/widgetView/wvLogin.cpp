@@ -15,6 +15,7 @@ WV_Login::WV_Login(QWidget * p) : QWidget{p} {
 
     username -> setPlaceholderText("Insert username");
     password -> setPlaceholderText("Insert password");
+    password -> setEchoMode(QLineEdit::Password);
     sendButton -> setText("LOGIN");
 
     layout -> addWidget(username);
