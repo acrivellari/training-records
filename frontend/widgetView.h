@@ -15,6 +15,7 @@ public :
     WidgetView(Controller*, QWidget* = nullptr);
     Q_SLOT void sendLogin();
     Q_SLOT void sendRegister();
+    Q_SLOT void authClosed();
 };
 
 #endif

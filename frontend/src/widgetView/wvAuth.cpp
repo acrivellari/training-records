@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QCloseEvent>
+#include <QMessageBox>
 
 WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_Login{this}}, signupWindow{new WV_Signup{this}} {
     QVBoxLayout* layout;
@@ -21,8 +22,8 @@ WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_
     setLayout(layout);
 
     setWindowTitle("Authentication");
-    setWindowFlag(Qt::Window);
-    setWindowIcon(QIcon(QString::fromStdString(path) + "icon.png"));
+    setWindowFlag(Qt::Dialog);
+    this -> setWindowIcon(QIcon(QString::fromStdString(path) + "icon.png"));
     resize(400,400);
     show();
 
@@ -32,12 +33,12 @@ WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_
     QObject::connect(signup, &QPushButton::clicked, this, &WV_Auth::showSignup);
 }
 void WV_Auth::closeEvent(QCloseEvent*) {
-    parentWidget() -> close();
+    emit closeWindow();
 }
 void WV_Auth::getCredentials(std::string& user, std::string& pass, bool form) const {
     QStringList credentials;
-    if (form)   signupWindow -> getCredentials();
-    else        loginWindow -> getCredentials();
+    if (form)   credentials = signupWindow -> getCredentials();
+    else        credentials = loginWindow -> getCredentials();
     
     if (credentials.empty() == false){
         user = credentials.at(0).toStdString();

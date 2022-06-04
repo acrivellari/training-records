@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 
+
 WV_Signup::WV_Signup(QWidget* p) : QWidget{p}{
     QVBoxLayout* layout;
     QPushButton* sendButton;
