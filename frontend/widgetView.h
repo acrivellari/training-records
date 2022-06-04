@@ -14,6 +14,7 @@ private :
 public :
     WidgetView(Controller*, QWidget* = nullptr);
     Q_SLOT void sendLogin();
+    Q_SLOT void sendRegister();
 };
 
 #endif

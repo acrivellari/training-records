@@ -1,28 +1,62 @@
 #include "../../widgetView/wvAuth.h"
 #include <QIcon>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QCloseEvent>
 
 WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_Login{this}}, signupWindow{new WV_Signup{this}} {
-    setWindowIcon(QIcon
-    (QString::fromStdString(path) + "icon.png")
-        );
+    QVBoxLayout* layout;
+    QPushButton* login;
+    QPushButton* signup;
 
-    loginWindow -> show();
+    layout = new QVBoxLayout{this};
+    login = new QPushButton{this};
+    signup = new QPushButton{this};
+    
+    login -> setText("LOGIN");
+    signup -> setText("SIGNUP");
+
+    layout -> addWidget(login);
+    layout -> addWidget(signup);
+    setLayout(layout);
+
+    setWindowTitle("Authentication");
+    setWindowFlag(Qt::Window);
+    setWindowIcon(QIcon(QString::fromStdString(path) + "icon.png"));
+    resize(400,400);
+    show();
 
     QObject::connect(loginWindow, &WV_Login::sendLogin, this, &WV_Auth::sendLogin);
-    QObject::connect(loginWindow, &WV_Login::showSignup, this, &WV_Auth::login2Signup);
+    QObject::connect(signupWindow, &WV_Signup::sendRegister, this, &WV_Auth::sendRegister);
+    QObject::connect(login, &QPushButton::clicked, this, &WV_Auth::showLogin);
+    QObject::connect(signup, &QPushButton::clicked, this, &WV_Auth::showSignup);
 }
-
-void WV_Auth::getCredentials(std::string& user, std::string& pass) const {
-    QStringList credentials = loginWindow -> getCredentials();
-    user = credentials.at(0).toStdString();
-    pass = credentials.at(1).toStdString();
+void WV_Auth::closeEvent(QCloseEvent*) {
+    parentWidget() -> close();
+}
+void WV_Auth::getCredentials(std::string& user, std::string& pass, bool form) const {
+    QStringList credentials;
+    if (form)   signupWindow -> getCredentials();
+    else        loginWindow -> getCredentials();
+    
+    if (credentials.empty() == false){
+        user = credentials.at(0).toStdString();
+        pass = credentials.at(1).toStdString();
+    }
 }
 
 void WV_Auth::hideLogin() {
     loginWindow -> hide();
 }
 
-void WV_Auth::login2Signup() {
-    loginWindow -> hide();
+void WV_Auth::showLogin() {
+    loginWindow -> show();
+}
+
+void WV_Auth::hideSignup() {
+    signupWindow -> hide();
+}
+
+void WV_Auth::showSignup() {
     signupWindow -> show();
 }

@@ -8,6 +8,5 @@ WV_MainLayout::WV_MainLayout(QWidget * p) : QWidget(p) {
 
     layout -> addWidget(new QLabel("ecs dee"));
     layout -> addWidget(new QPushButton());
-
     setLayout(layout);
 }
