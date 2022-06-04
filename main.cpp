@@ -17,6 +17,13 @@ namespace main_testing{
 
 int main(int argc, char *argv[]) {
     QApplication app{argc, argv};
-    new WidgetView{new Controller{new Model("../github_training-records/backend/resources/")}};
+
+    /**
+     * variable to the working dir, the actual dir is the dir from where the .exe is called
+     */
+    std::string work_dir;
+    work_dir = ".";
+    //work_dir = "..";
+    new WidgetView{new Controller{new Model(work_dir + "/backend/resources/")}};
     return QApplication::exec();
 }

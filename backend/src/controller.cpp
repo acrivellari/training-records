@@ -43,3 +43,7 @@ bool Controller::addCredentials(std::string user, std::string pw) {
 bool Controller::logOut() {
     return model -> logOut();
 }
+
+std::string Controller::getPath() const {
+    return model -> getPath();
+}

@@ -41,12 +41,12 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
 
 
 //input output
-bool Model::save(std::string path) {
-    return inputOutput -> save(array, path);
+bool Model::save(std::string pathF) {
+    return inputOutput -> save(array, pathF);
 };
 
-void Model::load(std::string path) {
-    inputOutput -> load(array, path);
+void Model::load(std::string pathF) {
+    inputOutput -> load(array, pathF);
 };
 
 //user
@@ -71,4 +71,8 @@ bool Model::logOut() {
 
     if (!inputOutput)   return true;
     else    return false;
+}
+
+std::string Model::getPath() const {
+    return path;
 }

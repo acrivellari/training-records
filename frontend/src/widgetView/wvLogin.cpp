@@ -28,13 +28,12 @@ WV_Login::WV_Login(QWidget * p) : QWidget{p} {
 
     setWindowFlag(Qt::Window);
     setWindowFlag(Qt::WindowMinMaxButtonsHint, false);
-    setWindowFlag(Qt::WindowCloseButtonHint, false);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Login");
     resize(200,150);
 
     QObject::connect(sendButton, &QPushButton::clicked, this, &WV_Login::sendLogin);
-    //QObject::connect(labelOther, &QLabel::linkActivated, this, &WV_Login::login2Signup);
+    QObject::connect(labelOther, &QLabel::linkActivated, this, &WV_Login::showSignup);
 }
 
 QStringList WV_Login::getCredentials() const {
