@@ -12,7 +12,10 @@ private :
     WV_Signup* signupWindow;
 public :
     WV_Auth(QWidget* = nullptr);
-    void showLogin();
+    void getCredentials(std::string&, std::string&) const;
+    void hideLogin();
+    Q_SIGNAL void sendLogin();
+
 };
 
 #endif

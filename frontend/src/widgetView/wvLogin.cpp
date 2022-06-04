@@ -34,8 +34,7 @@ WV_Login::WV_Login(QWidget * p) : QWidget{p} {
     resize(200,150);
 
     QObject::connect(sendButton, &QPushButton::clicked, this, &WV_Login::sendLogin);
-   // if (signup)  QObject::connect(&labelOther, &QLabel::linkActivated, this, &WV_Login::signup2Login);
-  //  else        QObject::connect(&labelOther, &QLabel::linkActivated, this, &WV_Login::login2Signup);
+    //QObject::connect(labelOther, &QLabel::linkActivated, this, &WV_Login::login2Signup);
 }
 
 QStringList WV_Login::getCredentials() const {

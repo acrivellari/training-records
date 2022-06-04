@@ -13,15 +13,14 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     setLayout(layout);
     resize(400,400);
     show();
-
-   // QObject::connect(loginWindow, &WV_Login::sendLogin, this, &WidgetView::sendLogin);
+    
+    QObject::connect(authentication, &WV_Auth::sendLogin, this, &WidgetView::sendLogin);
 }
 
 void WidgetView::sendLogin() {
-   /* QStringList credentials = loginWindow->getCredentials();
-    std::string username = credentials.at(0).toStdString();
-    std::string password = credentials.at(1).toStdString();
+    std::string username, password;
+    authentication -> getCredentials(username, password);
     if (controller -> giveCredentials(username, password)) {
-        loginWindow -> hide();
-    }*/
+        authentication -> hideLogin();
+    }
 }
