@@ -12,5 +12,5 @@ void WV_Auth::getCredentials(std::string& user, std::string& pass) const {
 }
 
 void WV_Auth::hideLogin() {
-    loginWindow -> hideLogin();
+    loginWindow -> hide();
 }
