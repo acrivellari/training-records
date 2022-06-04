@@ -58,8 +58,8 @@ bool Model::giveCredentials(std::string user, std::string pw) {
     return false;
 }
 
-bool Model::addCredentials(std::string user, std::string pw) {
-    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw)) {
+bool Model::addCredentials(std::string user, std::string pw, std::string name, std::string surname) {
+    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw, name, surname)) {
         inputOutput = new JsonIO(path+user+".json");
         return true;
     }

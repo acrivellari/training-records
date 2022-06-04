@@ -39,7 +39,7 @@ public:
 
     //user
     bool giveCredentials(std::string, std::string);
-    bool addCredentials(std::string, std::string);
+    bool addCredentials(std::string, std::string, std::string = "", std::string = "");
     bool logOut();
     std::string getPath() const;
 

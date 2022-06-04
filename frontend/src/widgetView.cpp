@@ -2,6 +2,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
+#include <cctype>
 
 WidgetView::WidgetView(Controller * c, QWidget * p)
     : QWidget{p}, controller{c}, mainLayout{new WV_MainLayout{this}}, authentication(new WV_Auth{nullptr, controller -> getPath()}) {
@@ -34,15 +35,27 @@ void WidgetView::sendLogin() {
 void WidgetView::sendRegister() {
     std::string username, password, name, surname;
     authentication -> getCredentialsSignup(username, password, name, surname);
-    if (username.size() >= 6 && password.size() >= 6 && controller -> addCredentials(username, password)) {
-        if (controller -> giveCredentials(username, password)){
-            authentication -> hideLogin();
-            authentication -> hideSignup();
-            authentication -> hide();
-            show();
-        }else {
-            QMessageBox::warning(authentication, "Register error", "There are some errors with loading the credentials.");
+    if (name.empty() == false) {
+        for (std::string::iterator it = name.begin(); it != name.end(); it++) {
+            if (isalpha(*it) == false) {
+                name.erase(it);
+                it--;
+            }
         }
+    }
+    if (surname.empty() == false) {
+        for (std::string::iterator it = surname.begin(); it != surname.end(); it++) {
+            if (isalpha(*it) == false) {
+                surname.erase(it);
+                it--;
+            }
+        }
+    }
+    if (username.size() >= 6 && password.size() >= 6 && controller -> addCredentials(username, password, name, surname)) {
+        authentication -> hideLogin();
+        authentication -> hideSignup();
+        authentication -> hide();
+        show();
     }else {
         if (username.size() >= 6 && password.size() >= 6) {
             QMessageBox::warning(authentication, "Register error", "This user already exists in our database.");

@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <iostream>
 
+
 UsersAuth::UsersAuth(std::string p) : pathDB{p}{}
 
 bool UsersAuth::giveCredentials(std::string user, std::string pass) const try {
@@ -50,7 +51,7 @@ bool UsersAuth::giveCredentials(std::string user, std::string pass) const try {
     return false;
 }
 
-bool UsersAuth::addCredentials(std::string user, std::string pass) {
+bool UsersAuth::addCredentials(std::string user, std::string pass, std::string name, std::string surname) {
     QFile loadFile(QString::fromStdString(pathDB));
     if (!loadFile.open(QIODevice::ReadOnly)) {
         throw new BackendException("Cannot open load file");
@@ -90,6 +91,8 @@ bool UsersAuth::addCredentials(std::string user, std::string pass) {
         QJsonObject newAccount;
         newAccount["username"] = QString::fromStdString(user);
         newAccount["password"] = QString::fromStdString(pass);
+        newAccount["name"] = QString::fromStdString(name);
+        newAccount["surname"] = QString::fromStdString(surname);
         arrayJ.push_back(newAccount);
 
         QJsonDocument doc(arrayJ);
@@ -101,8 +104,6 @@ bool UsersAuth::addCredentials(std::string user, std::string pass) {
         saveFile.close();
         finalReturn = true;
     }
-    std::cout<<"nice";
     return finalReturn;
-
 }
 

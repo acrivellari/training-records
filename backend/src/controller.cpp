@@ -36,8 +36,8 @@ bool Controller::giveCredentials(std::string user, std::string pw) {
     return model -> giveCredentials(user, pw);
 }
 
-bool Controller::addCredentials(std::string user, std::string pw) {
-    return model -> addCredentials(user, pw);
+bool Controller::addCredentials(std::string user, std::string pw, std::string name, std::string surname) {
+    return model -> addCredentials(user, pw, name, surname);
 }
 
 bool Controller::logOut() {
