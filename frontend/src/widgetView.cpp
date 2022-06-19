@@ -16,7 +16,8 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     resize(400,400);
     QObject::connect(authentication, &WV_Auth::sendLogin, this, &WidgetView::sendLogin);
     QObject::connect(authentication, &WV_Auth::sendRegister, this, &WidgetView::sendRegister);
-    QObject::connect(authentication, &WV_Auth::closeWindow, this, &WidgetView::authClosed);
+    QObject::connect(authentication, &WV_Auth::closeWindow, this, &WidgetView::toClose);
+    QObject::connect(mainLayout, &WV_MainLayout::closeWindow, this, &WidgetView::toClose);
 }
 
 void WidgetView::sendLogin() {
@@ -26,7 +27,7 @@ void WidgetView::sendLogin() {
         authentication -> hideLogin();
         authentication -> hideSignup();
         authentication -> hide();
-        show();
+        mainLayout -> showHome();
     }else {
         QMessageBox::warning(authentication, "Login Error", "The combination of username and password you provided doesn't exist in our database");
     }
@@ -55,7 +56,7 @@ void WidgetView::sendRegister() {
         authentication -> hideLogin();
         authentication -> hideSignup();
         authentication -> hide();
-        show();
+        mainLayout -> showHome();
     }else {
         if (username.size() >= 6 && password.size() >= 6) {
             QMessageBox::warning(authentication, "Register error", "This user already exists in our database.");
@@ -69,6 +70,11 @@ void WidgetView::sendRegister() {
     }
 }
 
-void WidgetView::authClosed() {
-    if (isHidden())    close();
+void WidgetView::toClose() {
+    mainLayout -> close();
+    authentication -> close();
+    close();
+    delete mainLayout;
+    delete authentication;
+    delete this;
 }

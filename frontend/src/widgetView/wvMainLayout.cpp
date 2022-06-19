@@ -1,12 +1,10 @@
 #include "../../widgetView/wvMainLayout.h"
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
 
-WV_MainLayout::WV_MainLayout(QWidget * p) : QWidget(p) {
-    QHBoxLayout* layout = new QHBoxLayout{this};
+WV_MainLayout::WV_MainLayout(QWidget * p) : QWidget(p), homepage{new WV_HomePage{this}} {
 
-    layout -> addWidget(new QLabel("ecs dee"));
-    layout -> addWidget(new QPushButton());
-    setLayout(layout);
+    QObject::connect(homepage, &WV_HomePage::closeWindow, this, &WV_MainLayout::closeWindow);
+}
+
+void WV_MainLayout::showHome() {
+    homepage -> show();
 }
