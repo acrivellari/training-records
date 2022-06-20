@@ -9,7 +9,7 @@
 class WidgetView : public QWidget{
 private :
     Controller* controller;
-    WV_MainLayout* mainLayout;
+    WV_HomePage* homePage;
     WV_Auth* authentication;
 public :
     WidgetView(Controller*, QWidget* = nullptr);
