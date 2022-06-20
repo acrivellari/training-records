@@ -5,7 +5,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 
-WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_Login{this}}, signupWindow{new WV_Signup{this}} {
+WV_Auth::WV_Auth(QWidget* p) : QWidget{p}, loginWindow{new WV_Login{this}}, signupWindow{new WV_Signup{this}} {
     QVBoxLayout* layout;
     QPushButton* login;
     QPushButton* signup;
@@ -22,19 +22,12 @@ WV_Auth::WV_Auth(QWidget* p, std::string path) : QWidget{p}, loginWindow{new WV_
     setLayout(layout);
 
     setWindowTitle("Authentication");
-    setWindowFlag(Qt::Dialog);
-    this -> setWindowIcon(QIcon(QString::fromStdString(path) + "icon.png"));
     resize(400,400);
-    show();
 
     QObject::connect(loginWindow, &WV_Login::sendLogin, this, &WV_Auth::sendLogin);
     QObject::connect(signupWindow, &WV_Signup::sendRegister, this, &WV_Auth::sendRegister);
     QObject::connect(login, &QPushButton::clicked, this, &WV_Auth::showLogin);
     QObject::connect(signup, &QPushButton::clicked, this, &WV_Auth::showSignup);
-}
-
-void WV_Auth::closeEvent(QCloseEvent*) {
-    emit closeWindow();
 }
 
 void WV_Auth::getCredentialsLogin(std::string& user, std::string& pass) const {

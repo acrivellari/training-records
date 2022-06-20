@@ -8,9 +8,6 @@ class WV_HomePage : public QWidget {
 private :
 public :
 	WV_HomePage(QWidget* = nullptr);
-	void closeEvent(QCloseEvent*) override;
-
-	Q_SIGNAL void closeWindow();
 };
 
 #endif

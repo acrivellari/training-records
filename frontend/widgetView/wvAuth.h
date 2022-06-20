@@ -11,13 +11,10 @@ private :
     WV_Login* loginWindow;
     WV_Signup* signupWindow;
 public :
-    WV_Auth(QWidget* = nullptr, std::string = "");
-    /**
-     * @param bool false if login, true if registration
-     */
+    WV_Auth(QWidget* = nullptr);
+
     void getCredentialsLogin(std::string&, std::string&) const;
     void getCredentialsSignup(std::string&, std::string&, std::string&, std::string&) const;
-    void closeEvent(QCloseEvent*) override;
 
     Q_SLOT void hideLogin();
     Q_SLOT void hideSignup();
@@ -26,8 +23,6 @@ public :
 
     Q_SIGNAL void sendLogin();
     Q_SIGNAL void sendRegister();
-    Q_SIGNAL void closeWindow();
-
 };
 
 #endif
