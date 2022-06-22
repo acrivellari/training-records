@@ -48,7 +48,7 @@ std::vector<std::string> Model::getYears() const {
         if (years.empty()) {
             years.push_back(t -> getDate("year"));
         }else {
-            bool absent{true}
+            bool absent{true};
             for(std::string& storedYear : years) {
                 if (storedYear == t -> getDate("year")) {
                     absent = false;
@@ -65,9 +65,9 @@ std::vector<std::string> Model::getYears() const {
 unsigned int Model::addEmptyTraining(std::string date) {
     unsigned int result{0};
     if (!isEmpty()) {
-        result = getHighestID(array) + 1;
+        result = getHighestID() + 1;
     }
-    array.push_back(addEmptyTraining(result, date));
+    array.push_back(Training::addEmptyTraining(result, date));
     return result;
 }
 

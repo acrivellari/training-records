@@ -19,7 +19,16 @@ bool Controller::modifyTraining(unsigned int index, std::string category, std::s
     return model -> modify(index, category, value);
 }
 
+// commands from view
+Training* Controller::getTraining(unsigned int index) const {
+    return model -> at(index);
+}
 
+unsigned int Controller::getTrainingRecordsSize() const {
+    return model -> getSize();
+}
+
+// input output
 bool Controller::save(std::string path) const {
     return model -> save(path);
 }
