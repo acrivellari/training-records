@@ -17,6 +17,7 @@ public:
 
     //commands from view
     Training* getTraining(unsigned int) const;
+    void getAllTrainings(std::vector<Training*>&) const;
     unsigned int getTrainingRecordsSize() const;
 
     //input output
