@@ -1,21 +1,21 @@
 #include <iostream>
-#include "frontend/view.h"
-namespace main_testing{
-    void testFunctionA() {
-        v -> giveCredentials("evilcrive", "evilcrive");
-        v->load();
-        v->addEmptyTraining("2050-10-12");
-        v->modifyTraining(1, "exercise:name:pullup", "ciaoo");
-        v->modifyTraining(1, "exercise:data:ciaoo", "2-2");
-        v->save("ciao");
-    }
-    void testMain(View* v, unsigned int value) {
-        if (value == 1) testFunctionA();
+#include "frontend/dummyView.h"
+#include "frontend/widgetView.h"
+#include <QApplication>
 
-    }
-}
+/**
+ * main function
+ * @param argc if 1 the dir ur executing from is one folder above
+ * 
+ */
+int main(int argc, char *argv[]) {
+    /**
+     * variable to the working dir, the actual dir is the dir from where the .exe is called
+     */
+    std::string work_dir = ".";
+    if (argc == 2)  work_dir = "..";
 
-int main() {
-    View v {new Controller{new Model("../github_training-records/backend/resources/")}};
-    main_testing::testMain(&v, 0);
+    QApplication app{argc, argv};
+    new WidgetView{new Controller{new Model(work_dir + "/backend/resources/")}};
+    return QApplication::exec();
 }

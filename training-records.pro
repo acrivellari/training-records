@@ -1,6 +1,6 @@
+QT += widgets
+CONFIG += app
 TEMPLATE = app
-CONFIG += qt console
-CONFIG -= app_bundle
 
 SOURCES += \
     main.cpp \
@@ -11,7 +11,13 @@ SOURCES += \
             backend/src/awsio.cpp \
             backend/src/jsonio.cpp \
     backend/src/controller.cpp \
-    frontend/src/view.cpp
+    frontend/src/dummyView.cpp \
+    frontend/src/widgetView.cpp \
+        frontend/src/widgetView/wvAuth.cpp \
+        frontend/src/widgetView/wvLogin.cpp \
+        frontend/src/widgetView/wvSignup.cpp \
+        frontend/src/widgetView/wvHomePage.cpp
+
 
 HEADERS += \
     backend/backendException.h \
@@ -22,5 +28,11 @@ HEADERS += \
                 backend/awsio.h \
                 backend/jsonio.h \
     backend/controller.h \
-    frontend/view.h
+    frontend/view.h \
+        frontend/dummyView.h \
+        frontend/widgetView.h \
+            frontend/widgetView/wvAuth.h \
+            frontend/widgetView/wvLogin.h \
+            frontend/widgetView/wvSignup.h \
+            frontend/widgetView/wvHomePage.h
 

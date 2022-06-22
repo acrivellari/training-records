@@ -1,15 +1,15 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef DVIEW_H
+#define DVIEW_H
 
-#include "model.h"
+#include "view.h"
 
-class Controller {
-public:
-    Model* model;
-    //View* view;
+class DummyView : public View {
+private :
+    Controller* controller;
+public :
+    DummyView(Controller*);
 
-    Controller(Model* = new Model());
-
+    //dummy view to make it work::::::
     void addEmptyTraining(std::string date) const;
     void addExerciseTraining(unsigned int, std::vector<std::string>) const;
     bool removeTraining(unsigned int) const;
@@ -22,12 +22,11 @@ public:
     void load(std::string ="") const;
 
     //user
-    bool giveCredentials(std::string, std::string);
-    bool addCredentials(std::string, std::string, std::string = "", std::string = "");
-    bool logOut();
-    std::string getPath() const;
+    void giveCredentials(std::string, std::string);
+    void addCredentials(std::string, std::string);
+    void logOut();
 
-
+    virtual ~DummyView(){};
 };
 
 #endif

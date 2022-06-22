@@ -112,15 +112,12 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
 
 
 //input output
-bool Model::save(std::string path) const {
-    return inputOutput -> save(array, path);
+bool Model::save(std::string pathF) {
+    return inputOutput -> save(array, pathF);
 };
 
-void Model::load(std::string path) {
-    array.clear();
-    std::vector<Training*> loaded{};
-    inputOutput -> load(loaded, path);
-    array = loaded;
+void Model::load(std::string pathF) {
+    inputOutput -> load(array, pathF);
 };
 
 //user
@@ -132,8 +129,8 @@ bool Model::giveCredentials(std::string user, std::string pw) {
     return false;
 }
 
-bool Model::addCredentials(std::string user, std::string pw) {
-    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw)) {
+bool Model::addCredentials(std::string user, std::string pw, std::string name, std::string surname) {
+    if(inputOutput == nullptr && userAuthentication -> addCredentials(user, pw, name, surname)) {
         inputOutput = new JsonIO(path+user+".json");
         return true;
     }
@@ -145,4 +142,8 @@ bool Model::logOut() {
 
     if (!inputOutput)   return true;
     else    return false;
+}
+
+std::string Model::getPath() const {
+    return path;
 }

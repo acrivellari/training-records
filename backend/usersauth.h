@@ -9,7 +9,7 @@ private:
 public:
     UsersAuth(std::string);
     bool giveCredentials(std::string, std::string) const;
-    bool addCredentials(std::string, std::string);
+    bool addCredentials(std::string, std::string, std::string = "", std::string = "");
 };
 
 #endif // USERSAUTH_H
