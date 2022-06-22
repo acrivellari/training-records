@@ -3,14 +3,21 @@
 
 #include <QWidget>
 #include <QBoxLayout>
+#include <QScrollArea>
+#include <QEvent>
+#include "../../backend/training.h"
 
 class WV_HomePage : public QWidget {
 	Q_OBJECT
 private :
-	void addHistory(QBoxLayout*);
+	QScrollArea* scrollArea;
+	void addHistory(QBoxLayout*, const std::vector<Training*>&);
+	void resizeEvent(QResizeEvent*);
 public :
+	Q_SLOT void resizeScrollArea();
+	Q_SIGNAL void resizeSignal();
 	WV_HomePage(QWidget* = nullptr);
-	void buildPage();
+	void buildPage(const std::vector<Training*>&);
 };
 
 #endif

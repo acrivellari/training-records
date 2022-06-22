@@ -69,7 +69,7 @@ public:
     unsigned int getYear() const;
     unsigned int getMonth() const;
     unsigned int getDay() const;
-    std::string getDate(std::string) const; //year month day all
+    std::string getDate(std::string = "all") const; //year month day all
     unsigned int getID() const;
     unsigned int getNExercises() const;
     std::vector<std::string> getExercise(unsigned int) const;

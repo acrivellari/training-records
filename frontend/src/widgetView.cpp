@@ -20,6 +20,7 @@ void WidgetView::sendLogin() {
     std::string username, password;
     authentication -> getCredentialsLogin(username, password);
     if (controller -> giveCredentials(username, password)) {
+        controller -> load();
         showHomePage();
     }else {
         QMessageBox::warning(authentication, "Login Error", "The combination of username and password you provided doesn't exist in our database");
@@ -46,6 +47,7 @@ void WidgetView::sendRegister() {
         }
     }
     if (username.size() >= 6 && password.size() >= 6 && controller -> addCredentials(username, password, name, surname)) {
+        controller -> load();
         showHomePage();
     }else {
         if (username.size() >= 6 && password.size() >= 6) {
@@ -64,6 +66,14 @@ void WidgetView::showHomePage() {
     authentication -> hideLogin();
     authentication -> hideSignup();
     authentication -> hide();
-    homePage -> buildPage(controller -> getTrainingRecordsSize(), controller -> );
+
+    std::vector<Training*> trainings{};
+    controller -> getAllTrainings(trainings);
+    homePage -> buildPage(trainings);
+
     homePage -> show();
+}
+
+void WidgetView::resizeEvent(QResizeEvent* e) {
+    homePage -> resize(this -> size());
 }
