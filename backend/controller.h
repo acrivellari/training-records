@@ -16,6 +16,8 @@ public:
     bool modifyTraining(unsigned int index, std::string category, std::string value) const;
 
     //commands from view
+    Training* getTraining(unsigned int) const;
+    unsigned int getTrainingRecordsSize() const;
 
     //input output
     bool save(std::string ="") const;
