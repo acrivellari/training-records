@@ -64,5 +64,6 @@ void WidgetView::showHomePage() {
     authentication -> hideLogin();
     authentication -> hideSignup();
     authentication -> hide();
+    homePage -> buildPage(controller -> getTrainingRecordsSize(), controller -> );
     homePage -> show();
 }
