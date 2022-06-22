@@ -7,6 +7,7 @@
 class JsonIO : public IO {
 private :
     std::string path;
+    static std::vector<std::string> getYears(const std::vector<Training*>&);
 public:
     JsonIO(std::string);
     void load(std::vector<Training*>&, std::string ="") const override;

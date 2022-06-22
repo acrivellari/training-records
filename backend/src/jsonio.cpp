@@ -102,7 +102,7 @@ bool JsonIO::save(const std::vector<Training*>& array, std::string p) const {
 
     QJsonObject object_root;
 
-    std::vector<std::string> years {getYears(array)};
+    std::vector<std::string> years {JsonIO::getYears(array)};
     for (std::string& actualYear : years){
         QJsonArray arrayJ;        
         for (Training* t : array) {
@@ -128,7 +128,7 @@ bool JsonIO::save(const std::vector<Training*>& array, std::string p) const {
     return true;
 }
 
-static std::vector<std::string> getYears(const std::vector<std::string>& array) const {
+std::vector<std::string> JsonIO::getYears(const std::vector<Training*>& array) {
     std::vector<std::string> years{};
     for(Training* t : array){
         if(years.size() == 0)   years.push_back(t -> getDate("year"));

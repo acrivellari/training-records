@@ -4,7 +4,6 @@
 #include <vector>
 #include "training.h"
 #include "jsonio.h"
-#include "trainingLogic.h"
 #include "usersauth.h"
 
 class Model {
