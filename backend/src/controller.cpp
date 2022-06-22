@@ -1,5 +1,5 @@
 #include "../controller.h"
-
+#include <vector>
 
 Controller::Controller(Model* m) : model{m} {}
 
@@ -22,6 +22,10 @@ bool Controller::modifyTraining(unsigned int index, std::string category, std::s
 // commands from view
 Training* Controller::getTraining(unsigned int index) const {
     return model -> at(index);
+}
+
+void Controller::getAllTrainings(std::vector<Training*>& array) const {
+    model -> getAllTrainings(array);
 }
 
 unsigned int Controller::getTrainingRecordsSize() const {

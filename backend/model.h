@@ -29,6 +29,7 @@ public:
     void clear();
 
     Training* at (unsigned int) const;
+    void getAllTrainings(std::vector<Training*>&) const;
     unsigned int getSize() const;                   //?
     std::vector<std::string> getYears() const;      //?
 

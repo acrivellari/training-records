@@ -38,6 +38,13 @@ Training* Model::at(unsigned int index) const {
     return result;
 }
 
+void Model::getAllTrainings(std::vector<Training*>& array) const {
+    unsigned int size = getSize();
+    for (unsigned int i = 0; i < size; i++) {
+        array.push_back(at(i));
+    }
+}
+
 unsigned int Model::getSize() const {
     return array.size();
 }
