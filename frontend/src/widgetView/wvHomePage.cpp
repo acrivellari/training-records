@@ -5,14 +5,20 @@
 #include <QVBoxLayout>
 #include <QBoxLayout>
 #include <QMessageBox>
+#include <QScrollArea>
 
-
-WV_HomePage::WV_HomePage(QWidget* p) : QWidget{p} {}
+WV_HomePage::WV_HomePage(QWidget* p) : QWidget{p} {
+	QVBoxLayout * layout = new QVBoxLayout{this};
+	setLayout(layout);
+}
 
 void WV_HomePage::buildPage(const std::vector<Training*>& array) {
-	scrollArea = new QScrollArea{parentWidget()};
-	//scrollArea -> setBackgroundRole(QPalette::Dark);
-	scrollArea -> show();
+	QScrollArea * scrollArea = new QScrollArea{this};
+	QWidget * mainWidget = new QWidget{};
+	scrollArea -> setWidget(mainWidget);
+	scrollArea -> setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	scrollArea -> setWidgetResizable(true);
+
 	QVBoxLayout* mainLayout = new QVBoxLayout{this};
 	QHBoxLayout* menuBarLayout = new QHBoxLayout{this};
 	QVBoxLayout* historyLayout = new QVBoxLayout{this};
@@ -36,16 +42,11 @@ void WV_HomePage::buildPage(const std::vector<Training*>& array) {
 	mainLayout -> addLayout(historyLayout, 20);
 	mainLayout -> addLayout(footerLayout);
 	
-	//setLayout(mainLayout);
-
-	scrollArea -> setWidget(this);
-	resize(400, 400);
-	scrollArea -> resize(size());
-	scrollArea -> setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
-	//scrollArea -> setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	//scrollArea -> setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	QObject::connect(this, &WV_HomePage::resizeSignal, this, &WV_HomePage::resizeScrollArea);
-
+	mainWidget -> setLayout(mainLayout);
+	resize(400,400);
+	mainWidget -> resize (400,400);
+	scrollArea -> resize (400,400);
+	
 }
 
 void WV_HomePage::addHistory(QBoxLayout* historyLayout, const std::vector<Training*>& array) {
@@ -69,11 +70,4 @@ void WV_HomePage::addHistory(QBoxLayout* historyLayout, const std::vector<Traini
 	QPushButton* uno = new QPushButton{QString::number(size)};
 	historyLayout -> addWidget(uno);	
 	historyLayout -> setSizeConstraint(QLayout::SetMinAndMaxSize);
-}
-
-void WV_HomePage::resizeEvent(QResizeEvent* e) {
-	emit resizeSignal();
-}
-void WV_HomePage::resizeScrollArea() {
-	scrollArea -> resize(size());
 }

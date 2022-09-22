@@ -11,7 +11,6 @@ private :
     Controller* controller;
     WV_HomePage* homePage;
     WV_Auth* authentication;
-    void resizeEvent(QResizeEvent*);
 public :
     WidgetView(Controller*, QWidget* = nullptr);
     void showHomePage();

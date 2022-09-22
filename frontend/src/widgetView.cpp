@@ -10,8 +10,11 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     setWindowTitle("Training Records");
     setWindowIcon(QIcon(QString::fromStdString(controller -> getPath()) + "icon.png"));
     resize(400,400);
+    
+    homePage -> hide();
+    authentication -> show();
     show();
-
+    
     QObject::connect(authentication, &WV_Auth::sendLogin, this, &WidgetView::sendLogin);
     QObject::connect(authentication, &WV_Auth::sendRegister, this, &WidgetView::sendRegister);
 }
@@ -70,10 +73,5 @@ void WidgetView::showHomePage() {
     std::vector<Training*> trainings{};
     controller -> getAllTrainings(trainings);
     homePage -> buildPage(trainings);
-
     homePage -> show();
-}
-
-void WidgetView::resizeEvent(QResizeEvent* e) {
-    homePage -> resize(this -> size());
 }
