@@ -121,7 +121,13 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
     return returnValue;    
 }
 
+bool Model::sortObj(Training* a, Training* b) {
+    return (*a < *b);
+}
+
 void Model::sortByDate() {
+    std::sort(array.begin(), array.end(), sortObj);
+    /* alternative, "homemade" sort 
     for(unsigned int i = 0; i < getSize(); i++) {
         auto itMin = array.begin() + i;
         auto it = array.begin() + i;
@@ -130,7 +136,7 @@ void Model::sortByDate() {
             if (**it < **itMin) itMin = it;
         }
         if (itStart != itMin)   std::iter_swap(itStart, itMin);
-    }
+    }*/
 }
 
 //input output

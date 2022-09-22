@@ -27,6 +27,7 @@ public:
     bool isEmpty() const;
     unsigned int getHighestID() const;
     void clear();
+    static bool sortObj(Training*, Training*);
     void sortByDate();
 
     Training* at (unsigned int) const;
