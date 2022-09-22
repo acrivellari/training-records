@@ -9,7 +9,6 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
 
     setWindowTitle("Training Records");
     setWindowIcon(QIcon(QString::fromStdString(controller -> getPath()) + "icon.png"));
-    resize(400,400);
     
     homePage -> hide();
     authentication -> show();
@@ -70,8 +69,5 @@ void WidgetView::showHomePage() {
     authentication -> hideSignup();
     authentication -> hide();
 
-    std::vector<Training*> trainings{};
-    controller -> getAllTrainings(trainings);
-    homePage -> buildPage(trainings);
-    homePage -> show();
+    homePage -> buildPage(controller);
 }

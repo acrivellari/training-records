@@ -1,6 +1,7 @@
 #include "../model.h"
 #include <iomanip> //setw and .. in printall
 #include <backend/backendException.h>
+#include <bits/stdc++.h>
 
 // constructor
 Model::Model(std::string filePath) : array{std::vector<Training*>{}}, path{filePath}, inputOutput{nullptr}, userAuthentication(new UsersAuth(path+"users.json")) {}

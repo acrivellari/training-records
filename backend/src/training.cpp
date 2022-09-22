@@ -21,6 +21,7 @@ Training* Training::addEmptyTraining(unsigned int i, std::string d) {
     return new Training(i,d);
 }
 
+
 void Training::removeExercise(std::string name) {
     for (TrainingExercise* tEx : tData){
         if (tEx -> tName == name) delete tEx;

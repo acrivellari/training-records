@@ -30,9 +30,9 @@ private:
         std::string getSets() const;
         std::vector<std::string> getExercise() const;
     };
-
-    unsigned int id;
+    
     TrainingDate tDate;
+    unsigned int id;
     std::vector<TrainingExercise*> tData;
     //training is formed by id tData and tDate
     //tDate contains the date of the training while tData the exercises and their reps and set of the training
@@ -49,7 +49,6 @@ private:
     static std::vector<int> string2dateInt(std::string);
     static std::string type2string(bool);
     static std::string stringDate(int);//transform month day or year into string format, in case adding some 0 to pad (ex day 1->day 01)
-    unsigned int getHighestIdExercise() const;
 
 public:
 
@@ -58,7 +57,6 @@ public:
     void addTrainingExercise(std::string, std::string, std::string);
     void addTrainingExercise(std::string, std::string);
     static Training* addEmptyTraining(unsigned int, std::string);
-
     bool modify(std::string, std::string);
     void removeExercise(std::string);
 
