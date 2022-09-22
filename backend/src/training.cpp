@@ -36,6 +36,17 @@ bool Training::modify(std::string category, std::string value) {
     } else  return false;
 }
 
+bool Training::operator< (const Training& T) const {
+    if (getYear() < T.getYear()) return true;
+    else if (getYear() > T.getYear())   return false;
+    else if (getMonth() < T.getMonth()) return true;
+    else if (getMonth() > T.getMonth()) return false;
+    else if (getDay() < T.getDay()) return true;
+    else if (getDay() > T.getDay()) return false;
+    else if (getID() < T.getID())   return true;
+    else    return false;
+
+}
 
 void Training::print() const {
     std::cout << "|"<< std::left << std::setw(3) << std::setfill(' ') <<id << "|";

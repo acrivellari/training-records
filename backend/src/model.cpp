@@ -1,7 +1,7 @@
 #include "../model.h"
 #include <iomanip> //setw and .. in printall
 #include <backend/backendException.h>
-#include <bits/stdc++.h>
+#include <algorithm>
 
 // constructor
 Model::Model(std::string filePath) : array{std::vector<Training*>{}}, path{filePath}, inputOutput{nullptr}, userAuthentication(new UsersAuth(path+"users.json")) {}
@@ -76,6 +76,7 @@ unsigned int Model::addEmptyTraining(std::string date) {
         result = getHighestID() + 1;
     }
     array.push_back(Training::addEmptyTraining(result, date));
+    sortByDate();
     return result;
 }
 
@@ -105,6 +106,7 @@ bool Model::remove(unsigned int toRemove){
             returnValue = true;
         }
     }
+    sortByDate();
     return returnValue;
 }
 
@@ -115,9 +117,21 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
             returnValue = t -> modify(category, value);
         }
     }
+    sortByDate();
     return returnValue;    
 }
 
+void Model::sortByDate() {
+    for(unsigned int i = 0; i < getSize(); i++) {
+        auto itMin = array.begin() + i;
+        auto it = array.begin() + i;
+        auto itStart = array.begin() + i;
+        for (; it != array.end(); it++) {
+            if (**it < **itMin) itMin = it;
+        }
+        if (itStart != itMin)   std::iter_swap(itStart, itMin);
+    }
+}
 
 //input output
 bool Model::save(std::string pathF) {
@@ -126,6 +140,7 @@ bool Model::save(std::string pathF) {
 
 void Model::load(std::string pathF) {
     inputOutput -> load(array, pathF);
+    sortByDate();
 };
 
 //user

@@ -27,12 +27,12 @@ public:
     bool isEmpty() const;
     unsigned int getHighestID() const;
     void clear();
+    void sortByDate();
 
     Training* at (unsigned int) const;
     void getAllTrainings(std::vector<Training*>&) const;
     unsigned int getSize() const;                   
     std::vector<std::string> getYears() const;      
-    void sortDate ();
 
     //input output
     bool save(std::string ="");

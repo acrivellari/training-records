@@ -31,8 +31,8 @@ private:
         std::vector<std::string> getExercise() const;
     };
     
-    TrainingDate tDate;
     unsigned int id;
+    TrainingDate tDate;
     std::vector<TrainingExercise*> tData;
     //training is formed by id tData and tDate
     //tDate contains the date of the training while tData the exercises and their reps and set of the training
@@ -59,6 +59,7 @@ public:
     static Training* addEmptyTraining(unsigned int, std::string);
     bool modify(std::string, std::string);
     void removeExercise(std::string);
+    bool operator < (const Training&) const;
 
     void print() const;
     std::vector<std::vector<std::string>> printTraining() const;
