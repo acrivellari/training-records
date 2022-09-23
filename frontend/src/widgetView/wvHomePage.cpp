@@ -4,10 +4,11 @@
 #include <QHBoxLayout>
 #include <QScrollArea>
 #include "../../widgetView/Sort.h"
+#include "../../widgetView/User.h"
 
-WV_HomePage::WV_HomePage(QWidget* p) : QWidget{p} {}
+WV_HomePage::WV_HomePage(QWidget* p, Controller* c) : QWidget{p}, controller{c} {}
 
-void WV_HomePage::buildPage(Controller* controller) {
+void WV_HomePage::buildPage() {
 	QVBoxLayout * mainLayout = new QVBoxLayout{this};
 	setLayout(mainLayout);
 	
@@ -86,9 +87,7 @@ void WV_HomePage::buildPage(Controller* controller) {
 }
 
 void WV_HomePage::clickedUser() {
-	QWidget* a = new QWidget{this}; 
-	a->setWindowFlag(Qt::Window);
-	a-> show();
+	User* _u = new User{this, controller};
 }
 
 void WV_HomePage::clickedAdd() {

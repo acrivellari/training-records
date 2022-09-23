@@ -48,6 +48,8 @@ public:
     bool addCredentials(std::string, std::string, std::string = "", std::string = "");
     bool logOut();
     std::string getPath() const;
+    bool changeCredentials(std::string, std::string, std::string, std::string, std::string);
+    std::string getCredential(std::string) const;
 
 };
 

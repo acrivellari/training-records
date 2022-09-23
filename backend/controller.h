@@ -6,7 +6,6 @@
 class Controller {
 public:
     Model* model;
-    //View* view;
 
     Controller(Model* = new Model());
 
@@ -29,6 +28,8 @@ public:
     bool giveCredentials(std::string, std::string);
     bool addCredentials(std::string, std::string, std::string = "", std::string = "");
     bool logOut();
+    bool changeCredentials(std::string, std::string, std::string, std::string, std::string);
+    std::string getCredential(std::string) const;
     std::string getPath() const;
 
 };

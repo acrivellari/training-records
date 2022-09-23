@@ -17,7 +17,8 @@ SOURCES += \
         frontend/src/widgetView/wvLogin.cpp \
         frontend/src/widgetView/wvSignup.cpp \
         frontend/src/widgetView/wvHomePage.cpp \
-        frontend/src/widgetView/Sort.cpp
+        frontend/src/widgetView/Sort.cpp \
+        frontend/src/widgetView/User.cpp
 
 
 HEADERS += \
@@ -36,5 +37,6 @@ HEADERS += \
             frontend/widgetView/wvLogin.h \
             frontend/widgetView/wvSignup.h \
             frontend/widgetView/wvHomePage.h \
-            frontend/widgetView/Sort.h
+            frontend/widgetView/Sort.h \
+            frontend/widgetView/User.h
 

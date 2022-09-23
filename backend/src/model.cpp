@@ -184,3 +184,12 @@ bool Model::logOut() {
 std::string Model::getPath() const {
     return path;
 }
+
+bool Model::changeCredentials(std::string newu, std::string oldu, std::string p, std::string n, std::string s) {
+    return userAuthentication -> changeCredentials(newu, oldu, p, n, s);
+    
+}
+std::string Model::getCredential(std::string type) const {
+    return userAuthentication -> getCredential(type);
+
+}

@@ -65,3 +65,12 @@ bool Controller::logOut() {
 std::string Controller::getPath() const {
     return model -> getPath();
 }
+
+bool Controller::changeCredentials(std::string newu, std::string oldu, std::string p, std::string n, std::string s) {
+    return model -> changeCredentials(newu, oldu, p, n, s);
+    
+}
+std::string Controller::getCredential(std::string type) const {
+    return model -> getCredential(type);
+
+}
