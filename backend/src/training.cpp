@@ -48,6 +48,10 @@ bool Training::operator< (const Training& T) const {
 
 }
 
+bool Training::sortById(const Training* T1, const Training* T2) {
+    return T1 -> getID() < T2 -> getID();
+}
+
 void Training::print() const {
     std::cout << "|"<< std::left << std::setw(3) << std::setfill(' ') <<id << "|";
     std::cout << std::left << std::setw(3) << std::setfill(' ') << stringDate(tDate.day) << "/" << stringDate(tDate.month) << "/" << stringDate(tDate.year) << "|";

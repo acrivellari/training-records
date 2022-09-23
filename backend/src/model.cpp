@@ -121,12 +121,21 @@ bool Model::modify(unsigned int toModify, std::string category, std::string valu
     return returnValue;    
 }
 
-bool Model::sortObj(Training* a, Training* b) {
+//sort
+bool Model::sortObjByDate(Training* a, Training* b) {
     return (*a < *b);
 }
 
+bool Model::sortObjById(Training* a, Training* b) {
+    return Training::sortById(a,b);
+}
+
+void Model::sortById() {
+    std::sort(array.begin(), array.end(), sortObjById);
+}
+
 void Model::sortByDate() {
-    std::sort(array.begin(), array.end(), sortObj);
+    std::sort(array.begin(), array.end(), sortObjByDate);
     /* alternative, "homemade" sort 
     for(unsigned int i = 0; i < getSize(); i++) {
         auto itMin = array.begin() + i;
@@ -146,7 +155,6 @@ bool Model::save(std::string pathF) {
 
 void Model::load(std::string pathF) {
     inputOutput -> load(array, pathF);
-    sortByDate();
 };
 
 //user
