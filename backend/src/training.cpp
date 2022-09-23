@@ -49,7 +49,7 @@ bool Training::operator< (const Training& T) const {
 }
 
 bool Training::sortById(const Training* T1, const Training* T2) {
-    return T1 -> getID() < T2 -> getID();
+    return (T1 -> getID() < T2 -> getID());
 }
 
 void Training::print() const {

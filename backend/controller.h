@@ -19,6 +19,7 @@ public:
     Training* getTraining(unsigned int) const;
     void getAllTrainings(std::vector<Training*>&) const;
     unsigned int getTrainingRecordsSize() const;
+    void sort(bool =false);    //false -> sort_byDate | true -> sort_byID
 
     //input output
     bool save(std::string ="") const;
@@ -29,7 +30,6 @@ public:
     bool addCredentials(std::string, std::string, std::string = "", std::string = "");
     bool logOut();
     std::string getPath() const;
-
 
 };
 

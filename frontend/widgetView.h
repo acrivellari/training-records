@@ -7,6 +7,7 @@
 #include <QWidget>
 
 class WidgetView : public QWidget{
+    Q_OBJECT
 private :
     Controller* controller;
     WV_HomePage* homePage;
@@ -16,6 +17,8 @@ public :
     void showHomePage();
     Q_SLOT void sendLogin();
     Q_SLOT void sendRegister();
+    Q_SLOT void sortById();
+    Q_SLOT void sortByDate();
 };
 
 #endif

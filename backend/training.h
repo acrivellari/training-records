@@ -41,8 +41,6 @@ private:
     ~Training();
 
     //support functs
-    bool operator < (const Training&) const;
-    static bool sortById(const Training*, const Training*); 
     bool modifyTrainingDate(std::string);
     bool modifyTrainingExercise(std::string, std::string);
     std::vector<unsigned int> string2sets(std::string, bool);
@@ -62,7 +60,10 @@ public:
     bool modify(std::string, std::string);
     void removeExercise(std::string);
     
-
+    //sort
+    bool operator < (const Training&) const;
+    static bool sortById(const Training*, const Training*); 
+    
     void print() const;
     std::vector<std::vector<std::string>> printTraining() const;
 

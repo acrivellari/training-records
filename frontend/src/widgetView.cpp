@@ -9,13 +9,27 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
 
     setWindowTitle("Training Records");
     setWindowIcon(QIcon(QString::fromStdString(controller -> getPath()) + "icon.png"));
-    
     homePage -> hide();
     authentication -> show();
     show();
+    setFixedSize(400,400);
     
     QObject::connect(authentication, &WV_Auth::sendLogin, this, &WidgetView::sendLogin);
     QObject::connect(authentication, &WV_Auth::sendRegister, this, &WidgetView::sendRegister);
+}
+
+void WidgetView::sortById() {
+    controller -> sort(true);
+    homePage -> close();
+    homePage = new WV_HomePage{this};
+    showHomePage();
+}
+
+void WidgetView::sortByDate() {
+    controller -> sort(false);
+    homePage -> close();
+    homePage = new WV_HomePage{this};
+    showHomePage();
 }
 
 void WidgetView::sendLogin() {
@@ -70,4 +84,6 @@ void WidgetView::showHomePage() {
     authentication -> hide();
 
     homePage -> buildPage(controller);
+    QObject::connect(homePage, &WV_HomePage::sort_id, this, &WidgetView::sortById);
+    QObject::connect(homePage, &WV_HomePage::sort_date, this, &WidgetView::sortByDate);
 }

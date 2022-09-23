@@ -32,6 +32,11 @@ unsigned int Controller::getTrainingRecordsSize() const {
     return model -> getSize();
 }
 
+void Controller::sort(bool sortById) {
+    if (sortById == true)   model -> sortById();
+    else    model -> sortByDate();
+}
+
 // input output
 bool Controller::save(std::string path) const {
     return model -> save(path);

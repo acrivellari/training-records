@@ -13,9 +13,11 @@ WV_Auth::WV_Auth(QWidget* p) : QWidget{p}, loginWindow{new WV_Login{this}}, sign
     layout = new QVBoxLayout{this};
     login = new QPushButton{this};
     signup = new QPushButton{this};
-    
     login -> setText("LOGIN");
+    
+    login -> setStyleSheet("padding: 20px 5px 20px 5px; font-size:20px; margin: 0px 20px 0px 20px;");
     signup -> setText("SIGNUP");
+    signup -> setStyleSheet("padding: 20px 5px 20px 5px; font-size:20px; margin: 0px 20px 0px 20px;");
 
     layout -> addWidget(login);
     layout -> addWidget(signup);
@@ -23,7 +25,7 @@ WV_Auth::WV_Auth(QWidget* p) : QWidget{p}, loginWindow{new WV_Login{this}}, sign
 
     setWindowTitle("Authentication");
     resize(400,400);
-
+    
     QObject::connect(loginWindow, &WV_Login::sendLogin, this, &WV_Auth::sendLogin);
     QObject::connect(signupWindow, &WV_Signup::sendRegister, this, &WV_Auth::sendRegister);
     QObject::connect(login, &QPushButton::clicked, this, &WV_Auth::showLogin);

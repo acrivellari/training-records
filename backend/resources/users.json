@@ -1,10 +1,20 @@
 [
     {
+        "name": "Alberto",
         "password": "evilcrive",
+        "surname": "c",
         "username": "evilcrive"
     },
     {
+        "name": "Alberto",
         "password": "prova1",
+        "surname": "c",
         "username": "prova1"
+    },
+    {
+        "name": "Alberto",
+        "password": "prova2",
+        "surname": "c",
+        "username": "prova2"
     }
 ]

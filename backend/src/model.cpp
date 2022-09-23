@@ -127,7 +127,7 @@ bool Model::sortObjByDate(Training* a, Training* b) {
 }
 
 bool Model::sortObjById(Training* a, Training* b) {
-    return Training::sortById(a,b);
+    return (Training::sortById(a,b));
 }
 
 void Model::sortById() {
