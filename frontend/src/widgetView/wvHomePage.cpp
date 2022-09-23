@@ -5,6 +5,7 @@
 #include <QScrollArea>
 #include "../../widgetView/Sort.h"
 #include "../../widgetView/User.h"
+#include "../../widgetView/AddTr.h"
 
 WV_HomePage::WV_HomePage(QWidget* p, Controller* c) : QWidget{p}, controller{c} {}
 
@@ -41,7 +42,7 @@ void WV_HomePage::buildPage() {
 		QString label = "Training n. " + QString::number(controller -> getTraining(i) -> getID()) + "\nDone in date " + QString::fromStdString(controller -> getTraining(i) -> getDate());
 		QPushButton* actualTraining = new QPushButton{label, this};
 		bodyLayout -> addWidget(actualTraining);
-		//QObject::connect(actualTraining, &QPushButton::clicked, this, &WV_HomePage::clickedTraining);
+		///TODO: QObject::connect(actualTraining, &QPushButton::clicked, this, &WV_HomePage::clickedTraining);
 
 	}
 
@@ -87,11 +88,11 @@ void WV_HomePage::buildPage() {
 }
 
 void WV_HomePage::clickedUser() {
-	User* _u = new User{this, controller};
+	new User{this, controller};
 }
 
 void WV_HomePage::clickedAdd() {
-	close();
+	new AddTr{this, controller};
 }
 
 void WV_HomePage::clickedSort() {
