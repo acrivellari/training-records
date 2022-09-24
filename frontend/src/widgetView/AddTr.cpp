@@ -43,28 +43,38 @@ AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller (c) {
 }
 
 void AddTr::clickedAddExercise() {
-    actualExerciseLayout.push_back(new QVBoxLayout{this});
     QHBoxLayout* exerciseNameLayout = new QHBoxLayout{this};
     QHBoxLayout* nsetLayout = new QHBoxLayout{this};
+    QComboBox* exNameCB = new QComboBox{this};
+    QComboBox* nsCB = new QComboBox{this};
 
+    actualExerciseLayout.push_back(new QVBoxLayout{this});
     exerciseNameLabel.push_back(new QLabel{"Exercise name:  ", this});
-    exerciseNameCBox.push_back(new QComboBox{this});
+    exerciseNameCBox.push_back(exNameCB);
+    nsetLabel.push_back(new QLabel{"N. Set:  ", this});
+    nsetCBox.push_back(nsCB);
 
     allExercisesLayout -> addLayout(actualExerciseLayout.last());
     actualExerciseLayout.last() -> addLayout(exerciseNameLayout);
-    exerciseNameLayout -> addWidget(exerciseNameLabel.at(exerciseNameLabel.size()-1));
-    exerciseNameLayout -> addWidget(exerciseNameCBox.at(exerciseNameCBox.size()-1));
+    actualExerciseLayout.last() -> addLayout(nsetLayout);
+    exerciseNameLayout -> addWidget(exerciseNameLabel.last());
+    exerciseNameLayout -> addWidget(exerciseNameCBox.last());
+    nsetLayout -> addWidget(nsetLabel.last());
+    nsetLayout -> addWidget(nsetCBox.last());
 }
 
 void AddTr::clickedRemoveExercise() {
-    if (exerciseNameLabel.isEmpty())  return;
-   // exerciseNameCBox.
-    exerciseNameLabel.last() -> deleteLater();
-    exerciseNameLabel.removeLast();
-    exerciseNameCBox.last() -> deleteLater();
-    exerciseNameCBox.removeLast();
-    
-    allExercisesLayout -> removeItem(actualExerciseLayout.last());
-    actualExerciseLayout.removeLast();
-    adjustSize();
+    if (exerciseNameLabel.isEmpty() == false) {
+        exerciseNameLabel.last() -> deleteLater();
+        exerciseNameLabel.removeLast();
+        exerciseNameCBox.last() -> deleteLater();
+        exerciseNameCBox.removeLast();
+        nsetLabel.last() -> deleteLater();
+        nsetLabel.removeLast();
+        nsetCBox.last() -> deleteLater();
+        nsetCBox.removeLast();
+        allExercisesLayout -> removeItem(actualExerciseLayout.last());
+        actualExerciseLayout.removeLast();
+        resize(minimumWidth(), minimumHeight());
+    }
 }
