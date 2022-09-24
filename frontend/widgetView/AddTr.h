@@ -6,14 +6,18 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QList>
+#include <QPair>
+#include <QGroupBox>
 #include "../backend/controller.h"
 
 class AddTr : public QWidget{
     Q_OBJECT
-private :
+private:
     Controller* controller;
+
     QVBoxLayout* allExercisesLayout;
-    
+    QList<QPair<int,int>> gbSize;
+    QList<QGroupBox*> groupBoxes;
     QList<QVBoxLayout*> actualExerciseLayout;
     QList<QLabel*> exerciseNameLabel;
     QList<QLabel*> nsetLabel;
