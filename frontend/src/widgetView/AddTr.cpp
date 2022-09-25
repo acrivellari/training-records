@@ -7,6 +7,13 @@
 
 #include "../../widgetView/AddTr.h"
 
+#include "../../widgetView/AddTr.h"
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QDateTimeEdit>
+#include <QMessageBox>
+#include <QResizeEvent>
+
 AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller (c) {
     QVBoxLayout* mainLayout = new QVBoxLayout{this};
     QHBoxLayout* dateLayout = new QHBoxLayout;
@@ -14,6 +21,7 @@ AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller (c) {
     allExercisesLayout = new QVBoxLayout;
     QLabel* dateLabel = new QLabel{this};
     dateEdit = new QDateTimeEdit{QDate::currentDate(), this};
+    QDateTimeEdit* dateEdit = new QDateTimeEdit{QDate::currentDate(), this};
     QPushButton* addNewExercise = new QPushButton{this};
     QPushButton* removeExercise = new QPushButton{this};
     QPushButton* addTraining = new QPushButton{this};

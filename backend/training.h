@@ -20,8 +20,8 @@ private:
         unsigned int idExercise;
         std::string tName;
         bool tType; 
-            //false -> seconds 
-            //true -> reps
+            //false -> reps
+            //true -> seconds
         std::vector<unsigned int> tSets;
 
         TrainingExercise(std::string, std::vector<unsigned int>, bool = false);

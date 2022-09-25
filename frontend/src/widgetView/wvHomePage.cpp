@@ -85,7 +85,10 @@ void WV_HomePage::buildPage() {
 	QObject::connect(filterButton, &QPushButton::clicked, this, &WV_HomePage::clickedFilter);
 	QObject::connect(graphsButton, &QPushButton::clicked, this, &WV_HomePage::clickedGraphs);
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> f3b2be4d3b43bf850a4afca5333d2e2fbcf6d15e
 }
 
 void WV_HomePage::clickedUser() {
@@ -93,6 +96,7 @@ void WV_HomePage::clickedUser() {
 }
 
 void WV_HomePage::clickedAdd() {
+<<<<<<< HEAD
 	AddTr* _addForm = new AddTr{this, controller};
 	QObject::connect(_addForm, &AddTr::sort, this, &WV_HomePage::sort_id);
 }
@@ -101,6 +105,15 @@ void WV_HomePage::clickedSort() {
 	Sort* _sortForm = new Sort{this};
 	QObject::connect(_sortForm, &Sort::sort_id, this, &WV_HomePage::sort_id);
 	QObject::connect(_sortForm, &Sort::sort_date, this, &WV_HomePage::sort_date);
+=======
+	new AddTr{this, controller};
+}
+
+void WV_HomePage::clickedSort() {
+	Sort* _s = new Sort{this};
+	QObject::connect(_s, &Sort::sort_id, this, &WV_HomePage::sort_id);
+	QObject::connect(_s, &Sort::sort_date, this, &WV_HomePage::sort_date);
+>>>>>>> f3b2be4d3b43bf850a4afca5333d2e2fbcf6d15e
 	
 }
 
