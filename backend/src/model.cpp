@@ -130,16 +130,6 @@ bool Model::sortObjByDate(Training* a, Training* b) {
     return (*a < *b);
 }
 
-unsigned int Model::addEmptyTraining(std::string date) {
-    unsigned int result{0};
-    if (!isEmpty()) {
-        result = getHighestID() + 1;
-    }
-    array.push_back(Training::addEmptyTraining(result, date));
-    sortByDate();
-    return result;
-}
-
 bool Model::sortObjById(Training* a, Training* b) {
     return (Training::sortById(a,b));
 }
@@ -163,55 +153,7 @@ void Model::sortByDate() {
 }
 
 
-bool Model::remove(unsigned int toRemove){
-    bool returnValue = false;
-    for (std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
-        if ((*it) -> getID() == toRemove) {
-            array.erase(it);
-            returnValue = true;
-        }
-    }
-    sortByDate();
-    return returnValue;
-}
 
-bool Model::modify(unsigned int toModify, std::string category, std::string value) {
-    bool returnValue = false;
-    for (Training* t : array) {
-        if (t -> getID() == toModify) {
-            returnValue = t -> modify(category, value);
-        }
-    }
-    sortByDate();
-    return returnValue;    
-}
-
-//sort
-bool Model::sortObjByDate(Training* a, Training* b) {
-    return (*a < *b);
-}
-
-bool Model::sortObjById(Training* a, Training* b) {
-    return (Training::sortById(a,b));
-}
-
-void Model::sortById() {
-    std::sort(array.begin(), array.end(), sortObjById);
-}
-
-void Model::sortByDate() {
-    std::sort(array.begin(), array.end(), sortObjByDate);
-    /* alternative, "homemade" sort 
-    for(unsigned int i = 0; i < getSize(); i++) {
-        auto itMin = array.begin() + i;
-        auto it = array.begin() + i;
-        auto itStart = array.begin() + i;
-        for (; it != array.end(); it++) {
-            if (**it < **itMin) itMin = it;
-        }
-        if (itStart != itMin)   std::iter_swap(itStart, itMin);
-    }*/
-}
 
 //input output
 bool Model::save(std::string pathF) {

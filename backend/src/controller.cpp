@@ -74,7 +74,6 @@ bool Controller::changeCredentials(std::string newu, std::string oldu, std::stri
 
 std::string Controller::getCredential(std::string type) const {
     return model -> getCredential(type);
-
 }
 
 std::set<std::string> Controller::getTypesExercises() const {
@@ -86,7 +85,3 @@ std::set<std::string> Controller::getTypesExercises() const {
 std::string Controller::printTraining(int i) const {
     return model -> printTraining(i);
 }   
-std::string Controller::getCredential(std::string type) const {
-    return model -> getCredential(type);
-
-}
