@@ -78,8 +78,8 @@ void JsonIO::load(std::vector<Training*>& array, std::string p) const try {
             //Load all exercises of this training
             Training* toAdd = Training::addEmptyTraining(id, date.QString::toStdString());
             for(QString key : trainingData.keys()) {
-                std::vector<std::string> exerciseV{key.QString::toStdString(), trainingData.value(key).toString().QString::toStdString()};
-                toAdd -> addTrainingExercise(exerciseV[0], exerciseV[1]);
+                std::vector<std::string> exerciseV{trainingData.value(key).toString().QString::toStdString()};
+                toAdd -> addTrainingExercise(key.QString::toStdString(), exerciseV);
             }
             array.push_back(toAdd);
         }

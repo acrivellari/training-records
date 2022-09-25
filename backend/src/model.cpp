@@ -1,10 +1,52 @@
 #include "../model.h"
 #include <iomanip> //setw and .. in printall
 #include <backend/backendException.h>
-#include <bits/stdc++.h>
+#include <algorithm>
 
 // constructor
 Model::Model(std::string filePath) : array{std::vector<Training*>{}}, path{filePath}, inputOutput{nullptr}, userAuthentication(new UsersAuth(path+"users.json")) {}
+
+// basic functions for model, higher-level of list manag
+unsigned int Model::addEmptyTraining(std::string date) {
+    unsigned int result{0};
+    if (!isEmpty()) {
+        result = getHighestID() + 1;
+    }
+    array.push_back(Training::addEmptyTraining(result, date));
+    return result;
+}
+
+bool Model::addExerciseTraining(unsigned int id, std::string nameEx, std::vector<std::string> dataEx) {
+    bool returnValue = false;
+    for (Training* t : array) {
+        if (t -> getID() == id) {
+            t -> addTrainingExercise(nameEx, dataEx);
+            returnValue = true;
+        }
+    }
+    return returnValue;
+}    
+
+bool Model::remove(unsigned int toRemove){
+    bool returnValue = false;
+    for (std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
+        if ((*it) -> getID() == toRemove) {
+            array.erase(it);
+            returnValue = true;
+        }
+    }
+    return returnValue;
+}
+
+bool Model::modify(unsigned int toModify, std::string category, std::string value) {
+    bool returnValue = false;
+    for (Training* t : array) {
+        if (t -> getID() == toModify) {
+            returnValue = t -> modify(category, value);
+        }
+    }
+    return returnValue;    
+}
 
 // basic functs
 void Model::push_end(Training* t) {
@@ -46,6 +88,14 @@ void Model::getAllTrainings(std::vector<Training*>& array) const {
     }
 }
 
+void Model::getTypesExercises(std::set<std::string>& set) const {
+    for (Training* T : array) {
+        for (uint i=0; i < T -> getNExercises(); i++) {
+            set.insert(T -> getExercise(i)[0]);
+        }
+    }
+}
+
 unsigned int Model::getSize() const {
     return array.size();
 }
@@ -68,56 +118,39 @@ std::vector<std::string> Model::getYears() const {
         }
     }
     return years;
+
 }
 
-unsigned int Model::addEmptyTraining(std::string date) {
-    unsigned int result{0};
-    if (!isEmpty()) {
-        result = getHighestID() + 1;
-    }
-    array.push_back(Training::addEmptyTraining(result, date));
-    return result;
+std::string Model::printTraining(int i) const {
+    return array.at(i) -> printTraining();
+}   
+
+//sort
+bool Model::sortObjByDate(Training* a, Training* b) {
+    return (*a < *b);
 }
 
-bool Model::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) {
-    bool returnValue = false;
-    if (dataEx.size() < 2 || dataEx.size() > 4) {
-        throw new BackendException("This exercise is not well formed.");
-    }
-    for (Training* t : array) {
-        if (t -> getID() == id) {
-            if (dataEx.size() == 2) {
-                t -> addTrainingExercise(dataEx.at(0), dataEx.at(1));
-            }else {
-                t -> addTrainingExercise(dataEx.at(0), dataEx.at(1), dataEx.at(2));
-            }
-            returnValue = true;
+bool Model::sortObjById(Training* a, Training* b) {
+    return (Training::sortById(a,b));
+}
+
+void Model::sortById() {
+    std::sort(array.begin(), array.end(), sortObjById);
+}
+
+void Model::sortByDate() {
+    std::sort(array.begin(), array.end(), sortObjByDate);
+    /* alternative, "homemade" sort 
+    for(unsigned int i = 0; i < getSize(); i++) {
+        auto itMin = array.begin() + i;
+        auto it = array.begin() + i;
+        auto itStart = array.begin() + i;
+        for (; it != array.end(); it++) {
+            if (**it < **itMin) itMin = it;
         }
-    }
-    return returnValue;
-}    
-
-bool Model::remove(unsigned int toRemove){
-    bool returnValue = false;
-    for (std::vector<Training*>::iterator it = array.begin(); it != array.end(); it++) {
-        if ((*it) -> getID() == toRemove) {
-            array.erase(it);
-            returnValue = true;
-        }
-    }
-    return returnValue;
+        if (itStart != itMin)   std::iter_swap(itStart, itMin);
+    }*/
 }
-
-bool Model::modify(unsigned int toModify, std::string category, std::string value) {
-    bool returnValue = false;
-    for (Training* t : array) {
-        if (t -> getID() == toModify) {
-            returnValue = t -> modify(category, value);
-        }
-    }
-    return returnValue;    
-}
-
 
 //input output
 bool Model::save(std::string pathF) {
@@ -154,4 +187,13 @@ bool Model::logOut() {
 
 std::string Model::getPath() const {
     return path;
+}
+
+bool Model::changeCredentials(std::string newu, std::string oldu, std::string p, std::string n, std::string s) {
+    return userAuthentication -> changeCredentials(newu, oldu, p, n, s);
+    
+}
+std::string Model::getCredential(std::string type) const {
+    return userAuthentication -> getCredential(type);
+
 }

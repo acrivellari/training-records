@@ -4,23 +4,15 @@
 
 
 //public methods
-void Training::addTrainingExercise(std::string name, std::string value) {
-    bool type = getType(value);
-    tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
-}
-
-void Training::addTrainingExercise(std::string name, std::string value, bool type) {
-    tData.push_back(new TrainingExercise(name, string2sets(value, type), type));
-}
-
-void Training::addTrainingExercise(std::string name, std::string value, std::string type) {
-    tData.push_back(new TrainingExercise(name, string2sets(value, TrainingExercise::getType(type)), type));
+void Training::addTrainingExercise(std::string name, std::vector<std::string> value) {
+    std::string result;
+    bool type = analyzeSetsReps(value, result);
+    tData.push_back(new TrainingExercise(name, string2sets(result, type), type));
 }
 
 Training* Training::addEmptyTraining(unsigned int i, std::string d) {
     return new Training(i,d);
 }
-
 
 void Training::removeExercise(std::string name) {
     for (TrainingExercise* tEx : tData){
@@ -36,6 +28,21 @@ bool Training::modify(std::string category, std::string value) {
     } else  return false;
 }
 
+bool Training::operator< (const Training& T) const {
+    if (getYear() < T.getYear()) return true;
+    else if (getYear() > T.getYear())   return false;
+    else if (getMonth() < T.getMonth()) return true;
+    else if (getMonth() > T.getMonth()) return false;
+    else if (getDay() < T.getDay()) return true;
+    else if (getDay() > T.getDay()) return false;
+    else if (getID() < T.getID())   return true;
+    else    return false;
+
+}
+
+bool Training::sortById(const Training* T1, const Training* T2) {
+    return (T1 -> getID() < T2 -> getID());
+}
 
 void Training::print() const {
     std::cout << "|"<< std::left << std::setw(3) << std::setfill(' ') <<id << "|";
@@ -49,27 +56,21 @@ void Training::print() const {
     std::cout<<std::endl;
 }
 
-std::vector<std::vector<std::string>>  Training::printTraining() const {
-    std::vector<std::vector<std::string>> print{};
+std::string  Training::printTraining() const {
+    std::string print{};
 
-    std::vector<std::string> printId{};
-    printId.push_back("ID: ");
-    printId.push_back(std::to_string(id));
-    print.push_back(printId);
+    print += ("ID: ");
+    print += (std::to_string(id));
 
-    std::vector<std::string> date{};
-    date.push_back("Date: ");
-    date.push_back(stringDate(getDay()) + "/" + stringDate(getMonth()) + "/" + stringDate(getYear()));
-    print.push_back(date);
+    print += ("\nDate: ");
+    print += (stringDate(getDay()) + "/" + stringDate(getMonth()) + "/" + stringDate(getYear()));
 
     for (const TrainingExercise* tEx : tData) {
-        std::vector<std::string> actualExercise{};
-        actualExercise.push_back(tEx -> tName);
-        actualExercise.push_back(type2string(tEx -> tType));
+        print += "\nName: " + tEx -> tName;
+        print += " " + (type2string(tEx -> tType)) + "\nReps: ";
         for (const unsigned int repS : tEx -> tSets) {
-            actualExercise.push_back(std::to_string(repS));
+            print += (std::to_string(repS));
         }
-        print.push_back(actualExercise);
     }
     return print;
 }
@@ -111,8 +112,7 @@ unsigned int Training::getNExercises() const {
 }
 
 std::vector<std::string> Training::getExercise(unsigned int idEx) const {
-    TrainingExercise* tmp = tData[idEx];
-    return tmp->getExercise();
+    return tData.at(idEx)->getExercise();
 }
 
 void Training::setYear(int i) {
@@ -142,8 +142,8 @@ Training::TrainingDate::TrainingDate(std::string date) {
 Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, bool type): tName(name), tType(type), tSets(sets) {}
 
 Training::TrainingExercise::TrainingExercise(std::string name, std::vector<unsigned int> sets, std::string type): tName(name), tType(false), tSets(sets) {
-    if (type == "reps") tType = false;
-    else if (type == "seconds") tType = true;
+    if (type == "reps") tType = true;
+    else if (type == "seconds") tType = false;
     else    throw new BackendException("The type of the training exercise isn't valid.");
 }
 
@@ -154,14 +154,14 @@ Training::~Training() {
 }
 
 bool Training::TrainingExercise::getType(std::string type) {
-    if (type == "seconds")  return true;
-    else if (type == "reps")    return false;
+    if (type == "seconds")  return false;
+    else if (type == "reps")    return true;
     else    throw new BackendException("This type does not exist.");
 }
 
 std::string Training::TrainingExercise::getType(bool type) {
-    if (type)   return "seconds";
-    else    return "reps";
+    if (type)   return "reps";
+    else    return "seconds";
 }
 
 std::string Training::TrainingExercise::getSets() const {
@@ -242,7 +242,7 @@ bool Training::modifyTrainingDate(std::string date) {
     setDay(vecDate.at(2));
     return true;
 }
-
+//TODO
 std::vector<unsigned int> Training::string2sets(std::string value, bool type) try {
     std::vector<unsigned int> sets{};
     std::string tmp{};
@@ -265,9 +265,11 @@ catch(BackendException* e){
     return tmp;
 }
 
-bool Training::getType(std::string sets) {
+bool Training::analyzeSetsReps(std::vector<std::string> sets, std::string& s) {
     bool sec{false};
-    for (char repS : sets) {
+    if (sets.size() == 1) s = sets.at(0);
+    
+    for (char repS : s) {
         if (repS == '\"')   sec = true;
     }
     return sec;

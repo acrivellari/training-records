@@ -11,7 +11,7 @@ void DummyView::addEmptyTraining(std::string date) const
 
 void DummyView::addExerciseTraining(unsigned int i, std::vector<std::string> v) const
 {
-    controller -> addExerciseTraining(i,v);
+    controller -> addExerciseTraining(i,v[0], v);
 }
 
 bool DummyView::removeTraining(unsigned int i) const

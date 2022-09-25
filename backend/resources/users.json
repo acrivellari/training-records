@@ -1,10 +1,26 @@
 [
     {
-        "password": "evilcrive",
-        "username": "evilcrive"
+        "name": "Alberto",
+        "password": "prova1",
+        "surname": "c",
+        "username": "prova1"
     },
     {
-        "password": "prova1",
-        "username": "prova1"
+        "name": "Alberto",
+        "password": "prova2",
+        "surname": "c",
+        "username": "prova2"
+    },
+    {
+        "name": "sd",
+        "password": "sasdsada",
+        "surname": "s",
+        "username": "sssdada"
+    },
+    {
+        "name": "Albert",
+        "password": "evilcrive",
+        "surname": "cr",
+        "username": "evilcrive"
     }
 ]

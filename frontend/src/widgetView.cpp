@@ -3,22 +3,37 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <cctype>
+#include "../../backend/backendException.h"
 
 WidgetView::WidgetView(Controller * c, QWidget * p)
-    : QWidget{p}, controller{c}, homePage{new WV_HomePage{this}}, authentication{new WV_Auth{this}} {
+    : QWidget{p}, controller{c}, homePage{new WV_HomePage{this, c}}, authentication{new WV_Auth{this}} {
 
     setWindowTitle("Training Records");
     setWindowIcon(QIcon(QString::fromStdString(controller -> getPath()) + "icon.png"));
-    
     homePage -> hide();
     authentication -> show();
     show();
+    setFixedSize(400,400);
     
     QObject::connect(authentication, &WV_Auth::sendLogin, this, &WidgetView::sendLogin);
     QObject::connect(authentication, &WV_Auth::sendRegister, this, &WidgetView::sendRegister);
 }
 
-void WidgetView::sendLogin() {
+void WidgetView::sortById() {
+    controller -> sort(true);
+    homePage -> close();
+    homePage = new WV_HomePage{this, controller};
+    showHomePage();
+}
+
+void WidgetView::sortByDate() {
+    controller -> sort(false);
+    homePage -> close();
+    homePage = new WV_HomePage{this, controller};
+    showHomePage();
+}
+
+void WidgetView::sendLogin() try {
     std::string username, password;
     authentication -> getCredentialsLogin(username, password);
     if (controller -> giveCredentials(username, password)) {
@@ -27,9 +42,12 @@ void WidgetView::sendLogin() {
     }else {
         QMessageBox::warning(authentication, "Login Error", "The combination of username and password you provided doesn't exist in our database");
     }
+} catch(BackendException* e){
+    QMessageBox::warning(authentication, "Login Error", QString::fromStdString(e->getMessage()));
 }
 
-void WidgetView::sendRegister() {
+
+void WidgetView::sendRegister() try {
     std::string username, password, name, surname;
     authentication -> getCredentialsSignup(username, password, name, surname);
     if (name.empty() == false) {
@@ -62,6 +80,8 @@ void WidgetView::sendRegister() {
             QMessageBox::warning(authentication, "Register error", "The password you chose is too short");
         }
     }
+} catch(BackendException* e){
+    QMessageBox::warning(authentication, "Signup Error", QString::fromStdString(e->getMessage()));
 }
 
 void WidgetView::showHomePage() {
@@ -69,5 +89,7 @@ void WidgetView::showHomePage() {
     authentication -> hideSignup();
     authentication -> hide();
 
-    homePage -> buildPage(controller);
+    homePage -> buildPage();
+    QObject::connect(homePage, &WV_HomePage::sort_id, this, &WidgetView::sortById);
+    QObject::connect(homePage, &WV_HomePage::sort_date, this, &WidgetView::sortByDate);
 }

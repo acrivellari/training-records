@@ -3,12 +3,13 @@
 
 Controller::Controller(Model* m) : model{m} {}
 
-void Controller::addEmptyTraining(std::string date) const {
-    model -> addEmptyTraining(date);
+uint Controller::addEmptyTraining(std::string date) const {
+    return model -> addEmptyTraining(date);
+    
 }
 
-void Controller::addExerciseTraining(unsigned int id, std::vector<std::string> dataEx) const {
-    model -> addExerciseTraining(id, dataEx);
+void Controller::addExerciseTraining(unsigned int id, std::string nameEx, std::vector<std::string> dataEx) const {
+    model -> addExerciseTraining(id, nameEx, dataEx);
 }
 
 bool Controller::removeTraining(unsigned int index) const {
@@ -30,6 +31,11 @@ void Controller::getAllTrainings(std::vector<Training*>& array) const {
 
 unsigned int Controller::getTrainingRecordsSize() const {
     return model -> getSize();
+}
+
+void Controller::sort(bool sortById) {
+    if (sortById == true)   model -> sortById();
+    else    model -> sortByDate();
 }
 
 // input output
@@ -60,3 +66,23 @@ bool Controller::logOut() {
 std::string Controller::getPath() const {
     return model -> getPath();
 }
+
+bool Controller::changeCredentials(std::string newu, std::string oldu, std::string p, std::string n, std::string s) {
+    return model -> changeCredentials(newu, oldu, p, n, s);
+    
+}
+
+std::string Controller::getCredential(std::string type) const {
+    return model -> getCredential(type);
+
+}
+
+std::set<std::string> Controller::getTypesExercises() const {
+    std::set<std::string> result;
+    model -> getTypesExercises(result);
+    return result;
+}
+
+std::string Controller::printTraining(int i) const {
+    return model -> printTraining(i);
+}   
