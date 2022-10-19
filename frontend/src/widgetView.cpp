@@ -85,8 +85,8 @@ void WidgetView::sendRegister() try {
 }
 
 void WidgetView::showHomePage() {
-    authentication -> hideLogin();
-    authentication -> hideSignup();
+    authentication -> setVisibilityLogin(false);
+    authentication -> setVisibilitySignup(false);
     authentication -> hide();
 
     homePage -> buildPage();

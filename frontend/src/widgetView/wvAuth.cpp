@@ -49,18 +49,17 @@ void WV_Auth::getCredentialsSignup(std::string& user, std::string& pass, std::st
         surname = credentials.at(3).toStdString();
     }
 }
-void WV_Auth::hideLogin() {
-    loginWindow -> hide();
+
+void WV_Auth::setVisibilityLogin(bool show) {
+    if (show)
+        loginWindow -> show();
+    else
+        loginWindow -> hide();
 }
 
-void WV_Auth::showLogin() {
-    loginWindow -> show();
-}
-
-void WV_Auth::hideSignup() {
-    signupWindow -> hide();
-}
-
-void WV_Auth::showSignup() {
-    signupWindow -> show();
+void WV_Auth::setVisibilitySignup(bool show) {
+    if (show)
+        signupWindow -> show();
+    else
+        signupWindow -> hide();
 }

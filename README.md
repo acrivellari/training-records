@@ -1,6 +1,7 @@
 # training-records
 ## TODO
-should not delete homepage every time i sort, but create a method to delete everything from the layout of the widget
+- should not delete homepage every time i sort, but create a method to delete everything from the layout of the widget
+- should not have controller pointer in every view class, just widgetview (main one)
 ## To build:
 - qmake
 - make

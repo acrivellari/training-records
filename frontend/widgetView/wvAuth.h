@@ -15,11 +15,8 @@ public :
 
     void getCredentialsLogin(std::string&, std::string&) const;
     void getCredentialsSignup(std::string&, std::string&, std::string&, std::string&) const;
-
-    Q_SLOT void hideLogin();
-    Q_SLOT void hideSignup();
-    Q_SLOT void showLogin();
-    Q_SLOT void showSignup();
+    void setVisibilityLogin(bool);
+    void setVisibilitySignup(bool);
 
     Q_SIGNAL void sendLogin();
     Q_SIGNAL void sendRegister();
