@@ -4,3 +4,6 @@
 debug/
 release/
 Make*
+moc*
+*.o
+training-records

@@ -4,9 +4,12 @@
 #include "../backend/controller.h"
 #include "widgetView/wvAuth.h"
 #include "widgetView/wvHomePage.h"
+#include "view.h"
 #include <QWidget>
 
-class WidgetView : public QWidget{
+class Controller;
+
+class WidgetView : public QWidget, public View{
     Q_OBJECT
 private :
     Controller* controller;

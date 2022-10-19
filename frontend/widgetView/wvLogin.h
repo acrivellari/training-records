@@ -12,6 +12,7 @@ private :
 public :
     WV_Login(QWidget* = nullptr);
     QStringList getCredentials() const;
+    
     Q_SIGNAL void sendLogin();
 };
 

@@ -14,6 +14,7 @@ private :
 public :
     WV_Signup(QWidget* = nullptr);
     QStringList getCredentials() const;
+        
     Q_SIGNAL void sendRegister();
 };
 

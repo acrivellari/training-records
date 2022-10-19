@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include "../../backend/training.h"
-#include "../backend/controller.h"
+#include "../../backend/controller.h"
 
 class WV_HomePage : public QWidget {
 	Q_OBJECT

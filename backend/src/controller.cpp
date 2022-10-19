@@ -1,7 +1,13 @@
 #include "../controller.h"
 #include <vector>
 
-Controller::Controller(Model* m) : model{m} {}
+Controller::Controller(Model* m) : model{m}, view{nullptr} {}
+
+
+
+void Controller::setGUI(View* v) {
+    view = v;
+}
 
 uint Controller::addEmptyTraining(std::string date) const {
     return model -> addEmptyTraining(date);

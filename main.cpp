@@ -16,6 +16,11 @@ int main(int argc, char *argv[]) {
     if (argc == 2)  work_dir = "..";
 
     QApplication app{argc, argv};
-    new WidgetView{new Controller{new Model(work_dir + "/backend/resources/")}};
+    
+    Model* m = new Model{work_dir + "/backend/resources/"};
+    Controller* c = new Controller{m};
+    View* v = new WidgetView{c};
+    c -> setGUI(v);
+    
     return QApplication::exec();
 }

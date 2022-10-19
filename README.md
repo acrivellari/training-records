@@ -1,5 +1,6 @@
 # training-records
-
+## TODO
+should not delete homepage every time i sort, but create a method to delete everything from the layout of the widget
 ## To build:
 - qmake
 - make

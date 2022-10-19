@@ -3,12 +3,15 @@
 
 #include <set>
 #include "model.h"
+#include "../frontend/view.h"
 
 class Controller {
 public:
     Model* model;
+    View* view;
+    Controller(Model*);
 
-    Controller(Model* = new Model());
+    void setGUI(View*);
 
     uint addEmptyTraining(std::string date) const;
     void addExerciseTraining(unsigned int, std::string, std::vector<std::string>) const;

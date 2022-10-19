@@ -13,7 +13,7 @@
 #include <QLineEdit>
 #include <QDateTimeEdit>
 
-#include "../backend/controller.h"
+#include "../../backend/controller.h"
 
 class AddTr : public QWidget{
     Q_OBJECT

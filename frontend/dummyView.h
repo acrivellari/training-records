@@ -2,7 +2,7 @@
 #define DVIEW_H
 
 #include "view.h"
-
+#include "../backend/controller.h"
 class DummyView : public View {
 private :
     Controller* controller;
