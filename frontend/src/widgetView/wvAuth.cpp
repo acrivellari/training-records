@@ -30,6 +30,8 @@ WV_Auth::WV_Auth(QWidget* p) : QWidget{p}, loginWindow{new WV_Login{this}}, sign
     QObject::connect(signupWindow, &WV_Signup::sendRegister, this, &WV_Auth::sendRegister);
     QObject::connect(login, &QPushButton::clicked, this, &WV_Auth::showLogin);
     QObject::connect(signup, &QPushButton::clicked, this, &WV_Auth::showSignup);
+
+
 }
 
 void WV_Auth::getCredentialsLogin(std::string& user, std::string& pass) const {

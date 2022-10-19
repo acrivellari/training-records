@@ -3,11 +3,9 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QScrollArea>
-#include "../../widgetView/Sort.h"
-#include "../../widgetView/User.h"
-#include "../../widgetView/AddTr.h"
 
-WV_HomePage::WV_HomePage(QWidget* p, Controller* c) : QWidget{p}, controller{c} {}
+WV_HomePage::WV_HomePage(QWidget* p, Controller* c) :
+	 QWidget{p}, controller{c}, sortForm{nullptr}, addForm{nullptr}, userForm{nullptr} {}
 
 void WV_HomePage::buildPage() {
 	QVBoxLayout * mainLayout = new QVBoxLayout{this};
@@ -89,19 +87,17 @@ void WV_HomePage::buildPage() {
 }
 
 void WV_HomePage::clickedUser() {
-	new User{this, controller};
+	userForm = new User{this, controller};
 }
 
 void WV_HomePage::clickedAdd() {
-	AddTr* _addForm = new AddTr{this, controller};
-	QObject::connect(_addForm, &AddTr::sort, this, &WV_HomePage::sort_id);
+	addForm = new AddTr{this, controller};
+	QObject::connect(addForm, &AddTr::sort, this, &WV_HomePage::sort_requestID);
 }
 
 void WV_HomePage::clickedSort() {
-	Sort* _sortForm = new Sort{this};
-	QObject::connect(_sortForm, &Sort::sort_id, this, &WV_HomePage::sort_id);
-	QObject::connect(_sortForm, &Sort::sort_date, this, &WV_HomePage::sort_date);
-	
+	sortForm = new Sort{this};
+	QObject::connect(sortForm, &Sort::sort_request, this, &WV_HomePage::sort_request);
 }
 
 void WV_HomePage::clickedFilter() {
@@ -113,3 +109,18 @@ void WV_HomePage::clickedGraphs() {
 }
 
 //have to use qsignalmapper for trainings
+
+bool WV_HomePage::isSortChecked() const {
+	bool result = false;
+	if (sortForm != nullptr)
+		result = sortForm -> isChecked();
+	return result;
+}
+
+bool WV_HomePage::getSortType() const {
+	return sortForm -> getSortType();
+}
+
+void WV_HomePage::closeSortForm() {
+	sortForm -> close();
+}

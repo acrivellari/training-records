@@ -20,6 +20,8 @@ public :
 
     Q_SIGNAL void sendLogin();
     Q_SIGNAL void sendRegister();
+    Q_SIGNAL void showLogin();
+    Q_SIGNAL void showSignup();
 };
 
 #endif

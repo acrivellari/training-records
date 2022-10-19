@@ -17,20 +17,47 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     
     QObject::connect(authentication, &WV_Auth::sendLogin, this, &WidgetView::sendLogin);
     QObject::connect(authentication, &WV_Auth::sendRegister, this, &WidgetView::sendRegister);
+    QObject::connect(authentication, &WV_Auth::showLogin, this, &WidgetView::showLogin);
+    QObject::connect(authentication, &WV_Auth::showSignup, this, &WidgetView::showSignup);
+}
+
+void WidgetView::sortUtil(bool sortType) {
+    controller -> sort(sortType);
+        // true -> id    
+
+    rebuildHomePage(); 
+}
+void WidgetView::sortRequest() {
+    if (isSortChecked()) {
+        bool sortType = getSortType();
+        closeSortForm();
+        sortUtil(sortType);
+    }
 }
 
 void WidgetView::sortById() {
-    controller -> sort(true);
-    homePage -> close();
-    homePage = new WV_HomePage{this, controller};
-    showHomePage();
+    sortUtil(true);
 }
 
-void WidgetView::sortByDate() {
-    controller -> sort(false);
-    homePage -> close();
-    homePage = new WV_HomePage{this, controller};
-    showHomePage();
+
+bool WidgetView::isSortChecked() const {
+    return homePage -> isSortChecked();
+}
+
+bool WidgetView::getSortType() const {
+    return homePage -> getSortType();
+}
+
+void WidgetView::closeSortForm() {
+    homePage -> closeSortForm();
+}
+
+void WidgetView::showLogin() {
+    authentication -> setVisibilityLogin(true);
+}
+
+void WidgetView::showSignup() {
+    authentication -> setVisibilitySignup(true);
 }
 
 void WidgetView::sendLogin() try {
@@ -90,6 +117,13 @@ void WidgetView::showHomePage() {
     authentication -> hide();
 
     homePage -> buildPage();
-    QObject::connect(homePage, &WV_HomePage::sort_id, this, &WidgetView::sortById);
-    QObject::connect(homePage, &WV_HomePage::sort_date, this, &WidgetView::sortByDate);
+
+    QObject::connect(homePage, &WV_HomePage::sort_request, this, &WidgetView::sortRequest);
+    QObject::connect(homePage, &WV_HomePage::sort_requestID, this, &WidgetView::sortById);
+}
+
+void WidgetView::rebuildHomePage() {
+    homePage -> close();
+        homePage = new WV_HomePage{this, controller};
+        showHomePage(); 
 }
