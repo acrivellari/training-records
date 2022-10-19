@@ -24,15 +24,19 @@ Sort::Sort(QWidget* p) : QWidget(p) {
     setFixedSize(minimumWidth(), 100);
     show();
 
-    QObject::connect(sendButton, &QPushButton::clicked, this, &Sort::clickedSend);
+    QObject::connect(sendButton, &QPushButton::clicked, this, &Sort::sort_request);
 }
 
-void Sort::clickedSend() {
+
+bool Sort::isChecked() const {
+    return sortIdButton -> isChecked() || sortDateButton -> isChecked();
+}
+
+bool Sort::getSortType() const {
+    bool result = false;
     if (sortIdButton -> isChecked()) {
-        emit sort_id();
-        close();
+        return true;
     } else if (sortDateButton -> isChecked()) {
-        emit sort_date();
-        close();
-    }   
+        return false;
+    }
 }

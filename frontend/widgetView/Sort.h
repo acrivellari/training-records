@@ -11,9 +11,11 @@ private :
     QRadioButton* sortDateButton;
 public:
     Sort(QWidget* =nullptr);
-    Q_SLOT void clickedSend();
-    Q_SIGNAL void sort_id();
-    Q_SIGNAL void sort_date();
+
+    bool isChecked() const;
+    bool getSortType() const;
+
+    Q_SIGNAL void sort_request();
 };
 
 #endif
