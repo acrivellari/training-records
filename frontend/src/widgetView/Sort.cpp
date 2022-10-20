@@ -34,9 +34,11 @@ bool Sort::isChecked() const {
 
 bool Sort::getSortType() const {
     bool result = false;
-    if (sortIdButton -> isChecked()) {
-        return true;
-    } else if (sortDateButton -> isChecked()) {
-        return false;
-    }
+    if (sortIdButton -> isChecked())
+        result = true;
+    else if (sortDateButton -> isChecked())
+        result = false;
+    else 
+        throw new BackendException("Sort button not checked...");
+    return result;
 }

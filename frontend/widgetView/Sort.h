@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QRadioButton>
 
+#include "../../backend/backendException.h"
+
 class Sort : public QWidget{
     Q_OBJECT
 private :

@@ -24,15 +24,18 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
 void WidgetView::sortUtil(bool sortType) {
     controller -> sort(sortType);
         // true -> id    
-
     rebuildHomePage(); 
 }
+
 void WidgetView::sortRequest() {
     if (isSortChecked()) {
-        bool sortType = getSortType();
-        closeSortForm();
-        sortUtil(sortType);
+        try{
+            sortUtil(getSortType());
+        } catch (BackendException* e) {
+            QMessageBox::warning(homePage, "Sort Error", QString::fromStdString(e->getMessage()));
+        }
     }
+    closeSortForm();
 }
 
 void WidgetView::sortById() {

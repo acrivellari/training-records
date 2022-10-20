@@ -5,7 +5,18 @@
 #include <QScrollArea>
 
 WV_HomePage::WV_HomePage(QWidget* p, Controller* c) :
-	 QWidget{p}, controller{c}, sortForm{nullptr}, addForm{nullptr}, userForm{nullptr} {}
+	 QWidget{p}, controller{c}, sortForm{new Sort{this}}, addForm{new AddTr{this, c}}, userForm{new User{this, c}} {
+	
+	sortForm -> close();
+	sortForm -> hide();
+	addForm -> close();
+	addForm -> hide();
+	userForm -> close();
+	userForm -> hide();
+	
+	QObject::connect(addForm, &AddTr::sort, this, &WV_HomePage::sort_requestID);
+	QObject::connect(sortForm, &Sort::sort_request, this, &WV_HomePage::sort_request);
+}
 
 void WV_HomePage::buildPage() {
 	QVBoxLayout * mainLayout = new QVBoxLayout{this};
@@ -87,17 +98,15 @@ void WV_HomePage::buildPage() {
 }
 
 void WV_HomePage::clickedUser() {
-	userForm = new User{this, controller};
+	userForm -> show();
 }
 
 void WV_HomePage::clickedAdd() {
-	addForm = new AddTr{this, controller};
-	QObject::connect(addForm, &AddTr::sort, this, &WV_HomePage::sort_requestID);
+	addForm -> show();
 }
 
 void WV_HomePage::clickedSort() {
-	sortForm = new Sort{this};
-	QObject::connect(sortForm, &Sort::sort_request, this, &WV_HomePage::sort_request);
+	sortForm -> show();
 }
 
 void WV_HomePage::clickedFilter() {
@@ -122,5 +131,8 @@ bool WV_HomePage::getSortType() const {
 }
 
 void WV_HomePage::closeSortForm() {
-	sortForm -> close();
+	if (sortForm != nullptr) {
+		sortForm -> close();
+		sortForm -> hide();
+	}
 }
