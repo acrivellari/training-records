@@ -19,7 +19,6 @@ private:
 public :
 	WV_HomePage(QWidget*, Controller*);
 	void buildPage();
-
 	bool isSortChecked() const;
 	bool getSortType() const;
 	void closeSortForm();
@@ -34,6 +33,7 @@ public :
 	Q_SLOT void clickedFilter();
 	Q_SLOT void clickedGraphs();
 
+	Q_SIGNAL void reqUpdateCredentials();
 	Q_SIGNAL void sort_request();
 	Q_SIGNAL void sort_requestID();
 };

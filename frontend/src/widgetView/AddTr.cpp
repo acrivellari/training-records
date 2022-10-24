@@ -51,7 +51,6 @@ AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller (c) {
     setWindowTitle("Add Training");
     setWindowFlag(Qt::Window);
     setWindowModality(Qt::WindowModal);
-    show();
 }
 
 void AddTr::clickedAddExercise() {

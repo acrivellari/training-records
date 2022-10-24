@@ -7,13 +7,7 @@
 WV_HomePage::WV_HomePage(QWidget* p, Controller* c) :
 	 QWidget{p}, controller{c}, sortForm{new Sort{this}}, addForm{new AddTr{this, c}}, userForm{new User{this}} {
 	
-	sortForm -> close();
-	sortForm -> hide();
-	addForm -> close();
-	addForm -> hide();
-	userForm -> close();
-	userForm -> hide();
-	
+	QObject::connect(userForm, &User::reqUpdateCredentials, this, &WV_HomePage::reqUpdateCredentials);
 	QObject::connect(addForm, &AddTr::sort, this, &WV_HomePage::sort_requestID);
 	QObject::connect(sortForm, &Sort::sort_request, this, &WV_HomePage::sort_request);
 }

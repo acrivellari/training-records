@@ -6,6 +6,11 @@
 #include <QMessageBox>
 
 User::User(QWidget* p) : QWidget(p) {
+    buildPage();
+    QObject::connect(saveButton, &QPushButton::clicked, this, &User::reqUpdateCredentials);
+}
+
+void User::buildPage() {
     QVBoxLayout* mainLayout = new QVBoxLayout{this};
     QHBoxLayout* nameLayout = new QHBoxLayout{this};
     QHBoxLayout* surnameLayout = new QHBoxLayout{this};
@@ -19,7 +24,7 @@ User::User(QWidget* p) : QWidget(p) {
     surnameLineEdit = new QLineEdit{this};
     usernameLineEdit = new QLineEdit{this};
     passwordLineEdit = new QLineEdit{this};
-    QPushButton* saveButton = new QPushButton{this};
+    saveButton = new QPushButton{this};
 
     nameLabel -> setText("Name:  ");
     surnameLabel -> setText("Surname:  ");
@@ -45,11 +50,9 @@ User::User(QWidget* p) : QWidget(p) {
     setWindowTitle("User Page");
     setWindowFlag(Qt::Window);
     setWindowModality(Qt::WindowModal);
-    show();
-    QObject::connect(saveButton, &QPushButton::clicked, this, &User::updateCredentials);
 }
-
-void User::updateCredentials() try {/*
+/*
+void User::updateCredentials() try {
     bool isSuccessful = true;
     if (usernameLineEdit -> text() != QString::fromStdString(controller -> getCredential("username")) ||
       passwordLineEdit -> text() != QString::fromStdString(controller -> getCredential("password")) ||
@@ -69,11 +72,11 @@ void User::updateCredentials() try {/*
     if (isSuccessful == false) {
         QMessageBox::warning(this, "Change Credentials Error", "The change of credentials failed.\nThere were some problems with loading and/or saving the data.");
     }
-    close();*/
+    close();
 
 } catch(BackendException* e){
     QMessageBox::warning(this, "Login Error", QString::fromStdString(e->getMessage()));
-}
+}*/
 
 void User::setName(QString n) {
     nameLineEdit -> setText(n);
@@ -91,10 +94,3 @@ void User::setPassword(QString p) {
     passwordLineEdit -> setText(p);
 }
 
-
-/*
-passwordLineEdit -> setText(QString::fromStdString(controller -> getCredential("password")));
-usernameLineEdit -> setText(QString::fromStdString(controller -> getCredential("username")));
-surnameLineEdit -> setText(QString::fromStdString(controller -> getCredential("surname")));
-nameLineEdit -> setText(QString::fromStdString(controller -> getCredential("name")));   
-*/

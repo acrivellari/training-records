@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QRadioButton>
+#include <QPushButton>
 
 #include "../../backend/backendException.h"
 
@@ -11,9 +12,10 @@ class Sort : public QWidget{
 private :
     QRadioButton* sortIdButton;
     QRadioButton* sortDateButton;
+    QPushButton* sendButton;
 public:
     Sort(QWidget* =nullptr);
-
+    void buildPage();
     bool isChecked() const;
     bool getSortType() const;
 

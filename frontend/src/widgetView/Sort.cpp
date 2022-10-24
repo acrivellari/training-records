@@ -4,10 +4,15 @@
 #include <QLabel>
 
 Sort::Sort(QWidget* p) : QWidget(p) {
+    buildPage();
+    QObject::connect(sendButton, &QPushButton::clicked, this, &Sort::sort_request);
+}
+
+void Sort::buildPage() {
     QVBoxLayout* mainLayout = new QVBoxLayout{this};
     sortIdButton = new QRadioButton{this};
     sortDateButton = new QRadioButton{this};
-    QPushButton* sendButton = new QPushButton{this};
+    sendButton = new QPushButton{this};
 
     sortIdButton -> setText("Sort trainings by ID (ascending order)");
     sortDateButton -> setText("Sort trainings by Date (ascending order)");
@@ -22,9 +27,6 @@ Sort::Sort(QWidget* p) : QWidget(p) {
     setWindowFlag(Qt::Window);
     setWindowModality(Qt::WindowModal);
     setFixedSize(minimumWidth(), 100);
-    show();
-
-    QObject::connect(sendButton, &QPushButton::clicked, this, &Sort::sort_request);
 }
 
 

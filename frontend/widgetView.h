@@ -18,10 +18,8 @@ private :
     WV_Auth* authentication;
 public :
     WidgetView(Controller*, QWidget* = nullptr);
-    
     void showHomePage();
     void rebuildHomePage();
-
     bool isSortChecked() const;
     bool getSortType() const;
     void closeSortForm();
@@ -31,9 +29,9 @@ public :
     Q_SLOT void showSignup();
     Q_SLOT void sendLogin();
     Q_SLOT void sendRegister();
-
     Q_SLOT void sortRequest();
     Q_SLOT void sortById();
+    Q_SLOT void updateCredentials();
 };
 
 #endif

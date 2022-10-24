@@ -19,11 +19,16 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     QObject::connect(authentication, &WV_Auth::showLogin, this, &WidgetView::showLogin);
     QObject::connect(authentication, &WV_Auth::showSignup, this, &WidgetView::showSignup);
 }
+
 void WidgetView::sendDataProfile() {
     homePage -> setName(controller -> getCredential("name"));
     homePage -> setSurname(controller -> getCredential("surname"));
     homePage -> setUsername(controller -> getCredential("username"));
     homePage -> setPassword(controller -> getCredential("password"));
+}
+
+void WidgetView::updateCredentials() {
+    QMessageBox::warning(nullptr, "hi", "hi");
 }
 
 void WidgetView::sortRequest() {
@@ -125,6 +130,7 @@ void WidgetView::showHomePage() {
     homePage -> buildPage();
     sendDataProfile();
 
+    QObject::connect(homePage, &WV_HomePage::reqUpdateCredentials, this, &WidgetView::updateCredentials);
     QObject::connect(homePage, &WV_HomePage::sort_request, this, &WidgetView::sortRequest);
     QObject::connect(homePage, &WV_HomePage::sort_requestID, this, &WidgetView::sortById);
 }
