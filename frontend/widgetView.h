@@ -24,7 +24,6 @@ public :
     bool isSortChecked() const;
     bool getSortType() const;
     void closeSortForm();
-    void sortUtil(bool);
 
     Q_SLOT void showLogin();
     Q_SLOT void showSignup();

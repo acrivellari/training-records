@@ -21,25 +21,23 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     QObject::connect(authentication, &WV_Auth::showSignup, this, &WidgetView::showSignup);
 }
 
-void WidgetView::sortUtil(bool sortType) {
-    controller -> sort(sortType);
-        // true -> id    
-    rebuildHomePage(); 
-}
-
 void WidgetView::sortRequest() {
     if (isSortChecked()) {
         try{
-            sortUtil(getSortType());
+            controller -> sort(getSortType());
+            closeSortForm();
+            rebuildHomePage();
         } catch (BackendException* e) {
             QMessageBox::warning(homePage, "Sort Error", QString::fromStdString(e->getMessage()));
         }
+    }else {
+        closeSortForm();
     }
-    closeSortForm();
 }
 
 void WidgetView::sortById() {
-    sortUtil(true);
+    controller -> sort(true);
+    rebuildHomePage();
 }
 
 

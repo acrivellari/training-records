@@ -131,8 +131,6 @@ bool WV_HomePage::getSortType() const {
 }
 
 void WV_HomePage::closeSortForm() {
-	if (sortForm != nullptr) {
+	if (sortForm != nullptr)
 		sortForm -> close();
-		sortForm -> hide();
-	}
 }
