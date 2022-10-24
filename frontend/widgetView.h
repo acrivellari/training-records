@@ -2,6 +2,7 @@
 #define WVIEW_H
 
 #include "../backend/controller.h"
+#include "../backend/backendException.h"
 #include "widgetView/wvAuth.h"
 #include "widgetView/wvHomePage.h"
 #include "view.h"
@@ -24,6 +25,7 @@ public :
     bool isSortChecked() const;
     bool getSortType() const;
     void closeSortForm();
+    void sendDataProfile();
 
     Q_SLOT void showLogin();
     Q_SLOT void showSignup();

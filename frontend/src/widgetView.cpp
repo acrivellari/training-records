@@ -3,7 +3,6 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <cctype>
-#include "../../backend/backendException.h"
 
 WidgetView::WidgetView(Controller * c, QWidget * p)
     : QWidget{p}, controller{c}, homePage{new WV_HomePage{this, c}}, authentication{new WV_Auth{this}} {
@@ -19,6 +18,12 @@ WidgetView::WidgetView(Controller * c, QWidget * p)
     QObject::connect(authentication, &WV_Auth::sendRegister, this, &WidgetView::sendRegister);
     QObject::connect(authentication, &WV_Auth::showLogin, this, &WidgetView::showLogin);
     QObject::connect(authentication, &WV_Auth::showSignup, this, &WidgetView::showSignup);
+}
+void WidgetView::sendDataProfile() {
+    homePage -> setName(controller -> getCredential("name"));
+    homePage -> setSurname(controller -> getCredential("surname"));
+    homePage -> setUsername(controller -> getCredential("username"));
+    homePage -> setPassword(controller -> getCredential("password"));
 }
 
 void WidgetView::sortRequest() {
@@ -118,6 +123,7 @@ void WidgetView::showHomePage() {
     authentication -> hide();
 
     homePage -> buildPage();
+    sendDataProfile();
 
     QObject::connect(homePage, &WV_HomePage::sort_request, this, &WidgetView::sortRequest);
     QObject::connect(homePage, &WV_HomePage::sort_requestID, this, &WidgetView::sortById);

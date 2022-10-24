@@ -5,7 +5,7 @@
 #include <QScrollArea>
 
 WV_HomePage::WV_HomePage(QWidget* p, Controller* c) :
-	 QWidget{p}, controller{c}, sortForm{new Sort{this}}, addForm{new AddTr{this, c}}, userForm{new User{this, c}} {
+	 QWidget{p}, controller{c}, sortForm{new Sort{this}}, addForm{new AddTr{this, c}}, userForm{new User{this}} {
 	
 	sortForm -> close();
 	sortForm -> hide();
@@ -133,4 +133,20 @@ bool WV_HomePage::getSortType() const {
 void WV_HomePage::closeSortForm() {
 	if (sortForm != nullptr)
 		sortForm -> close();
+}
+
+void WV_HomePage::setName(std::string name) {
+	userForm -> setName(QString::fromStdString(name));
+}
+
+void WV_HomePage::setSurname(std::string surname) {
+	userForm -> setSurname(QString::fromStdString(surname));
+}
+
+void WV_HomePage::setUsername(std::string username) {
+	userForm -> setUsername(QString::fromStdString(username));
+}
+
+void WV_HomePage::setPassword(std::string password) {
+	userForm -> setPassword(QString::fromStdString(password));
 }

@@ -23,6 +23,10 @@ public :
 	bool isSortChecked() const;
 	bool getSortType() const;
 	void closeSortForm();
+	void setName(std::string);
+	void setSurname(std::string);
+	void setUsername(std::string);
+	void setPassword(std::string);
 
 	Q_SLOT void clickedUser();
 	Q_SLOT void clickedAdd();
