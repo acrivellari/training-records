@@ -32,6 +32,7 @@ public :
     Q_SLOT void sortRequest();
     Q_SLOT void sortById();
     Q_SLOT void updateCredentials();
+    Q_SLOT void updateCB_listExercises();
 };
 
 #endif

@@ -66,6 +66,11 @@ void WidgetView::updateCredentials() try {
     QMessageBox::warning(this, "Login Error", QString::fromStdString(e->getMessage()));    
 }
 
+void WidgetView::updateCB_listExercises() {
+    for (std::string s : controller -> getTypesExercises())
+        homePage -> addItem_exerciseNameCB(QString::fromStdString(s));
+}
+
 void WidgetView::sortRequest() {
     if (isSortChecked()) {
         try{
@@ -166,6 +171,7 @@ void WidgetView::showHomePage() {
     homePage -> buildPage();
     sendDataProfile();
 
+    QObject::connect(homePage, &WV_HomePage::updateCBListEx, this, &WidgetView::updateCB_listExercises);
     QObject::connect(homePage, &WV_HomePage::reqUpdateCredentials, this, &WidgetView::updateCredentials);
     QObject::connect(homePage, &WV_HomePage::sort_request, this, &WidgetView::sortRequest);
     QObject::connect(homePage, &WV_HomePage::sort_requestID, this, &WidgetView::sortById);

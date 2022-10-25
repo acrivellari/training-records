@@ -16,6 +16,8 @@ private:
 	Sort* sortForm;
 	AddTr* addForm;
 	User* userForm;
+
+
 public :
 	WV_HomePage(QWidget*, Controller*);
 	void buildPage();
@@ -31,6 +33,7 @@ public :
 	QString getProfileSurname() const;
 	QString getProfileUsername() const;
 	QString getProfilePassword() const;
+	void addItem_exerciseNameCB(QString);
 
 	Q_SLOT void clickedUser();
 	Q_SLOT void clickedAdd();
@@ -39,6 +42,7 @@ public :
 	Q_SLOT void clickedGraphs();
 
 	Q_SIGNAL void reqUpdateCredentials();
+	Q_SIGNAL void updateCBListEx();
 	Q_SIGNAL void sort_request();
 	Q_SIGNAL void sort_requestID();
 };

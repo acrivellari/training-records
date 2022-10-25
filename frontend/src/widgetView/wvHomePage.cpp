@@ -7,6 +7,7 @@
 WV_HomePage::WV_HomePage(QWidget* p, Controller* c) :
 	 QWidget{p}, controller{c}, sortForm{new Sort{this}}, addForm{new AddTr{this, c}}, userForm{new User{this}} {
 	
+	QObject::connect(addForm, &AddTr::updateCBListEx, this, &WV_HomePage::updateCBListEx);
 	QObject::connect(userForm, &User::reqUpdateCredentials, this, &WV_HomePage::reqUpdateCredentials);
 	QObject::connect(addForm, &AddTr::sort, this, &WV_HomePage::sort_requestID);
 	QObject::connect(sortForm, &Sort::sort_request, this, &WV_HomePage::sort_request);
@@ -159,6 +160,10 @@ QString WV_HomePage::getProfileUsername() const {
 
 QString WV_HomePage::getProfilePassword() const {
 	return userForm -> getPassword();
+}
+
+void WV_HomePage::addItem_exerciseNameCB(QString s) {
+	addForm -> addItem_exerciseNameCB(s);
 }
 
 void WV_HomePage::closeUserForm() {

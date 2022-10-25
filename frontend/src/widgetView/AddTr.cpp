@@ -1,29 +1,23 @@
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QMessageBox>
-#include <QResizeEvent>
-
-#include <set>
-
 #include "../../widgetView/AddTr.h"
 
-#include "../../widgetView/AddTr.h"
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QDateTimeEdit>
-#include <QMessageBox>
-#include <QResizeEvent>
+AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller(c) {
+    buildPage();
+    QObject::connect(addNewExercise, &QPushButton::clicked, this, &AddTr::clickedAddExercise);
+    QObject::connect(addNewExercise, &QPushButton::clicked, this, &AddTr::updateCBListEx);
+    QObject::connect(removeExercise, &QPushButton::clicked, this, &AddTr::clickedRemoveExercise);
+    QObject::connect(addTraining, &QPushButton::clicked, this, &AddTr::clickedAddTraining);
+}
 
-AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller (c) {
+void AddTr::buildPage() {
     QVBoxLayout* mainLayout = new QVBoxLayout{this};
     QHBoxLayout* dateLayout = new QHBoxLayout;
     QHBoxLayout* exerciseLayout = new QHBoxLayout;
     allExercisesLayout = new QVBoxLayout;
     QLabel* dateLabel = new QLabel{this};
     dateEdit = new QDateTimeEdit{QDate::currentDate(), this};
-    QPushButton* addNewExercise = new QPushButton{this};
-    QPushButton* removeExercise = new QPushButton{this};
-    QPushButton* addTraining = new QPushButton{this};
+    addNewExercise = new QPushButton{this};
+    removeExercise = new QPushButton{this};
+    addTraining = new QPushButton{this};
 
     dateLabel -> setText("Date:  ");
     dateEdit -> setCalendarPopup(true);
@@ -42,11 +36,6 @@ AddTr::AddTr(QWidget* p, Controller* c) : QWidget(p), controller (c) {
     mainLayout -> addLayout(exerciseLayout);
     mainLayout -> addWidget(addTraining);
     mainLayout -> setSizeConstraint(QLayout::SetFixedSize);
-    clickedAddExercise();
-  
-    QObject::connect(addNewExercise, &QPushButton::clicked, this, &AddTr::clickedAddExercise);
-    QObject::connect(removeExercise, &QPushButton::clicked, this, &AddTr::clickedRemoveExercise);
-    QObject::connect(addTraining, &QPushButton::clicked, this, &AddTr::clickedAddTraining);
 
     setWindowTitle("Add Training");
     setWindowFlag(Qt::Window);
@@ -74,8 +63,6 @@ void AddTr::clickedAddExercise() {
     lcdSets.push_back(lcd);
 
     groupBox -> setTitle("Exercise n. " + QString::number(groupBoxes.size()-1));
-    for (std::string s : controller -> getTypesExercises())
-        exNameCB -> addItem(QString::fromStdString(s));
     nsS -> setOrientation(Qt::Horizontal);
     nsS -> setMinimum(0);
     nsS -> setMaximum(20);
@@ -180,4 +167,15 @@ void AddTr::clickedAddTraining() {
         emit sort();
     }
     
+}
+
+void AddTr::addItem_exerciseNameCB(QString s) {
+    exerciseNameCBox.last() -> addItem(s);
+}
+
+void AddTr::closeEvent(QCloseEvent* event) {
+    while (groupBoxes.isEmpty() == false) {
+        clickedRemoveExercise();
+    }
+    event -> accept();
 }
