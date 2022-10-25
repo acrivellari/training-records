@@ -12,10 +12,10 @@ User::User(QWidget* p) : QWidget(p) {
 
 void User::buildPage() {
     QVBoxLayout* mainLayout = new QVBoxLayout{this};
-    QHBoxLayout* nameLayout = new QHBoxLayout{this};
-    QHBoxLayout* surnameLayout = new QHBoxLayout{this};
-    QHBoxLayout* usernameLayout = new QHBoxLayout{this};
-    QHBoxLayout* passwordLayout = new QHBoxLayout{this};
+    QHBoxLayout* nameLayout = new QHBoxLayout{};
+    QHBoxLayout* surnameLayout = new QHBoxLayout{};
+    QHBoxLayout* usernameLayout = new QHBoxLayout{};
+    QHBoxLayout* passwordLayout = new QHBoxLayout{};
     QLabel* nameLabel = new QLabel{this};
     QLabel* surnameLabel = new QLabel{this};
     QLabel* usernameLabel = new QLabel{this};
