@@ -21,6 +21,10 @@ public:
     void setSurname(QString);
     void setUsername(QString);
     void setPassword(QString);
+    QString getName() const;
+    QString getSurname() const;
+    QString getUsername() const;
+    QString getPassword() const;
 
     Q_SIGNAL void reqUpdateCredentials();
 };

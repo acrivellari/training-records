@@ -22,10 +22,15 @@ public :
 	bool isSortChecked() const;
 	bool getSortType() const;
 	void closeSortForm();
+	void closeUserForm();
 	void setName(std::string);
 	void setSurname(std::string);
 	void setUsername(std::string);
 	void setPassword(std::string);
+	QString getProfileName() const;
+	QString getProfileSurname() const;
+	QString getProfileUsername() const;
+	QString getProfilePassword() const;
 
 	Q_SLOT void clickedUser();
 	Q_SLOT void clickedAdd();

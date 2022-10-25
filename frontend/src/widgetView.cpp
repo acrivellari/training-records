@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <cctype>
+#include <QString>
 
 WidgetView::WidgetView(Controller * c, QWidget * p)
     : QWidget{p}, controller{c}, homePage{new WV_HomePage{this, c}}, authentication{new WV_Auth{this}} {
@@ -27,8 +28,42 @@ void WidgetView::sendDataProfile() {
     homePage -> setPassword(controller -> getCredential("password"));
 }
 
-void WidgetView::updateCredentials() {
-    QMessageBox::warning(nullptr, "hi", "hi");
+void WidgetView::updateCredentials() try {
+    bool isSuccessful, hasChanged;
+    QString modelName, modelSurname, modelUsername, modelPassword, guiName, guiSurname, guiUsername, guiPassword;
+    
+    modelName = QString::fromStdString(controller -> getCredential("name"));
+    modelSurname = QString::fromStdString(controller -> getCredential("surname"));
+    modelUsername = QString::fromStdString(controller -> getCredential("username"));
+    modelPassword = QString::fromStdString(controller -> getCredential("password"));
+    guiName = homePage -> getProfileName();
+    guiSurname = homePage -> getProfileSurname();
+    guiUsername = homePage -> getProfileUsername();
+    guiPassword = homePage -> getProfilePassword();
+    
+    isSuccessful = true;
+    hasChanged = guiUsername != modelUsername || guiPassword != modelPassword || guiName != modelName || guiSurname != modelSurname;
+ 
+    if (hasChanged) {
+        std::string newUser, oldUser, password, name, surname;
+
+        newUser = guiUsername.QString::toStdString();
+        oldUser = modelUsername.QString::toStdString();
+        password = guiPassword.QString::toStdString();
+        name = guiName.QString::toStdString();
+        surname = guiSurname.QString::toStdString();
+
+        isSuccessful = controller -> changeCredentials(newUser,oldUser, password, name, surname);
+    } else {
+        QMessageBox::warning(this, "Change Credentials Error", "Nothing will happen, you didn't modified anything.");
+    }
+    if (isSuccessful == false) {
+        QString messageFailure = "The change of credentials failed.\nThere were some problems with loading and/or saving the data.";
+        QMessageBox::warning(this, "Change Credentials Error", messageFailure);
+    }
+    homePage -> closeUserForm();
+} catch(BackendException* e){
+    QMessageBox::warning(this, "Login Error", QString::fromStdString(e->getMessage()));    
 }
 
 void WidgetView::sortRequest() {
@@ -78,7 +113,8 @@ void WidgetView::sendLogin() try {
         controller -> load();
         showHomePage();
     }else {
-        QMessageBox::warning(authentication, "Login Error", "The combination of username and password you provided doesn't exist in our database");
+        QString errorMessage = "The combination of username and password you provided doesn't exist in our database";
+        QMessageBox::warning(authentication, "Login Error", errorMessage);
     }
 } catch(BackendException* e){
     QMessageBox::warning(authentication, "Login Error", QString::fromStdString(e->getMessage()));

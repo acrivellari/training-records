@@ -29,6 +29,8 @@ void User::buildPage() {
     nameLabel -> setText("Name:  ");
     surnameLabel -> setText("Surname:  ");
     usernameLabel -> setText("Username:  ");
+    usernameLineEdit -> setReadOnly(true);
+    usernameLineEdit -> setStyleSheet("background-color: #dddded; color : #828285;");
     passwordLabel -> setText("Password:  ");
     saveButton -> setText("Save Credentials");
     
@@ -51,32 +53,22 @@ void User::buildPage() {
     setWindowFlag(Qt::Window);
     setWindowModality(Qt::WindowModal);
 }
-/*
-void User::updateCredentials() try {
-    bool isSuccessful = true;
-    if (usernameLineEdit -> text() != QString::fromStdString(controller -> getCredential("username")) ||
-      passwordLineEdit -> text() != QString::fromStdString(controller -> getCredential("password")) ||
-      nameLineEdit -> text() != QString::fromStdString(controller -> getCredential("name")) ||
-      surnameLineEdit -> text() != QString::fromStdString(controller -> getCredential("surname"))) {
-        std::string newuser, olduser, password, name, surname;
-        newuser = (usernameLineEdit -> text()).QString::toStdString();
-        olduser = (controller -> getCredential("username"));
-        password = (passwordLineEdit -> text()).QString::toStdString();
-        name = (nameLineEdit -> text()).QString::toStdString();
-        surname = (surnameLineEdit -> text()).QString::toStdString();
 
-        isSuccessful = controller -> changeCredentials(newuser, olduser, password, name, surname);
-    } else {
-        QMessageBox::warning(this, "Change Credentials Error", "Nothing will happen, you didn't modified anything.");
-    }
-    if (isSuccessful == false) {
-        QMessageBox::warning(this, "Change Credentials Error", "The change of credentials failed.\nThere were some problems with loading and/or saving the data.");
-    }
-    close();
+QString User::getName() const {
+    return nameLineEdit -> text();
+}
 
-} catch(BackendException* e){
-    QMessageBox::warning(this, "Login Error", QString::fromStdString(e->getMessage()));
-}*/
+QString User::getSurname() const {
+    return surnameLineEdit -> text();
+}
+
+QString User::getUsername() const {
+    return usernameLineEdit -> text();
+}
+
+QString User::getPassword() const {
+    return passwordLineEdit -> text();
+}
 
 void User::setName(QString n) {
     nameLineEdit -> setText(n);

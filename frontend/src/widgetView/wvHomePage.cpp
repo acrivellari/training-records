@@ -144,3 +144,24 @@ void WV_HomePage::setUsername(std::string username) {
 void WV_HomePage::setPassword(std::string password) {
 	userForm -> setPassword(QString::fromStdString(password));
 }
+
+QString WV_HomePage::getProfileName() const {
+	return userForm -> getName();
+}
+
+QString WV_HomePage::getProfileSurname() const {
+	return userForm -> getSurname();
+}
+
+QString WV_HomePage::getProfileUsername() const {
+	return userForm -> getUsername();
+}
+
+QString WV_HomePage::getProfilePassword() const {
+	return userForm -> getPassword();
+}
+
+void WV_HomePage::closeUserForm() {
+	if (userForm != nullptr)
+		userForm -> close();
+}
