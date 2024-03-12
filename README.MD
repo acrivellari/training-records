@@ -1,5 +1,5 @@
 # Training Records Project
 
-Project in Java
+Project in C++
 
 ....still to start
