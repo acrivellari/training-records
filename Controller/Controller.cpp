@@ -1,15 +1,22 @@
 #include "Controller.h"
 
+
+
 QString Controller::StringToQString(std::string s)
 {
     return QString::fromStdString(s);
 }
 
-Controller::Controller(MainWindow * v, Model * m) : view(v), model(m)
+Controller::Controller(Views::MainWindow * v, Models::AppService * m) : view(v), model(m)
 {
-    //QObject::connect(view, SIGNAL(clicked(bool)), this, SLOT(ButtonClicked()));
-    QObject::connect(view -> startingPageView, SIGNAL(loginPopup(bool)), this, SLOT(Slot1()));
-    QObject::connect(view -> homePageView, SIGNAL(loginPopup2(bool)), this, SLOT(Slot2()));
+    using Views::SubViews::StartingPage;
+    using Views::SubViews::LoginDialog;
+    using Views::SubViews::SignupDialog;
+
+    QObject::connect(view -> getStartingPage(), &StartingPage::loginPopup, this, &Controller::ShowLoginPopup);
+    QObject::connect(view -> getStartingPage(), &StartingPage::signupPopup, this, &Controller::ShowSignupPopup);
+    QObject::connect(view -> getLoginDialog(), &LoginDialog::signinRequest, this, &Controller::SignIn);
+    QObject::connect(view -> getSignupDialog(), &SignupDialog::signupRequest, this, &Controller::SignUp);
 }
 
 Controller::~Controller()
@@ -17,20 +24,28 @@ Controller::~Controller()
 
 }
 
-void Controller::Slot1()
-{
-    if (i==2) {
-        view -> hide();
-        qDebug() << "Window hidden";
+void Controller::ShowLoginPopup() {
+    if (view -> getStartingPage() -> getIsBusy() == false)
+    {
+        view -> ShowDialog(Views::Enums::StackedDialogs::LoginDialog);
     }
-    i++;
-    view -> SetMainWidget_HomePage();
-
-    qDebug() << "Main widget changed from starting page to home page";
 }
 
-void Controller::Slot2()
+void Controller::ShowSignupPopup() {
+    if (view -> getStartingPage() -> getIsBusy() == false)
+    {
+        view -> ShowDialog(Views::Enums::StackedDialogs::SignupDialog);
+    }
+}
+
+void Controller::SignIn()
 {
-    view -> SetMainWidget_StartingPage();
-    qDebug() << "Main widget changed from home page to starting page";
+    view -> getStartingPage() -> setIsBusy(false);
+    view -> HideDialog();
+}
+
+void Controller::SignUp()
+{
+    view -> getStartingPage() -> setIsBusy(false);
+    view -> HideDialog();
 }

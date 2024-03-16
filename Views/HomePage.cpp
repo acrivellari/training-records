@@ -1,7 +1,7 @@
 #include "HomePage.h"
 
 #include <QMainWindow>
-HomePage::HomePage(QWidget *parent)
+Views::SubViews::HomePage::HomePage(QWidget *parent)
     : QWidget{parent}
 {
     QVBoxLayout* mainLayout = new QVBoxLayout();

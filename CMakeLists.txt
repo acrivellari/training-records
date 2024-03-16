@@ -20,16 +20,23 @@ set(PROJECT_SOURCES
         Views/StartingPage.cpp
         Views/HomePage.h
         Views/HomePage.cpp
+        Views/LoginDialog.h
+        Views/LoginDialog.cpp
+        Views/SignupDialog.h
+        Views/SignupDialog.cpp
         Controller/Controller.cpp
         Controller/Controller.h
-        Models/Model.cpp
-        Models/Model.h
+        Models/AppService.cpp
+        Models/AppService.h
+        Models/AuthManager.cpp
+        Models/AuthManager.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(TrainingRecords-cpp
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET TrainingRecords-cpp APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

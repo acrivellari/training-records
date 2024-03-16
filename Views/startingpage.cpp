@@ -1,8 +1,8 @@
 #include "StartingPage.h"
-
 #include <QMainWindow>
-StartingPage::StartingPage(QWidget *parent)
-    : QWidget{parent}
+
+Views::SubViews::StartingPage::StartingPage(QWidget *parent)
+    : QWidget{parent}, isBusy{false}
 {
     QVBoxLayout* mainLayout = new QVBoxLayout();
 
@@ -13,5 +13,33 @@ StartingPage::StartingPage(QWidget *parent)
     mainLayout -> addWidget(signup);
     setLayout(mainLayout);
 
-    QObject::connect(login, SIGNAL(clicked(bool)), this, SIGNAL(loginPopup(bool)));
+    QObject::connect(login, &QPushButton::pressed, this, &StartingPage::LoginBtnClicked);
+    QObject::connect(signup, &QPushButton::pressed, this, &StartingPage::SignupBtnClicked);
+}
+
+void Views::SubViews::StartingPage::setIsBusy(bool value) {
+    isBusy = value;
+    if (getIsBusy()) {
+        login -> setEnabled(false);
+        signup -> setEnabled(false);
+    }
+    else
+    {
+        login -> setEnabled(true);
+        signup -> setEnabled(true);
+    }
+}
+
+bool Views::SubViews::StartingPage::getIsBusy() const {
+    return isBusy;
+}
+
+void Views::SubViews::StartingPage::LoginBtnClicked() {
+    emit loginPopup();
+    setIsBusy(true);
+}
+
+void Views::SubViews::StartingPage::SignupBtnClicked() {
+    emit signupPopup();
+    setIsBusy(true);
 }

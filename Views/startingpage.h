@@ -5,16 +5,26 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-class StartingPage : public QWidget
-{
-    Q_OBJECT
-private:
-    QPushButton * login, * signup;
-public:
-    explicit StartingPage(QWidget *parent = nullptr);
+namespace Views::SubViews {
+    class StartingPage : public QWidget
+    {
+        Q_OBJECT
 
-signals:
-    void loginPopup(bool);
-};
+    private:
+        QPushButton * login, * signup;
+        bool isBusy;
 
+        Q_SLOT void LoginBtnClicked();
+        Q_SLOT void SignupBtnClicked();
+
+    public:
+        explicit StartingPage(QWidget *parent = nullptr);
+        bool getIsBusy() const;
+        void setIsBusy(bool);
+
+    signals:
+        void loginPopup();
+        void signupPopup();
+    };
+}
 #endif // STARTINGPAGE_H

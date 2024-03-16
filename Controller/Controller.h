@@ -2,26 +2,29 @@
 #define CONTROLLER_H
 
 #include "../Views/MainWindow.h"
-#include "../Models/Model.h"
+#include "../Models/AppService.h"
 #include <QMainWindow>
 #include <QPushButton>
 
 class Controller : public QObject
 {
     Q_OBJECT
+
 private:
     int i=0;
-    MainWindow* view;
-    Model* model;
+    Views::MainWindow* view;
+    Models::AppService* model;
 
     QString StringToQString(std::string);
+
 public:
-    Controller(MainWindow*, Model*);
+    Controller(Views::MainWindow*, Models::AppService*);
     ~Controller();
 
 public slots:
-    void Slot1();
-    void Slot2();
-
+    void ShowLoginPopup();
+    void ShowSignupPopup();
+    void SignIn();
+    void SignUp();
 };
 #endif // MAINWINDOW_H

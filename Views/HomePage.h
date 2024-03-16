@@ -5,19 +5,23 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-class HomePage : public QWidget
-{
-    Q_OBJECT
-private:
-    QPushButton * login, * signup;
-public:
-    explicit HomePage(QWidget *parent = nullptr);
+namespace Views::SubViews{
+    class HomePage : public QWidget
+    {
+        Q_OBJECT
 
-    void connectSignalSlots();
-    void disconnectSignalSlots();
+    private:
+        QPushButton * login, * signup;
 
-signals:
-    void loginPopup2(bool);
-};
+    public:
+        explicit HomePage(QWidget *parent = nullptr);
+
+        void connectSignalSlots();
+        void disconnectSignalSlots();
+
+    signals:
+        void loginPopup2(bool);
+    };
+}
 
 #endif // HOMEPAGE_H
