@@ -8,43 +8,36 @@
 #include "HomePage.h"
 #include "LoginDialog.h"
 #include "SignupDialog.h"
+#include "MainDialog.h"
 
 namespace Views{
 
-    namespace Enums {
-        enum CentralWidgets {
-            StartingPage,
-            HomePage
-        };
 
-        enum StackedDialogs {
-            LoginDialog,
-            SignupDialog
-        };
-    }
+    enum CentralWidgets {
+        StartingPage,
+        HomePage
+    };
 
     class MainWindow : public QMainWindow
     {
         Q_OBJECT
 
     private:
-        QStackedWidget* dialogs;
-        QStackedWidget* mainWidget;
-        QDialog* popupDialog;
+        QStackedWidget* widgetsCollection;
+        Dialogs::MainDialog* dialog;
 
     public:
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
-        void init();
-
         SubViews::StartingPage* getStartingPage();
         SubViews::HomePage* getHomePage();
-        SubViews::LoginDialog* getLoginDialog();
-        SubViews::SignupDialog* getSignupDialog();
-        void SetMainWidget(Enums::CentralWidgets);
+        Dialogs::LoginDialog* getLoginDialog();
+        Dialogs::SignupDialog* getSignupDialog();
+        Dialogs::MainDialog* getMainDialog();
+        void SetMainWidget(CentralWidgets);
 
-        void ShowDialog(Enums::StackedDialogs);
+        void ShowDialog(Dialogs::StackedDialogs);
         void HideDialog();
     };
 }

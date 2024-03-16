@@ -1,10 +1,10 @@
 #include "LoginDialog.h"
 #include <QVBoxLayout>
-#include <QLabel>
 #include <QPushButton>
 #include <QCloseEvent>
+#include <QLabel>
 
-Views::SubViews::LoginDialog::LoginDialog(QWidget *parent)
+Views::Dialogs::LoginDialog::LoginDialog(QWidget *parent)
     : QDialog{parent}
 {
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -19,7 +19,7 @@ Views::SubViews::LoginDialog::LoginDialog(QWidget *parent)
     insertPassword -> setPlaceholderText("Password");
     insertPassword -> setClearButtonEnabled(true);
     insertPassword -> setEchoMode(QLineEdit::Password);
-    forgotPassword -> setText("<font color='blue'>Forgot password?</font>");
+    forgotPassword -> setText("<font color='blue'><a href='#'>Forgot password?</a></font>");
     forgotPassword -> setTextFormat(Qt::AutoText);
     forgotPassword ->setAlignment(Qt::AlignCenter);
 
@@ -30,4 +30,5 @@ Views::SubViews::LoginDialog::LoginDialog(QWidget *parent)
     setLayout(mainLayout);
 
     QObject::connect(ok, &QPushButton::pressed, this, &LoginDialog::signinRequest);
+    QObject::connect(forgotPassword, &QLabel::linkActivated, this, &LoginDialog::signinRequest);
 }

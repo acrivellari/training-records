@@ -20,6 +20,8 @@ set(PROJECT_SOURCES
         Views/StartingPage.cpp
         Views/HomePage.h
         Views/HomePage.cpp
+        Views/MainDialog.h
+        Views/MainDialog.cpp
         Views/LoginDialog.h
         Views/LoginDialog.cpp
         Views/SignupDialog.h

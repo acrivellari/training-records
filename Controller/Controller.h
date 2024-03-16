@@ -26,5 +26,6 @@ public slots:
     void ShowSignupPopup();
     void SignIn();
     void SignUp();
+    void CloseDialogCorrectly();
 };
 #endif // MAINWINDOW_H

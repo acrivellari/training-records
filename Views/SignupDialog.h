@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QLineEdit>
 
-namespace Views::SubViews {
+namespace Views::Dialogs {
 
     class SignupDialog : public QDialog
     {

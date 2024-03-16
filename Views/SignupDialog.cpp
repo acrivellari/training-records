@@ -3,7 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 
-Views::SubViews::SignupDialog::SignupDialog(QWidget *parent)
+Views::Dialogs::SignupDialog::SignupDialog(QWidget *parent)
     : QDialog{parent}
 {
     QVBoxLayout* mainLayout = new QVBoxLayout();

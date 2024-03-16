@@ -2,20 +2,15 @@
 
 
 Views::MainWindow::MainWindow(QWidget *parent)
-    :   QMainWindow(parent), mainWidget(new QStackedWidget(this)), popupDialog(new QDialog(this)), dialogs(nullptr)
+    :   QMainWindow(parent), widgetsCollection(new QStackedWidget(this)), dialog(new Dialogs::MainDialog(this))
 {
-    dialogs = new QStackedWidget(popupDialog);
-    //The loginDialog is on index 0, the signupDialog on index 1
-    dialogs -> addWidget(new SubViews::LoginDialog(this));
-    dialogs -> addWidget(new SubViews::SignupDialog(this));
-
     // The view startingPage is associated with index 0, homePage with index 1
-    mainWidget -> addWidget(new SubViews::StartingPage(this));
-    mainWidget -> addWidget(new SubViews::HomePage(this));
+    widgetsCollection -> addWidget(new SubViews::StartingPage(this));
+    widgetsCollection -> addWidget(new SubViews::HomePage(this));
 
-    setCentralWidget(mainWidget);
+    setCentralWidget(widgetsCollection);
 
-    SetMainWidget(Enums::CentralWidgets::StartingPage);
+    SetMainWidget(CentralWidgets::StartingPage);
 }
 
 Views::MainWindow::~MainWindow() {}
@@ -23,7 +18,7 @@ Views::MainWindow::~MainWindow() {}
 
 Views::SubViews::StartingPage* Views::MainWindow::getStartingPage()
 {
-    SubViews::StartingPage* obj = dynamic_cast<SubViews::StartingPage*>(mainWidget -> widget(Enums::CentralWidgets::StartingPage));
+    SubViews::StartingPage* obj = dynamic_cast<SubViews::StartingPage*>(widgetsCollection -> widget(CentralWidgets::StartingPage));
     if (obj == nullptr) {
         throw std::bad_cast();
     }
@@ -32,43 +27,39 @@ Views::SubViews::StartingPage* Views::MainWindow::getStartingPage()
 
 Views::SubViews::HomePage* Views::MainWindow::getHomePage()
 {
-    SubViews::HomePage* obj = dynamic_cast<SubViews::HomePage*>(mainWidget -> widget(Enums::CentralWidgets::HomePage));
+    SubViews::HomePage* obj = dynamic_cast<SubViews::HomePage*>(widgetsCollection -> widget(CentralWidgets::HomePage));
     if (obj == nullptr) {
         throw std::bad_cast();
     }
     return obj;
 }
 
-Views::SubViews::LoginDialog* Views::MainWindow::getLoginDialog()
+
+Views::Dialogs::LoginDialog* Views::MainWindow::getLoginDialog()
 {
-    SubViews::LoginDialog* obj = dynamic_cast<SubViews::LoginDialog*>(dialogs -> widget(Enums::StackedDialogs::LoginDialog));
-    if (obj == nullptr) {
-        throw std::bad_cast();
-    }
-    return obj;
+    return dialog -> getLoginDialog();
 }
 
-Views::SubViews::SignupDialog* Views::MainWindow::getSignupDialog()
+Views::Dialogs::SignupDialog* Views::MainWindow::getSignupDialog()
 {
-    SubViews::SignupDialog* obj = dynamic_cast<SubViews::SignupDialog*>(dialogs -> widget(Enums::StackedDialogs::SignupDialog));
-    if (obj == nullptr) {
-        throw std::bad_cast();
-    }
-    return obj;
+    return dialog -> getSignupDialog();
 }
 
-void Views::MainWindow::SetMainWidget(Enums::CentralWidgets index)
+Views::Dialogs::MainDialog* Views::MainWindow::getMainDialog()
 {
-    mainWidget -> setCurrentIndex(index);
+    return dialog;
 }
 
-void Views::MainWindow::ShowDialog(Enums::StackedDialogs index)
+void Views::MainWindow::SetMainWidget(CentralWidgets index)
 {
-    dialogs -> setCurrentIndex(index);
-    popupDialog -> show();
-    popupDialog -> adjustSize();
+    widgetsCollection -> setCurrentIndex(index);
+}
+
+void Views::MainWindow::ShowDialog(Dialogs::StackedDialogs index)
+{
+    dialog -> ShowDialog(index);
 }
 
 void Views::MainWindow::HideDialog() {
-    popupDialog -> hide();
+    dialog -> hide();
 }
