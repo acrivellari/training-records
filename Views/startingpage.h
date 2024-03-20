@@ -1,30 +1,52 @@
-#ifndef STARTINGPAGE_H
-#define STARTINGPAGE_H
+#ifndef StartingPage_H
+#define StartingPage_H
 
 #include <QWidget>
 #include <QPushButton>
-#include <QVBoxLayout>
+#include <QLineEdit>
 
-namespace Views::SubViews {
+#include "MyDialog.h"
+
+namespace Views
+{
+
+    enum DialogTypes
+    {
+        Signin,
+        Signup
+    };
+
     class StartingPage : public QWidget
     {
         Q_OBJECT
 
-    private:
-        QPushButton * login, * signup;
-        bool isBusy;
+        QPushButton * signinBtn, * signupBtn;
+        MyDialog * signinDialog, * signupDialog;
+        QMap<QString, QLineEdit*> textFields_signin;
+        QMap<QString, QLineEdit*> textFields_signup;
 
-        Q_SLOT void LoginBtnClicked();
-        Q_SLOT void SignupBtnClicked();
+        bool isBusy = false;
+
+        void initSigninDialog();
+        void initSignupDialog();
 
     public:
-        explicit StartingPage(QWidget *parent = nullptr);
-        bool getIsBusy() const;
-        void setIsBusy(bool);
+        StartingPage(QWidget *parent=nullptr);
+        ~StartingPage(void);
+
+        bool get_IsBusy(void) const;
+        void set_IsBusy(bool);
+        void showDialog(DialogTypes);
+        void closeDialog();
 
     signals:
-        void loginPopup();
-        void signupPopup();
+        void signinPopup(void);
+        void signupPopup(void);
+        void signinRequest(void);
+        void forgotPassword(void);
+        void signupRequest(void);
+        void closedDialog(void);
     };
 }
-#endif // STARTINGPAGE_H
+
+#endif // StartingPage_H

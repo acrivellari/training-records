@@ -4,19 +4,9 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QDialog>
-#include "StartingPage.h"
-#include "HomePage.h"
-#include "LoginDialog.h"
-#include "SignupDialog.h"
-#include "MainDialog.h"
+#include <QLabel>
 
 namespace Views{
-
-
-    enum CentralWidgets {
-        StartingPage,
-        HomePage
-    };
 
     class MainWindow : public QMainWindow
     {
@@ -24,21 +14,17 @@ namespace Views{
 
     private:
         QStackedWidget* widgetsCollection;
-        Dialogs::MainDialog* dialog;
+        QDialog* dialog;
+        QWidget* startingPage_view;
 
     public:
-        MainWindow(QWidget *parent = nullptr);
+        MainWindow(QWidget* startingPage, QWidget *parent = nullptr);
         ~MainWindow();
 
-        SubViews::StartingPage* getStartingPage();
-        SubViews::HomePage* getHomePage();
-        Dialogs::LoginDialog* getLoginDialog();
-        Dialogs::SignupDialog* getSignupDialog();
-        Dialogs::MainDialog* getMainDialog();
-        void SetMainWidget(CentralWidgets);
+        void setText(const std::string&);
 
-        void ShowDialog(Dialogs::StackedDialogs);
-        void HideDialog();
+    signals:
+        void btnClicked(void);
     };
 }
 

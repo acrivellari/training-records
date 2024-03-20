@@ -16,18 +16,16 @@ set(PROJECT_SOURCES
         main.cpp
         Views/MainWindow.cpp
         Views/MainWindow.h
-        Views/StartingPage.h
         Views/StartingPage.cpp
-        Views/HomePage.h
-        Views/HomePage.cpp
-        Views/MainDialog.h
-        Views/MainDialog.cpp
-        Views/LoginDialog.h
-        Views/LoginDialog.cpp
-        Views/SignupDialog.h
-        Views/SignupDialog.cpp
-        Controller/Controller.cpp
-        Controller/Controller.h
+        Views/StartingPage.h
+        Views/MyDialog.cpp
+        Views/MyDialog.h
+
+        Controller/MainWindowController.cpp
+        Controller/MainWindowController.h
+        Controller/StartingPageController.cpp
+        Controller/StartingPageController.h
+
         Models/AppService.cpp
         Models/AppService.h
         Models/AuthManager.cpp
