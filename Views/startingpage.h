@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QLabel>
 
 #include "MyDialog.h"
 
@@ -13,28 +14,41 @@ namespace Views
     enum DialogTypes
     {
         Signin,
-        Signup
+        Signup,
+        SigninSuccess,
+        SigninFailure,
+        SignupSuccess,
+        SignupFailure
     };
 
     class StartingPage : public QWidget
     {
         Q_OBJECT
 
-        QPushButton * signinBtn, * signupBtn;
-        MyDialog * signinDialog, * signupDialog;
-        QMap<QString, QLineEdit*> textFields_signin;
-        QMap<QString, QLineEdit*> textFields_signup;
+        QPushButton * signinBtn, * signupBtn, *signinOkBtn, *signupOkBtn;
+        MyDialog * signinDialog, * signupDialog, * successDialog, * failureDialog;
+        QLabel *successText, *errorText;
+        QLineEdit *signinUser, *signinPwd, *signupName, *signupSurname, *signupUser, *signupPwd;
+
 
         bool isBusy = false;
 
         void initSigninDialog();
         void initSignupDialog();
+        void initSuccessDialog();
+        void initFailureDialog();
 
     public:
         StartingPage(QWidget *parent=nullptr);
         ~StartingPage(void);
 
         bool get_IsBusy(void) const;
+        QString get_signinUser(void) const;
+        QString get_signinPwd(void) const;
+        QString get_signupName(void) const;
+        QString get_signupSurname(void) const;
+        QString get_signupUser(void) const;
+        QString get_signupPwd(void) const;
         void set_IsBusy(bool);
         void showDialog(DialogTypes);
         void closeDialog();
@@ -46,6 +60,12 @@ namespace Views
         void forgotPassword(void);
         void signupRequest(void);
         void closedDialog(void);
+
+    public slots:
+        void successAuth(void);
+        void errorAuth(void);
+        void validateSignin(void);
+        void validateSignup(void);
     };
 }
 

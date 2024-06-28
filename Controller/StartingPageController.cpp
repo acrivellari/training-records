@@ -36,7 +36,15 @@ namespace Controllers
 
     void StartingPageController::signin(void)
     {
-        qDebug() << "signin";
+        bool result = model -> processSignin(view -> get_signinUser().toStdString(), view -> get_signinPwd().toStdString());
+        if (result)
+        {
+            view -> showDialog(Views::DialogTypes::SigninSuccess);
+        }
+        else
+        {
+            view -> showDialog(Views::DialogTypes::SigninFailure);
+        }
     }
 
     void StartingPageController::passwordForgotten(void)
@@ -46,7 +54,17 @@ namespace Controllers
 
     void StartingPageController::signup(void)
     {
-        qDebug() << "signup";
+        bool result = model -> processSignup(
+            view -> get_signupName().toStdString(), view -> get_signupSurname().toStdString(),
+            view -> get_signupUser().toStdString(), view -> get_signupPwd().toStdString());
+        if (result)
+        {
+            view -> showDialog(Views::DialogTypes::SignupSuccess);
+        }
+        else
+        {
+            view -> showDialog(Views::DialogTypes::SignupFailure);
+        }
     }
 
 }

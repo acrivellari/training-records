@@ -2,13 +2,17 @@
 #define APPSERVICE_H
 
 #include <string>
+#include "AuthManager.h"
 
 namespace Models {
     class AppService {
+    private:
+        AuthManager* authManager;
     public:
         AppService();
         ~AppService();
-        std::string GetString();
+        bool processSignin(std::string user, std::string pwd);
+        bool processSignup(std::string name, std::string surname, std::string user, std::string pwd);
     };
 }
 
