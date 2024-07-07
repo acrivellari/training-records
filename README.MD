@@ -2,7 +2,7 @@
 
 Project in C++
 
-- Insert in the file "Database/db_config.json" the credentials to connect with database:
+- Create the file "Database/db_config.json" with this structure and insert the credentials to connect with database:
 ```json
 {
 	"db_url": "",
