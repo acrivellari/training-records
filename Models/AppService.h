@@ -1,18 +1,19 @@
 #ifndef APPSERVICE_H
 #define APPSERVICE_H
 
-#include <string>
 #include "AuthManager.h"
+#include "DatabaseService.h"
 
 namespace Models {
     class AppService {
     private:
-        AuthManager* authManager;
+        DatabaseService *dbService;
+        AuthManager *authManager;
     public:
         AppService();
         ~AppService();
-        bool processSignin(std::string user, std::string pwd);
-        bool processSignup(std::string name, std::string surname, std::string user, std::string pwd);
+        bool processSignin(QString user, QString pwd);
+        bool processSignup(QString name, QString surname, QString email, QString user, QString pwd);
     };
 }
 

@@ -28,7 +28,7 @@ namespace Views
         QPushButton * signinBtn, * signupBtn, *signinOkBtn, *signupOkBtn;
         MyDialog * signinDialog, * signupDialog, * successDialog, * failureDialog;
         QLabel *successText, *errorText;
-        QLineEdit *signinUser, *signinPwd, *signupName, *signupSurname, *signupUser, *signupPwd;
+        QLineEdit *signinUser, *signinPwd, *signupName, *signupSurname, *signupEmail, *signupUser, *signupPwd;
 
 
         bool isBusy = false;
@@ -47,9 +47,12 @@ namespace Views
         QString get_signinPwd(void) const;
         QString get_signupName(void) const;
         QString get_signupSurname(void) const;
+        QString get_signupEmail(void) const;
         QString get_signupUser(void) const;
         QString get_signupPwd(void) const;
         void set_IsBusy(bool);
+        void set_IsBusy_login(bool);
+        void set_IsBusy_signup(bool);
         void showDialog(DialogTypes);
         void closeDialog();
 

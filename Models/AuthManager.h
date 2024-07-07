@@ -1,16 +1,19 @@
 #ifndef AUTHMANAGER_H
 #define AUTHMANAGER_H
 
-#include <string>
+#include "DatabaseService.h"
 
 namespace Models {
     class AuthManager {
+    private:
+        DatabaseService* dbService;
+        bool isValidEmail(const QString &email) const;
     public:
-        AuthManager();
+        AuthManager(DatabaseService*);
         ~AuthManager();
 
-        bool processSignin(std::string user, std::string pwd);
-        bool processSignup(std::string name, std::string surname, std::string user, std::string pwd);
+        bool processSignin(QString username, QString pwd);
+        bool processSignup(QString name, QString surname, QString email, QString username, QString pwd);
     };
 }
 

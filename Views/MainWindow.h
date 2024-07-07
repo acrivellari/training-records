@@ -21,7 +21,7 @@ namespace Views{
         MainWindow(QWidget* startingPage, QWidget *parent = nullptr);
         ~MainWindow();
 
-        void setText(const std::string&);
+        void setText(const QString&);
 
     signals:
         void btnClicked(void);

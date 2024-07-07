@@ -36,7 +36,8 @@ namespace Controllers
 
     void StartingPageController::signin(void)
     {
-        bool result = model -> processSignin(view -> get_signinUser().toStdString(), view -> get_signinPwd().toStdString());
+        view -> set_IsBusy_login(true);
+        bool result = model -> processSignin(view -> get_signinUser(), view -> get_signinPwd());
         if (result)
         {
             view -> showDialog(Views::DialogTypes::SigninSuccess);
@@ -54,9 +55,10 @@ namespace Controllers
 
     void StartingPageController::signup(void)
     {
+        view -> set_IsBusy_signup(true);
         bool result = model -> processSignup(
-            view -> get_signupName().toStdString(), view -> get_signupSurname().toStdString(),
-            view -> get_signupUser().toStdString(), view -> get_signupPwd().toStdString());
+            view -> get_signupName(), view -> get_signupSurname(), view -> get_signupEmail(),
+            view -> get_signupUser(), view -> get_signupPwd());
         if (result)
         {
             view -> showDialog(Views::DialogTypes::SignupSuccess);

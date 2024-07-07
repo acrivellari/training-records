@@ -2,6 +2,8 @@
 
 #include <QVBoxLayout>
 #include <QDialog>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
 
 namespace Views
 {
@@ -14,8 +16,8 @@ namespace Views
         initFailureDialog();
 
         QVBoxLayout* mainLayout = new QVBoxLayout{this};
-        signinBtn = new QPushButton{"Sign In", this};
-        signupBtn = new QPushButton{"Sign On", this};
+        signinBtn = new QPushButton{"Log In", this};
+        signupBtn = new QPushButton{"Sign Up", this};
         mainLayout -> addWidget(signinBtn);
         mainLayout -> addWidget(signupBtn);
 
@@ -62,6 +64,11 @@ namespace Views
         return signupPwd -> text();
     }
 
+    QString StartingPage::get_signupEmail(void) const
+    {
+        return signupEmail -> text();
+    }
+
     void StartingPage::set_IsBusy(bool new_value)
     {
         isBusy = new_value;
@@ -78,6 +85,16 @@ namespace Views
         }
     }
 
+    void StartingPage::set_IsBusy_login(bool new_value)
+    {
+        signinOkBtn -> setEnabled(!new_value);
+    }
+
+    void StartingPage::set_IsBusy_signup(bool new_value)
+    {
+        signupOkBtn -> setEnabled(!new_value);
+    }
+
     void StartingPage::showDialog(DialogTypes dialog_type)
     {
         set_IsBusy(true);
@@ -91,11 +108,11 @@ namespace Views
                 signupDialog -> show();
                 break;
             case DialogTypes::SigninSuccess:
-                successText -> setText("Sign-in successful");
+                successText -> setText("Log-in successful");
                 successDialog -> show();
                 break;
             case DialogTypes::SigninFailure:
-                errorText -> setText("Error in the sign-in");
+                errorText -> setText("Error in the log-in");
                 failureDialog -> show();
                 break;
             case DialogTypes::SignupSuccess:
@@ -115,14 +132,14 @@ namespace Views
     {
         signinUser -> setText("");
         signinPwd -> setText("");
-        signinOkBtn -> setEnabled(false);
+        set_IsBusy_login(true);
         signinDialog -> close();
 
         signupName -> setText("");
         signupSurname -> setText("");
         signupUser -> setText("");
         signupPwd -> setText("");
-        signupOkBtn -> setEnabled(false);
+        set_IsBusy_signup(true);
         signupDialog -> close();
 
         successDialog -> close();
@@ -144,15 +161,15 @@ namespace Views
     {
         if (get_signinUser().length() > 3 && get_signinPwd().length() > 3)
         {
-            signinOkBtn -> setEnabled(true);
+            set_IsBusy_login(false);
         }
     }
 
     void Views::StartingPage::validateSignup()
     {
-        if (get_signupUser().length() > 3 && get_signupPwd().length() > 3)
+        if (get_signupUser().length() > 3 && get_signupPwd().length() > 3 && get_signupName().length() > 3 && get_signupSurname().length() > 3)
         {
-            signupOkBtn -> setEnabled(true);
+            set_IsBusy_signup(false);
         }
     }
 
@@ -161,7 +178,7 @@ namespace Views
         QVBoxLayout* mainLayout = new QVBoxLayout{signinDialog};
         signinUser = new QLineEdit(signinDialog);
         signinPwd = new QLineEdit(signinDialog);
-        signinOkBtn = new QPushButton("Sign In");
+        signinOkBtn = new QPushButton("Log In");
         QLabel* forgotPassword = new QLabel(signinDialog);
 
         signinUser -> setPlaceholderText("Username");
@@ -191,14 +208,24 @@ namespace Views
 
         signupName = new QLineEdit(signupDialog);
         signupSurname = new QLineEdit(signupDialog);
+        signupEmail = new QLineEdit(signupDialog);
         signupUser = new QLineEdit(signupDialog);
         signupPwd = new QLineEdit(signupDialog);
         signupOkBtn = new QPushButton("Sign Up");
+
+        QRegularExpressionValidator* email_validator = new QRegularExpressionValidator
+        (
+            QRegularExpression(R"((^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$))"),
+            signupEmail
+        );
 
         signupName -> setPlaceholderText("Name");
         signupName -> setClearButtonEnabled(true);
         signupSurname -> setPlaceholderText("Surname");
         signupSurname -> setClearButtonEnabled(true);
+        signupEmail -> setPlaceholderText("E-Mail");
+        signupEmail -> setClearButtonEnabled(true);
+        signupEmail -> setValidator(email_validator);
         signupUser -> setPlaceholderText("Username");
         signupUser -> setClearButtonEnabled(true);
         signupPwd -> setPlaceholderText("Password");
@@ -208,6 +235,7 @@ namespace Views
 
         mainLayout -> addWidget(signupName);
         mainLayout -> addWidget(signupSurname);
+        mainLayout -> addWidget(signupEmail);
         mainLayout -> addWidget(signupUser);
         mainLayout -> addWidget(signupPwd);
         mainLayout -> addWidget(signupOkBtn);
