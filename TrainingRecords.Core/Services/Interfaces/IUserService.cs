@@ -8,6 +8,6 @@ namespace TrainingRecords.Core.Services.Interfaces;
 
 public interface IUserService
 {
-
-    bool CheckCredentials(int v, string custom_check_field);
+    bool CheckCredentials(int v, string custom);
+    Task<bool> CheckCredentials(string username, string password);
 }

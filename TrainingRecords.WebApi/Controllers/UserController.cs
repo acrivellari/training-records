@@ -13,7 +13,8 @@ using Newtonsoft.Json;
 using TrainingRecords.Core.Dto.ApiRequests;
 using TrainingRecords.Core.Services.Interfaces;
 using TrainingRecords.Core.Interfaces;
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TrainingRecords.WebApi.Controllers;
 
@@ -26,9 +27,9 @@ namespace TrainingRecords.WebApi.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly IUserRepository _service;
+    private readonly IUserService _service;
 
-    public UserController(IUserRepository service)
+    public UserController(IUserService service)
     {
         this._service = service;
     }
@@ -38,8 +39,15 @@ public class UserController : ControllerBase
     [Consumes("application/json")]
     public async Task<ActionResult> GetUser(GetUserDto request)
     {
-        
-        return Ok(await _service.Prova());
+        bool success = await _service.CheckCredentials(request.Username, request.Password);
+        if (success) 
+        {
+            return Ok(request.Username);
+        }
+        else
+        {
+            return Unauthorized();
+        }
     }
 
 }

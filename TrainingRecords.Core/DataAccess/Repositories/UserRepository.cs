@@ -39,16 +39,15 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task<string> Prova()
+    public async Task<bool> CheckCredentials(string username, string password)
     {
 
         DbConnection conn = GetDbconnection();
         conn.Open();
         var cmd =conn.CreateCommand();
-        cmd.CommandText = "select surname from dev.users";
+        cmd.CommandText = "select username, password from dev.users where username='"+username+"' AND password='"+password+"'";
         var reader = await cmd.ExecuteReaderAsync();
-        await reader.ReadAsync();
-        return reader.GetString(0);
+        return reader.HasRows;
     }
 
     public DbConnection GetDbconnection()

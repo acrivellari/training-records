@@ -25,5 +25,5 @@ public interface IUserRepository : IRepositoryBase<int>
         throw new NotImplementedException();
     }
 
-    public Task<string> Prova();
+    public Task<bool> CheckCredentials(string username, string password);
 }

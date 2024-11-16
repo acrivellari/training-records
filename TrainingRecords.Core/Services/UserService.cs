@@ -1,10 +1,23 @@
-﻿using TrainingRecords.Core.Services.Interfaces;
+﻿using TrainingRecords.Core.Interfaces;
+using TrainingRecords.Core.Services.Interfaces;
 
 namespace TrainingRecords.Core.Services;
 
 public class UserService : IUserService
 {
-    public bool CheckCredentials(int v, string custom_check_field)
+    private readonly IUserRepository _repository;
+
+    public UserService(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public async Task<bool> CheckCredentials(string username, string password) { 
+
+        return await _repository.CheckCredentials(username, password); 
+    }
+
+    public bool CheckCredentials(int v, string custom)
     {
         throw new NotImplementedException();
     }
