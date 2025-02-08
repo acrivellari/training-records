@@ -1,9 +1,10 @@
 ﻿using System.Data.Common;
+using TrainingRecords.Core.Models;
 using TrainingRecords.Core.Shared;
 
 namespace TrainingRecords.Core.Interfaces;
 
-public interface IUserRepository : IRepositoryBase<int>
+public interface IUserRepository : IRepositoryBase<Users>
 {
     public void AddEntity(int entity)
     {
@@ -25,5 +26,6 @@ public interface IUserRepository : IRepositoryBase<int>
         throw new NotImplementedException();
     }
 
-    public Task<bool> CheckCredentials(string username, string password);
+    public Task<Users?> GetByUsername(string? username);
+    Task<string?> GetUsernameById(int userId);
 }
